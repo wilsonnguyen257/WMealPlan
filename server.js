@@ -280,6 +280,61 @@ Required JSON format:
   }
 });
 
+// Generate meals from pantry items
+app.post('/api/generate-from-pantry', async (req, res) => {
+  try {
+    const { pantryItems, servings = 2 } = req.body;
+
+    const prompt = `You are a creative chef helping someone use ingredients they already have at home.
+
+Available ingredients: ${pantryItems}
+Servings needed: ${servings}
+
+Generate 3-5 different meal ideas using primarily these ingredients. For each recipe, identify which ingredients from the list you're using and which additional common items (if any) are needed.
+
+IMPORTANT: Respond ONLY with valid JSON. No markdown, no explanations.
+
+Format:
+{
+  "recipes": [
+    {
+      "name": "Recipe Name",
+      "servings": ${servings},
+      "prepTime": "X minutes",
+      "cookTime": "X minutes",
+      "ingredients": ["ingredient with amount"],
+      "instructions": ["step by step"],
+      "missingIngredients": ["items not in pantry but needed"],
+      "tips": "helpful cooking tip"
+    }
+  ],
+  "shoppingList": ["unique list of all missing ingredients across recipes"]
+}`;
+
+    const fullPrompt = `You are a professional chef and meal planner. You MUST respond with ONLY valid JSON. Do not include any markdown formatting, explanations, or text outside the JSON object. Start your response with { and end with }.\n\n${prompt}`;
+
+    const result = await withRetry(async () => {
+      const response = await model.generateContent(fullPrompt);
+      const text = response.response.text();
+      return repairJson(text);
+    });
+
+    console.log('Pantry meals generated successfully');
+
+    res.json({
+      success: true,
+      data: result
+    });
+
+  } catch (error) {
+    console.error('Error generating from pantry:', error);
+    res.status(500).json({
+      success: false,
+      error: error.message || 'Failed to generate meals from pantry'
+    });
+  }
+});
+
 // Save meal plan to database
 app.post('/api/save-meal-plan', async (req, res) => {
   try {

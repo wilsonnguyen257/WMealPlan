@@ -61,6 +61,45 @@
   padding: 2rem;
 }
 
+.tab-navigation {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  background: white;
+  padding: 0.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.tab-btn {
+  flex: 1;
+  padding: 1rem 2rem;
+  background: transparent;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: #718096;
+}
+
+.tab-btn:hover {
+  background: #f7fafc;
+  color: #2d3748;
+}
+
+.tab-btn.active {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.tab-btn.active:nth-child(2) {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  box-shadow: 0 4px 15px rgba(245, 87, 108, 0.3);
+}
+
 .error-message {
   background: #fee;
   border: 2px solid #fcc;
@@ -178,6 +217,16 @@
   
   .app-main {
     padding: 1.5rem;
+  }
+  
+  .tab-navigation {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .tab-btn {
+    padding: 0.875rem 1.5rem;
+    font-size: 1rem;
   }
   
   .save-btn {

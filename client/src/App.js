@@ -6,12 +6,14 @@ import GroceryList from './components/GroceryList';
 import PrepInstructions from './components/PrepInstructions';
 import SmartShopper from './components/SmartShopper';
 import SavedMealPlans from './components/SavedMealPlans';
+import PantryMeals from './components/PantryMeals';
 
 function App() {
   const [mealPlan, setMealPlan] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [formData, setFormData] = useState(null);
+  const [activeTab, setActiveTab] = useState('weekly'); // 'weekly' or 'pantry'
 
   const generateMealPlan = async (preferences, servings, dietaryRestrictions, budgetMin, budgetMax) => {
     setLoading(true);
@@ -98,35 +100,56 @@ function App() {
       <main className="app-main">
         <SavedMealPlans onLoadPlan={loadMealPlan} />
         
-        <MealPlanForm onGenerate={generateMealPlan} loading={loading} />
+        <div className="tab-navigation">
+          <button 
+            className={`tab-btn ${activeTab === 'weekly' ? 'active' : ''}`}
+            onClick={() => setActiveTab('weekly')}
+          >
+            📅 Weekly Meal Planner
+          </button>
+          <button 
+            className={`tab-btn ${activeTab === 'pantry' ? 'active' : ''}`}
+            onClick={() => setActiveTab('pantry')}
+          >
+            🍳 Cook from Pantry
+          </button>
+        </div>
 
-        {error && (
-          <div className="error-message">
-            <p>⚠️ {error}</p>
-          </div>
-        )}
+        {activeTab === 'weekly' ? (
+          <>
+            <MealPlanForm onGenerate={generateMealPlan} loading={loading} />
 
-        {loading && (
-          <div className="loading-spinner">
-            <div className="spinner"></div>
-            <p>Generating your personalized meal plan...</p>
-          </div>
-        )}
+            {error && (
+              <div className="error-message">
+                <p>⚠️ {error}</p>
+              </div>
+            )}
 
-        {mealPlan && !loading && (
-          <div className="results-container">
-            <div className="save-bar">
-              <button onClick={saveMealPlan} className="save-btn">
-                💾 Save This Meal Plan
-              </button>
-            </div>
-            <MealPlanDisplay mealPlan={mealPlan.mealPlan} recipes={mealPlan.recipes} />
-            <div className="side-panel">
-              <GroceryList groceryList={mealPlan.groceryList} />
-              <SmartShopper groceryList={mealPlan.groceryList} />
-              <PrepInstructions prepInstructions={mealPlan.prepInstructions} />
-            </div>
-          </div>
+            {loading && (
+              <div className="loading-spinner">
+                <div className="spinner"></div>
+                <p>Generating your personalized meal plan...</p>
+              </div>
+            )}
+
+            {mealPlan && !loading && (
+              <div className="results-container">
+                <div className="save-bar">
+                  <button onClick={saveMealPlan} className="save-btn">
+                    💾 Save This Meal Plan
+                  </button>
+                </div>
+                <MealPlanDisplay mealPlan={mealPlan.mealPlan} recipes={mealPlan.recipes} />
+                <div className="side-panel">
+                  <GroceryList groceryList={mealPlan.groceryList} />
+                  <SmartShopper groceryList={mealPlan.groceryList} />
+                  <PrepInstructions prepInstructions={mealPlan.prepInstructions} />
+                </div>
+              </div>
+            )}
+          </>
+        ) : (
+          <PantryMeals />
         )}
       </main>
 

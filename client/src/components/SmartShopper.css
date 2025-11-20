@@ -1,42 +1,62 @@
 .smart-shopper {
   background: white;
-  padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  padding: 2.5rem;
+  border-radius: 16px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  animation: slideUp 0.5s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .smart-shopper h2 {
-  color: #333;
-  font-size: 1.6rem;
+  color: #2d3748;
+  font-size: 1.75rem;
   margin-bottom: 0.5rem;
+  font-weight: 700;
 }
 
 .smart-shopper p {
-  color: #666;
-  margin-bottom: 1.5rem;
+  color: #718096;
+  margin-bottom: 1.75rem;
+  font-size: 1.05rem;
 }
 
 .estimate-btn {
   width: 100%;
-  padding: 0.8rem;
+  padding: 1rem;
   background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
   color: white;
   border: none;
-  border-radius: 8px;
-  font-size: 1rem;
-  font-weight: 600;
+  border-radius: 10px;
+  font-size: 1.075rem;
+  font-weight: 700;
   cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(17, 153, 142, 0.3);
 }
 
 .estimate-btn:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(17, 153, 142, 0.3);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(17, 153, 142, 0.4);
+}
+
+.estimate-btn:active:not(:disabled) {
+  transform: translateY(-1px);
 }
 
 .estimate-btn:disabled {
   opacity: 0.6;
   cursor: not-allowed;
+  background: linear-gradient(135deg, #a0aec0 0%, #718096 100%);
 }
 
 .shopper-error {
@@ -64,15 +84,16 @@
 }
 
 .total-cost {
-  background: #f0fff0;
-  border: 2px solid #a0e0a0;
-  padding: 1rem;
-  border-radius: 8px;
-  font-size: 1.2rem;
-  font-weight: 600;
-  color: #006400;
-  margin-bottom: 1.5rem;
+  background: linear-gradient(135deg, #e6ffed 0%, #d4f5db 100%);
+  border: 2px solid #68d391;
+  padding: 1.5rem;
+  border-radius: 12px;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #22543d;
+  margin-bottom: 2rem;
   text-align: center;
+  box-shadow: 0 4px 15px rgba(104, 211, 145, 0.2);
 }
 
 .estimates-result table {
@@ -93,13 +114,16 @@
 }
 
 .shopping-tips {
-  background: #fff9e6;
-  padding: 1rem;
-  border-radius: 8px;
-  border-left: 4px solid #ffc107;
+  background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+  padding: 1.5rem;
+  border-radius: 12px;
+  border-left: 4px solid #f59e0b;
+  box-shadow: 0 2px 10px rgba(245, 158, 11, 0.1);
 }
 
 .shopping-tips h4 {
-  color: #f57c00;
-  margin-bottom: 0.5rem;
+  color: #92400e;
+  margin-bottom: 0.75rem;
+  font-weight: 700;
+  font-size: 1.15rem;
 }

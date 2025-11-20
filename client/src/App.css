@@ -2,24 +2,55 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 .app-header {
-  background: rgba(255, 255, 255, 0.95);
-  padding: 2rem;
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(10px);
+  padding: 2.5rem 2rem;
   text-align: center;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  transition: all 0.3s ease;
 }
 
 .app-header h1 {
-  color: #667eea;
-  font-size: 2.5rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-size: 3rem;
+  font-weight: 800;
   margin-bottom: 0.5rem;
+  letter-spacing: -1px;
+  animation: slideDown 0.6s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .app-header p {
-  color: #666;
-  font-size: 1.1rem;
+  color: #718096;
+  font-size: 1.2rem;
+  font-weight: 500;
+  animation: slideDown 0.6s ease-out 0.1s both;
 }
 
 .app-main {
@@ -79,20 +110,25 @@
 }
 
 .save-btn {
-  padding: 1rem 2rem;
+  padding: 1.125rem 2.5rem;
   background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
   color: white;
   border: none;
-  border-radius: 8px;
-  font-size: 1.1rem;
-  font-weight: 600;
+  border-radius: 10px;
+  font-size: 1.125rem;
+  font-weight: 700;
   cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(17, 153, 142, 0.3);
 }
 
 .save-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(17, 153, 142, 0.3);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(17, 153, 142, 0.5);
+}
+
+.save-btn:active {
+  transform: translateY(-1px);
 }
 
 .side-panel {
@@ -102,11 +138,15 @@
 }
 
 .app-footer {
-  background: rgba(255, 255, 255, 0.9);
-  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  padding: 2rem;
   text-align: center;
-  color: #666;
-  margin-top: 3rem;
+  color: #718096;
+  margin-top: 4rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+  font-size: 0.95rem;
 }
 
 @media (max-width: 1024px) {
@@ -115,20 +155,33 @@
   }
   
   .app-header h1 {
-    font-size: 2rem;
+    font-size: 2.5rem;
+  }
+  
+  .app-header p {
+    font-size: 1.1rem;
   }
 }
 
 @media (max-width: 768px) {
-  .app-main {
-    padding: 1rem;
-  }
-  
   .app-header {
-    padding: 1.5rem;
+    padding: 2rem 1.5rem;
   }
   
   .app-header h1 {
-    font-size: 1.75rem;
+    font-size: 2rem;
+  }
+  
+  .app-header p {
+    font-size: 1rem;
+  }
+  
+  .app-main {
+    padding: 1.5rem;
+  }
+  
+  .save-btn {
+    padding: 1rem 1.5rem;
+    font-size: 1rem;
   }
 }

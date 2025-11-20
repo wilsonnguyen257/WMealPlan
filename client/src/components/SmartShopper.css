@@ -1,0 +1,105 @@
+.smart-shopper {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.smart-shopper h2 {
+  color: #333;
+  font-size: 1.6rem;
+  margin-bottom: 0.5rem;
+}
+
+.smart-shopper p {
+  color: #666;
+  margin-bottom: 1.5rem;
+}
+
+.estimate-btn {
+  width: 100%;
+  padding: 0.8rem;
+  background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.estimate-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(17, 153, 142, 0.3);
+}
+
+.estimate-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.shopper-error {
+  background: #fee;
+  border: 1px solid #fcc;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-top: 1rem;
+  color: #c33;
+}
+
+.shopper-loading {
+  text-align: center;
+  padding: 2rem;
+}
+
+.estimates-result {
+  margin-top: 2rem;
+}
+
+.estimates-result h3 {
+  font-size: 1.4rem;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.total-cost {
+  background: #f0fff0;
+  border: 2px solid #a0e0a0;
+  padding: 1rem;
+  border-radius: 8px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #006400;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.estimates-result table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1.5rem;
+}
+
+.estimates-result th, .estimates-result td {
+  padding: 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+.estimates-result th {
+  background-color: #f8f8f8;
+  font-weight: 600;
+}
+
+.shopping-tips {
+  background: #fff9e6;
+  padding: 1rem;
+  border-radius: 8px;
+  border-left: 4px solid #ffc107;
+}
+
+.shopping-tips h4 {
+  color: #f57c00;
+  margin-bottom: 0.5rem;
+}

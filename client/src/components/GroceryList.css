@@ -1,0 +1,111 @@
+.grocery-list {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.grocery-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.grocery-list h2 {
+  color: #333;
+  font-size: 1.6rem;
+  margin: 0;
+}
+
+.print-btn {
+  background: #667eea;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background 0.2s;
+}
+
+.print-btn:hover {
+  background: #5568d3;
+}
+
+.grocery-category {
+  margin-bottom: 1.5rem;
+}
+
+.grocery-category h3 {
+  color: #667eea;
+  font-size: 1.2rem;
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-bottom: 2px solid #e0e0e0;
+  padding-bottom: 0.5rem;
+}
+
+.category-icon {
+  font-size: 1.5rem;
+}
+
+.grocery-category ul {
+  list-style: none;
+  padding: 0;
+}
+
+.grocery-category li {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.grocery-category li:last-child {
+  border-bottom: none;
+}
+
+.grocery-category li label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  gap: 0.75rem;
+}
+
+.grocery-category li input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.grocery-category li span {
+  flex: 1;
+  transition: all 0.2s;
+}
+
+.grocery-category li.checked span {
+  text-decoration: line-through;
+  color: #999;
+}
+
+@media print {
+  .print-btn {
+    display: none;
+  }
+  
+  .grocery-list {
+    box-shadow: none;
+  }
+  
+  .grocery-category li input[type="checkbox"] {
+    -webkit-appearance: checkbox;
+    appearance: checkbox;
+  }
+}
+
+@media (max-width: 768px) {
+  .grocery-list {
+    padding: 1.5rem;
+  }
+}

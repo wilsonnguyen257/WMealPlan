@@ -13,10 +13,10 @@ function App() {
   const [error, setError] = useState(null);
   const [formData, setFormData] = useState(null);
 
-  const generateMealPlan = async (preferences, servings, dietaryRestrictions) => {
+  const generateMealPlan = async (preferences, servings, dietaryRestrictions, budgetMin, budgetMax) => {
     setLoading(true);
     setError(null);
-    setFormData({ preferences, servings, dietaryRestrictions });
+    setFormData({ preferences, servings, dietaryRestrictions, budgetMin, budgetMax });
 
     try {
       const response = await fetch('/api/generate-meal-plan', {
@@ -28,6 +28,8 @@ function App() {
           preferences,
           servings,
           dietaryRestrictions,
+          budgetMin,
+          budgetMax,
         }),
       });
 

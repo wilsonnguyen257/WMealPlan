@@ -5,10 +5,12 @@ function MealPlanForm({ onGenerate, loading }) {
   const [preferences, setPreferences] = useState('');
   const [servings, setServings] = useState(2);
   const [dietaryRestrictions, setDietaryRestrictions] = useState('');
+  const [budgetMin, setBudgetMin] = useState('');
+  const [budgetMax, setBudgetMax] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onGenerate(preferences, servings, dietaryRestrictions);
+    onGenerate(preferences, servings, dietaryRestrictions, budgetMin, budgetMax);
   };
 
   return (
@@ -58,6 +60,38 @@ function MealPlanForm({ onGenerate, loading }) {
               placeholder="e.g., gluten-free, dairy-free"
               disabled={loading}
             />
+          </div>
+        </div>
+
+        <div className="form-row">
+          <div className="form-group">
+            <label htmlFor="budgetMin">
+              Budget Range (AUD)
+              <span className="hint">Optional - set min/max grocery budget</span>
+            </label>
+            <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+              <input
+                type="number"
+                id="budgetMin"
+                value={budgetMin}
+                onChange={(e) => setBudgetMin(e.target.value)}
+                placeholder="Min $"
+                min="0"
+                disabled={loading}
+                style={{ flex: 1 }}
+              />
+              <span>to</span>
+              <input
+                type="number"
+                id="budgetMax"
+                value={budgetMax}
+                onChange={(e) => setBudgetMax(e.target.value)}
+                placeholder="Max $"
+                min="0"
+                disabled={loading}
+                style={{ flex: 1 }}
+              />
+            </div>
           </div>
         </div>
 

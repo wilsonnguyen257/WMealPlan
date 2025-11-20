@@ -69,13 +69,21 @@ app.get('/api/health', (req, res) => {
 // Generate meal plan endpoint
 app.post('/api/generate-meal-plan', async (req, res) => {
   try {
-    const { preferences, servings = 2, dietaryRestrictions = '' } = req.body;
+    const { preferences, servings = 2, dietaryRestrictions = '', budgetMin = '', budgetMax = '' } = req.body;
+
+    const budgetText = budgetMin && budgetMax 
+      ? `\nBudget constraint: Total grocery cost should be between AUD $${budgetMin} and AUD $${budgetMax}. Choose affordable ingredients and adjust portions if needed to stay within budget.`
+      : budgetMin
+      ? `\nBudget constraint: Total grocery cost should be at least AUD $${budgetMin}.`
+      : budgetMax
+      ? `\nBudget constraint: Total grocery cost should not exceed AUD $${budgetMax}. Choose budget-friendly ingredients.`
+      : '';
 
     const prompt = `Create a detailed 7-day meal prep plan with the following requirements:
 
 Preferences: ${preferences || 'balanced, healthy meals'}
 Servings per meal: ${servings}
-Dietary restrictions: ${dietaryRestrictions || 'none'}
+Dietary restrictions: ${dietaryRestrictions || 'none'}${budgetText}
 
 IMPORTANT: Respond ONLY with valid JSON. No markdown, no explanations, just the JSON object.
 

@@ -13,8 +13,7 @@
 .app-header {
   background: rgba(255, 255, 255, 0.98);
   backdrop-filter: blur(10px);
-  padding: 2.5rem 2rem;
-  text-align: center;
+  padding: 2rem 2rem 1.5rem;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   border-bottom: 1px solid rgba(255, 255, 255, 0.3);
   position: sticky;
@@ -23,16 +22,93 @@
   transition: all 0.3s ease;
 }
 
+.header-content {
+  max-width: 1400px;
+  margin: 0 auto;
+  text-align: center;
+}
+
 .app-header h1 {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  font-size: 3rem;
+  font-size: 2.75rem;
   font-weight: 800;
   margin-bottom: 0.5rem;
   letter-spacing: -1px;
   animation: slideDown 0.6s ease-out;
+}
+
+.tagline {
+  color: #718096;
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin-bottom: 1.25rem;
+  animation: slideDown 0.6s ease-out 0.1s both;
+}
+
+.header-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  animation: slideDown 0.6s ease-out 0.2s both;
+}
+
+.saved-plans-toggle {
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 3px 12px rgba(102, 126, 234, 0.3);
+}
+
+.saved-plans-toggle:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+}
+
+.saved-plans-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+  z-index: 200;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.app-main {
+  flex: 1;
+  max-width: 1400px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.hero-section {
+  text-align: center;
+  padding: 3rem 2rem;
+  margin-bottom: 2rem;
+  animation: slideUp 0.6s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes slideDown {
@@ -46,19 +122,62 @@
   }
 }
 
-.app-header p {
-  color: #718096;
-  font-size: 1.2rem;
-  font-weight: 500;
-  animation: slideDown 0.6s ease-out 0.1s both;
+.hero-section h2 {
+  color: #2d3748;
+  font-size: 2.25rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
 }
 
-.app-main {
-  flex: 1;
-  max-width: 1400px;
-  width: 100%;
+.hero-section > p {
+  color: #718096;
+  font-size: 1.2rem;
+  margin-bottom: 2.5rem;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.feature-highlights {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  max-width: 900px;
   margin: 0 auto;
+}
+
+.feature-card {
+  background: white;
   padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+  border-color: #667eea;
+}
+
+.feature-icon {
+  font-size: 3rem;
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.feature-card h3 {
+  color: #2d3748;
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.feature-card p {
+  color: #718096;
+  font-size: 0.95rem;
+  line-height: 1.5;
 }
 
 .tab-navigation {
@@ -185,7 +304,21 @@
   margin-top: 4rem;
   border-top: 1px solid rgba(255, 255, 255, 0.3);
   box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.footer-content {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.footer-content p {
+  margin: 0.25rem 0;
   font-size: 0.95rem;
+}
+
+.footer-note {
+  font-size: 0.85rem;
+  color: #a0aec0;
 }
 
 @media (max-width: 1024px) {
@@ -204,18 +337,46 @@
 
 @media (max-width: 768px) {
   .app-header {
-    padding: 2rem 1.5rem;
+    padding: 1.5rem 1rem 1.25rem;
   }
   
   .app-header h1 {
     font-size: 2rem;
   }
   
-  .app-header p {
-    font-size: 1rem;
+  .tagline {
+    font-size: 0.95rem;
+    margin-bottom: 1rem;
+  }
+  
+  .saved-plans-toggle {
+    padding: 0.625rem 1.25rem;
+    font-size: 0.9rem;
   }
   
   .app-main {
+    padding: 1.5rem;
+  }
+  
+  .hero-section {
+    padding: 2rem 1rem;
+  }
+  
+  .hero-section h2 {
+    font-size: 1.75rem;
+  }
+  
+  .hero-section > p {
+    font-size: 1rem;
+    margin-bottom: 2rem;
+  }
+  
+  .feature-highlights {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .feature-card {
     padding: 1.5rem;
   }
   
@@ -232,5 +393,9 @@
   .save-btn {
     padding: 1rem 1.5rem;
     font-size: 1rem;
+  }
+  
+  .results-container {
+    grid-template-columns: 1fr;
   }
 }

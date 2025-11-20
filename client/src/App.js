@@ -14,6 +14,25 @@ function App() {
   const [error, setError] = useState(null);
   const [formData, setFormData] = useState(null);
   const [activeTab, setActiveTab] = useState('weekly'); // 'weekly' or 'pantry'
+  const [showSavedPlans, setShowSavedPlans] = useState(false);
+  const [savedPlansCount, setSavedPlansCount] = useState(0);
+
+  // Fetch saved plans count
+  const updateSavedPlansCount = async () => {
+    try {
+      const response = await fetch('/api/meal-plans');
+      const data = await response.json();
+      if (data.success) {
+        setSavedPlansCount(data.data.length);
+      }
+    } catch (error) {
+      console.error('Error fetching saved plans count:', error);
+    }
+  };
+
+  React.useEffect(() => {
+    updateSavedPlansCount();
+  }, []);
 
   const generateMealPlan = async (preferences, servings, dietaryRestrictions, budgetMin, budgetMax) => {
     setLoading(true);
@@ -67,7 +86,8 @@ function App() {
 
       const data = await response.json();
       if (data.success) {
-        alert('Meal plan saved successfully!');
+        alert('✅ Meal plan saved successfully!');
+        updateSavedPlansCount();
       } else {
         alert('Failed to save meal plan');
       }
@@ -76,7 +96,8 @@ function App() {
     }
   };
 
-  const loadMealPlan = (plan) => {
+  const loadMealPlan = async (plan) => {
+    setActiveTab('weekly');
     setMealPlan({
       mealPlan: plan.mealPlan,
       recipes: plan.recipes,
@@ -88,17 +109,55 @@ function App() {
       servings: plan.servings,
       dietaryRestrictions: plan.dietaryRestrictions
     });
+    setShowSavedPlans(false);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
     <div className="App">
       <header className="app-header">
-        <h1>🍽️ Weekly Meal Prep Planner</h1>
-        <p>AI-powered meal planning for efficient one-day prep</p>
+        <div className="header-content">
+          <h1>🍽️ WMealPlan</h1>
+          <p className="tagline">Your AI-Powered Meal Planning Assistant</p>
+          <div className="header-actions">
+            <button 
+              className="saved-plans-toggle"
+              onClick={() => setShowSavedPlans(!showSavedPlans)}
+            >
+              📚 {showSavedPlans ? 'Hide' : 'View'} Saved Plans ({savedPlansCount})
+            </button>
+          </div>
+        </div>
       </header>
 
+      {showSavedPlans && (
+        <div className="saved-plans-overlay">
+          <SavedMealPlans onLoadPlan={loadMealPlan} onClose={() => setShowSavedPlans(false)} />
+        </div>
+      )}
+
       <main className="app-main">
-        <SavedMealPlans onLoadPlan={loadMealPlan} />
+        <section className="hero-section">
+          <h2>Plan Smarter, Eat Better</h2>
+          <p>Generate personalized weekly meal plans or find recipes from ingredients you already have</p>
+          <div className="feature-highlights">
+            <div className="feature-card">
+              <span className="feature-icon">📅</span>
+              <h3>Weekly Planner</h3>
+              <p>7-day meal plans with recipes & shopping lists</p>
+            </div>
+            <div className="feature-card">
+              <span className="feature-icon">🍳</span>
+              <h3>Pantry Chef</h3>
+              <p>Cook from what you have at home</p>
+            </div>
+            <div className="feature-card">
+              <span className="feature-icon">💰</span>
+              <h3>Budget Friendly</h3>
+              <p>Price estimates from local stores</p>
+            </div>
+          </div>
+        </section>
         
         <div className="tab-navigation">
           <button 
@@ -154,7 +213,10 @@ function App() {
       </main>
 
       <footer className="app-footer">
-        <p>Made with ❤️ for healthy meal prep</p>
+        <div className="footer-content">
+          <p>Made with ❤️ for healthy meal prep</p>
+          <p className="footer-note">Powered by Google Gemini AI</p>
+        </div>
       </footer>
     </div>
   );

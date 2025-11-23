@@ -9,7 +9,7 @@
       "src": "client/package.json",
       "use": "@vercel/static-build",
       "config": {
-        "distDir": "client/build"
+        "distDir": "build"
       }
     }
   ],
@@ -20,10 +20,11 @@
     },
     {
       "src": "/(.*)",
-      "dest": "/client/build/$1"
+      "dest": "/client/$1"
     }
   ],
   "env": {
     "NODE_ENV": "production"
-  }
+  },
+  "outputDirectory": "client/build"
 }

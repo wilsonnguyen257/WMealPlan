@@ -3,7 +3,11 @@ const express = require('express');
 const cors = require('cors');
 const { GoogleGenerativeAI } = require('@google/generative-ai');
 const { jsonrepair } = require('jsonrepair');
-const db = require('./database');
+
+// Use Vercel Postgres in production, SQLite locally
+const db = process.env.POSTGRES_URL 
+  ? require('./database-postgres')
+  : require('./database');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -340,7 +344,7 @@ app.post('/api/save-meal-plan', async (req, res) => {
   try {
     const { name, preferences, servings, dietaryRestrictions, mealPlan, recipes, groceryList, prepInstructions } = req.body;
     
-    const id = db.saveMealPlan({
+    const id = await db.saveMealPlan({
       name,
       preferences,
       servings,
@@ -359,9 +363,9 @@ app.post('/api/save-meal-plan', async (req, res) => {
 });
 
 // Get all saved meal plans
-app.get('/api/meal-plans', (req, res) => {
+app.get('/api/meal-plans', async (req, res) => {
   try {
-    const plans = db.getAllMealPlans();
+    const plans = await db.getAllMealPlans();
     res.json({ success: true, data: plans });
   } catch (error) {
     console.error('Error getting meal plans:', error);
@@ -370,9 +374,9 @@ app.get('/api/meal-plans', (req, res) => {
 });
 
 // Get a specific meal plan
-app.get('/api/meal-plans/:id', (req, res) => {
+app.get('/api/meal-plans/:id', async (req, res) => {
   try {
-    const plan = db.getMealPlan(req.params.id);
+    const plan = await db.getMealPlan(req.params.id);
     if (!plan) {
       return res.status(404).json({ success: false, error: 'Meal plan not found' });
     }
@@ -384,9 +388,9 @@ app.get('/api/meal-plans/:id', (req, res) => {
 });
 
 // Delete a meal plan
-app.delete('/api/meal-plans/:id', (req, res) => {
+app.delete('/api/meal-plans/:id', async (req, res) => {
   try {
-    db.deleteMealPlan(req.params.id);
+    await db.deleteMealPlan(req.params.id);
     res.json({ success: true });
   } catch (error) {
     console.error('Error deleting meal plan:', error);

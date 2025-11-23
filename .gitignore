@@ -6,3 +6,4 @@ client/build/
 *.log
 mealplans.db
 mealplans.db-journal
+.vercel

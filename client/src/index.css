@@ -1,3 +1,32 @@
+/*
+  DESIGN SYSTEM
+  Brand: Fresh, Minimal, Helpful
+  
+  COLORS:
+  - Primary: #4CAF50 (fresh green)
+  - Secondary: #FFB55A (peach highlight)
+  - Background: #FAFAFA (off-white)
+  - Text: #222222 (dark), #444444 (medium)
+  - Neutral: #EAEAEA, #CCCCCC
+  - White: #FFFFFF
+  
+  TYPOGRAPHY:
+  - Font: Inter
+  - H1: 40px
+  - H2: 32-36px
+  - H3: 28px
+  - Body: 16-18px
+  - Line-height: 1.6
+  
+  SPACING (8px system):
+  - 8px, 16px, 24px, 32px, 40px
+  
+  INTERACTIONS:
+  - Buttons: Small lift (2px) + shadow
+  - Cards: Scale 1.02
+  - Border radius: 16px (signature)
+*/
+
 * {
   margin: 0;
   padding: 0;
@@ -5,14 +34,14 @@
 }
 
 body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  background-attachment: fixed;
+  background: #FAFAFA;
   min-height: 100vh;
-  color: #2d3748;
+  color: #222222;
+  font-size: 16px;
+  line-height: 1.6;
 }
 
 code {
@@ -26,18 +55,19 @@ html {
 
 /* Custom scrollbar */
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: #EAEAEA;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border-radius: 10px;
+  background: #4CAF50;
+  border-radius: 16px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+  background: #45a049;
 }
+

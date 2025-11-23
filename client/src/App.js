@@ -34,10 +34,10 @@ function App() {
     updateSavedPlansCount();
   }, []);
 
-  const generateMealPlan = async (preferences, servings, dietaryRestrictions, budgetMin, budgetMax) => {
+  const generateMealPlan = async (preferences, servings, dietaryRestrictions, budgetMin, budgetMax, allergies, healthGoal, weight, activityLevel) => {
     setLoading(true);
     setError(null);
-    setFormData({ preferences, servings, dietaryRestrictions, budgetMin, budgetMax });
+    setFormData({ preferences, servings, dietaryRestrictions, budgetMin, budgetMax, allergies, healthGoal, weight, activityLevel });
 
     try {
       const response = await fetch('/api/generate-meal-plan', {
@@ -51,6 +51,10 @@ function App() {
           dietaryRestrictions,
           budgetMin,
           budgetMax,
+          allergies,
+          healthGoal,
+          weight,
+          activityLevel
         }),
       });
 

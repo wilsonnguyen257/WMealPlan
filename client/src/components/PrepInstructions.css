@@ -1,76 +1,84 @@
 .prep-instructions {
   background: white;
-  padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  padding: 32px;
+  border-radius: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  border: 1px solid #EAEAEA;
 }
 
 .prep-instructions h2 {
-  color: #333;
-  font-size: 1.6rem;
-  margin-bottom: 1.5rem;
+  color: #222222;
+  font-size: 28px;
+  margin-bottom: 24px;
+  font-weight: 700;
 }
 
 .prep-overview {
-  background: linear-gradient(135deg, #e0f7fa 0%, #b2ebf2 100%);
-  padding: 1rem;
-  border-radius: 8px;
-  margin-bottom: 1.5rem;
-  border-left: 4px solid #00acc1;
+  background: #F1F8F4;
+  padding: 16px;
+  border-radius: 16px;
+  margin-bottom: 24px;
+  border-left: 4px solid #4CAF50;
 }
 
 .prep-overview p {
-  color: #333;
+  color: #444444;
   line-height: 1.6;
   margin: 0;
+  font-size: 16px;
 }
 
 .prep-steps {
-  margin-bottom: 1.5rem;
+  margin-bottom: 24px;
 }
 
 .prep-steps h3 {
-  color: #667eea;
-  font-size: 1.2rem;
-  margin-bottom: 1rem;
+  color: #4CAF50;
+  font-size: 20px;
+  margin-bottom: 16px;
+  font-weight: 700;
 }
 
 .prep-steps ol {
-  padding-left: 1.5rem;
+  padding-left: 24px;
 }
 
 .prep-steps li {
-  margin-bottom: 0.75rem;
+  margin-bottom: 12px;
   line-height: 1.6;
-  color: #333;
+  color: #444444;
+  font-size: 16px;
 }
 
 .prep-tips {
-  background: #fff9e6;
-  padding: 1rem;
-  border-radius: 8px;
-  border-left: 4px solid #ffc107;
+  background: #F1F8F4;
+  padding: 16px;
+  border-radius: 16px;
+  border-left: 4px solid #4CAF50;
 }
 
 .prep-tips h3 {
-  color: #f57c00;
-  font-size: 1.1rem;
-  margin-bottom: 0.75rem;
+  color: #222222;
+  font-size: 18px;
+  margin-bottom: 12px;
+  font-weight: 700;
 }
 
 .prep-tips ul {
-  padding-left: 1.5rem;
+  padding-left: 24px;
   margin: 0;
 }
 
 .prep-tips li {
-  margin-bottom: 0.5rem;
-  line-height: 1.5;
-  color: #555;
+  margin-bottom: 8px;
+  line-height: 1.6;
+  color: #444444;
+  font-size: 16px;
 }
 
 @media (max-width: 768px) {
   .prep-instructions {
-    padding: 1.5rem;
+    padding: 24px;
   }
 }
+

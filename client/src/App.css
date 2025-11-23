@@ -11,15 +11,13 @@
 }
 
 .app-header {
-  background: rgba(255, 255, 255, 0.98);
-  backdrop-filter: blur(10px);
-  padding: 2rem 2rem 1.5rem;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  background: #FFFFFF;
+  padding: 32px 24px;
+  box-shadow: 0 1px 0 0 #EAEAEA;
   position: sticky;
   top: 0;
   z-index: 100;
-  transition: all 0.3s ease;
+  transition: box-shadow 0.2s ease;
 }
 
 .header-content {
@@ -29,23 +27,22 @@
 }
 
 .app-header h1 {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  font-size: 2.75rem;
-  font-weight: 800;
-  margin-bottom: 0.5rem;
-  letter-spacing: -1px;
-  animation: slideDown 0.6s ease-out;
+  color: #222222;
+  font-size: 40px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  letter-spacing: -0.5px;
 }
 
 .tagline {
-  color: #718096;
-  font-size: 1.1rem;
-  font-weight: 500;
-  margin-bottom: 1.25rem;
-  animation: slideDown 0.6s ease-out 0.1s both;
+  color: #444444;
+  font-size: 18px;
+  font-weight: 400;
+  margin-bottom: 24px;
+  line-height: 1.6;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .header-actions {
@@ -56,21 +53,21 @@
 }
 
 .saved-plans-toggle {
-  padding: 0.75rem 1.5rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 12px 24px;
+  background: #4CAF50;
   color: white;
   border: none;
-  border-radius: 10px;
-  font-size: 1rem;
+  border-radius: 16px;
+  font-size: 16px;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 3px 12px rgba(102, 126, 234, 0.3);
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(76, 175, 80, 0.2);
 }
 
 .saved-plans-toggle:hover {
   transform: translateY(-2px);
-  box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
 }
 
 .saved-plans-overlay {
@@ -87,10 +84,10 @@
 
 .app-main {
   flex: 1;
-  max-width: 1400px;
+  max-width: 1200px;
   width: 100%;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 40px 24px;
 }
 
 .hero-section {
@@ -123,19 +120,23 @@
 }
 
 .hero-section h2 {
-  color: #2d3748;
-  font-size: 2.25rem;
+  color: #222222;
+  font-size: 36px;
   font-weight: 700;
-  margin-bottom: 1rem;
+  margin-bottom: 16px;
+  letter-spacing: -0.5px;
+  line-height: 1.3;
 }
 
 .hero-section > p {
-  color: #718096;
-  font-size: 1.2rem;
-  margin-bottom: 2.5rem;
-  max-width: 700px;
+  color: #444444;
+  font-size: 18px;
+  margin-bottom: 40px;
+  max-width: 640px;
   margin-left: auto;
   margin-right: auto;
+  line-height: 1.6;
+  font-weight: 400;
 }
 
 .feature-highlights {
@@ -147,18 +148,17 @@
 }
 
 .feature-card {
-  background: white;
-  padding: 2rem;
+  background: #FFFFFF;
+  padding: 32px 24px;
   border-radius: 16px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-  transition: all 0.3s ease;
-  border: 2px solid transparent;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  transition: all 0.2s ease;
+  border: 1px solid #EAEAEA;
 }
 
 .feature-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
-  border-color: #667eea;
+  transform: scale(1.02);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 .feature-icon {
@@ -168,55 +168,57 @@
 }
 
 .feature-card h3 {
-  color: #2d3748;
-  font-size: 1.25rem;
-  font-weight: 700;
-  margin-bottom: 0.5rem;
+  color: #222222;
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  letter-spacing: -0.3px;
 }
 
 .feature-card p {
-  color: #718096;
-  font-size: 0.95rem;
-  line-height: 1.5;
+  color: #444444;
+  font-size: 16px;
+  line-height: 1.6;
 }
 
 .tab-navigation {
   display: flex;
-  gap: 1rem;
-  margin-bottom: 2rem;
-  background: white;
-  padding: 0.5rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  gap: 8px;
+  margin-bottom: 32px;
+  background: #FFFFFF;
+  padding: 8px;
+  border-radius: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  border: 1px solid #EAEAEA;
 }
 
 .tab-btn {
   flex: 1;
-  padding: 1rem 2rem;
+  padding: 16px 24px;
   background: transparent;
-  border: 2px solid transparent;
-  border-radius: 8px;
-  font-size: 1.1rem;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s ease;
-  color: #718096;
+  transition: all 0.2s ease;
+  color: #444444;
 }
 
 .tab-btn:hover {
-  background: #f7fafc;
-  color: #2d3748;
+  background: #F5F5F5;
+  color: #222222;
 }
 
 .tab-btn.active {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #4CAF50;
   color: white;
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 2px 8px rgba(76, 175, 80, 0.2);
 }
 
 .tab-btn.active:nth-child(2) {
-  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-  box-shadow: 0 4px 15px rgba(245, 87, 108, 0.3);
+  background: #FFB55A;
+  box-shadow: 0 2px 8px rgba(255, 181, 90, 0.2);
 }
 
 .error-message {
@@ -236,7 +238,7 @@
 
 .spinner {
   border: 4px solid rgba(255, 255, 255, 0.3);
-  border-top: 4px solid #667eea;
+  border-top: 4px solid #ff6b6b;
   border-radius: 50%;
   width: 50px;
   height: 50px;
@@ -268,16 +270,16 @@
 }
 
 .save-btn {
-  padding: 1.125rem 2.5rem;
-  background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+  padding: 18px 40px;
+  background: #4CAF50;
   color: white;
   border: none;
-  border-radius: 10px;
-  font-size: 1.125rem;
+  border-radius: 16px;
+  font-size: 18px;
   font-weight: 700;
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(17, 153, 142, 0.3);
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
 }
 
 .save-btn:hover {
@@ -399,3 +401,4 @@
     grid-template-columns: 1fr;
   }
 }
+

@@ -73,7 +73,7 @@ app.get('/api/health', (req, res) => {
 // Generate meal plan endpoint
 app.post('/api/generate-meal-plan', async (req, res) => {
   try {
-    const { preferences, servings = 2, dietaryRestrictions = '', budgetMin = '', budgetMax = '' } = req.body;
+    const { preferences, servings = 2, dietaryRestrictions = '', budgetMin = '', budgetMax = '', allergies = '', healthGoal = '', weight = '', activityLevel = 'moderate' } = req.body;
 
     const budgetText = budgetMin && budgetMax 
       ? `\nBudget constraint: Total grocery cost should be between AUD $${budgetMin} and AUD $${budgetMax}. Choose affordable ingredients and adjust portions if needed to stay within budget.`
@@ -83,17 +83,26 @@ app.post('/api/generate-meal-plan', async (req, res) => {
       ? `\nBudget constraint: Total grocery cost should not exceed AUD $${budgetMax}. Choose budget-friendly ingredients.`
       : '';
 
+    const healthText = healthGoal || weight || allergies
+      ? `\n\nPersonalization:
+${weight ? `- User weight: ${weight} kg (consider this for portion sizing and calorie needs)` : ''}
+${activityLevel ? `- Activity level: ${activityLevel} (adjust calories accordingly)` : ''}
+${healthGoal ? `- Health goal: ${healthGoal} (optimize macros and ingredients for this goal)` : ''}
+${allergies ? `- CRITICAL ALLERGIES: ${allergies} - ABSOLUTELY AVOID these ingredients and cross-contamination` : ''}`
+      : '';
+
     const prompt = `Create a detailed 7-day meal prep plan with the following requirements:
 
 Preferences: ${preferences || 'balanced, healthy meals'}
 Servings per meal: ${servings}
-Dietary restrictions: ${dietaryRestrictions || 'none'}${budgetText}
+Dietary restrictions: ${dietaryRestrictions || 'none'}${budgetText}${healthText}
 
 IMPORTANT: Respond ONLY with valid JSON. No markdown, no explanations, just the JSON object.
 
 For the grocery list, EXCLUDE common kitchen staples that most people already have:
 - Do NOT include: salt, pepper, olive oil, vegetable oil, flour, sugar, baking powder, baking soda, butter, garlic, onions (small amounts)
 - ONLY include items that need to be specifically purchased for these recipes
+${allergies ? `\n- CRITICALLY IMPORTANT: Completely avoid any ingredients containing ${allergies}. Check all ingredients carefully for allergens.` : ''}
 
 Format:
 {

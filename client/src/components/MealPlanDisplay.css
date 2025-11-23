@@ -1,9 +1,9 @@
 .meal-plan-display {
-  background: white;
-  padding: 2.5rem;
+  background: #FFFFFF;
+  padding: 40px;
   border-radius: 16px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-  animation: slideUp 0.5s ease-out;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  border: 1px solid #EAEAEA;
 }
 
 @keyframes slideUp {
@@ -18,96 +18,80 @@
 }
 
 .meal-plan-display h2 {
-  color: #2d3748;
-  margin-bottom: 2rem;
-  font-size: 2rem;
+  color: #222222;
+  margin-bottom: 32px;
+  font-size: 32px;
   font-weight: 700;
-  position: relative;
-  padding-bottom: 0.75rem;
-}
-
-.meal-plan-display h2::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 60px;
-  height: 4px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border-radius: 2px;
+  letter-spacing: -0.5px;
 }
 
 .meal-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1rem;
-  margin-bottom: 2rem;
+  gap: 16px;
+  margin-bottom: 32px;
 }
 
 .day-card {
-  background: linear-gradient(135deg, #f5f7fa 0%, #e6e9f0 100%);
-  padding: 1.75rem;
-  border-radius: 12px;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
-  transition: all 0.3s ease;
-  border: 1px solid rgba(102, 126, 234, 0.1);
+  background: #FAFAFA;
+  padding: 24px;
+  border-radius: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  transition: all 0.2s ease;
+  border: 1px solid #EAEAEA;
 }
 
 .day-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
-  border-color: rgba(102, 126, 234, 0.3);
+  transform: scale(1.02);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border-color: #4CAF50;
 }
 
 .day-card h3 {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  margin-bottom: 1.25rem;
-  font-size: 1.4rem;
-  font-weight: 700;
-  border-bottom: 2px solid #e2e8f0;
-  padding-bottom: 0.75rem;
+  color: #4CAF50;
+  margin-bottom: 16px;
+  font-size: 20px;
+  font-weight: 600;
+  border-bottom: 2px solid #EAEAEA;
+  padding-bottom: 12px;
 }
 
 .meal-item {
   display: flex;
   flex-direction: column;
-  margin-bottom: 0.875rem;
-  padding: 1rem;
+  margin-bottom: 12px;
+  padding: 16px;
   background: white;
-  border-radius: 8px;
+  border-radius: 16px;
   transition: all 0.2s ease;
-  border-left: 3px solid transparent;
+  border-left: 3px solid #EAEAEA;
 }
 
 .meal-item:hover {
-  border-left-color: #667eea;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  transform: translateX(2px);
+  border-left-color: #4CAF50;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
 .meal-type {
-  font-size: 0.75rem;
-  color: #a0aec0;
+  font-size: 12px;
+  color: #FFB55A;
   text-transform: uppercase;
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: 0.5px;
-  margin-bottom: 0.25rem;
+  margin-bottom: 4px;
 }
 
 .meal-name {
-  color: #2d3748;
+  color: #222222;
   font-weight: 600;
   cursor: pointer;
-  transition: color 0.2s;
-  font-size: 1.05rem;
+  transition: all 0.2s ease;
+  font-size: 16px;
+  line-height: 1.5;
 }
 
 .meal-name:hover {
-  color: #667eea;
-  text-decoration: underline;
+  color: #4CAF50;
 }
 
 .recipes-section {
@@ -121,36 +105,18 @@
 }
 
 .recipe-card {
-  background: linear-gradient(135deg, #ffffff 0%, #f7fafc 100%);
-  padding: 1.75rem;
-  border-radius: 12px;
+  background: #FAFAFA;
+  padding: 28px;
+  border-radius: 16px;
   cursor: pointer;
-  transition: all 0.3s ease;
-  border: 2px solid #e2e8f0;
+  transition: all 0.2s ease;
+  border: 1px solid #EAEAEA;
   position: relative;
-  overflow: hidden;
-}
-
-.recipe-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 4px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  transform: scaleX(0);
-  transition: transform 0.3s ease;
-}
-
-.recipe-card:hover::before {
-  transform: scaleX(1);
 }
 
 .recipe-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-  border-color: #667eea;
+  transform: scale(1.02);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
 }
 
 .recipe-card h4 {
@@ -219,20 +185,18 @@
 }
 
 .close-btn:hover {
-  background: #667eea;
-  border-color: #667eea;
-  color: white;
+  background: #EAEAEA;
+  border-color: #CCCCCC;
+  color: #222222;
   transform: rotate(90deg);
 }
 
 .recipe-modal-content h2 {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  margin-bottom: 1.5rem;
-  font-size: 2rem;
+  color: #4CAF50;
+  margin-bottom: 24px;
+  font-size: 32px;
   font-weight: 700;
+  letter-spacing: -0.5px;
 }
 
 .recipe-meta {
@@ -289,3 +253,4 @@
     padding: 1.5rem;
   }
 }
+

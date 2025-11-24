@@ -39,7 +39,7 @@
    
    | Variable | Value |
    |----------|-------|
-   | `GEMINI_API_KEY` | `AIzaSyCMcJXQxcLSfVVfYavqzc2Ux5CNfzZ6Y1M` |
+   | `GEMINI_API_KEY` | `your-gemini-api-key-here` |
    | `NODE_ENV` | `production` |
 
    **Note**: Postgres variables (`POSTGRES_URL`, etc.) are auto-added when you link the database
@@ -76,7 +76,7 @@ vercel
 
 # Add environment variables
 vercel env add GEMINI_API_KEY
-# Paste: AIzaSyCMcJXQxcLSfVVfYavqzc2Ux5CNfzZ6Y1M
+# Paste: your-gemini-api-key-here
 
 vercel env add NODE_ENV
 # Enter: production

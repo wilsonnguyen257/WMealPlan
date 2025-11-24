@@ -26,7 +26,7 @@
 
 4. **Add Environment Variables** (CRITICAL):
    - In Vercel Project Settings → Environment Variables, add:
-     - `GEMINI_API_KEY` = `AIzaSyCMcJXQxcLSfVVfYavqzc2Ux5CNfzZ6Y1M`
+     - `GEMINI_API_KEY` = `your-new-api-key-here`
      - `NODE_ENV` = `production`
 
 5. **Deploy!** - Click "Deploy"

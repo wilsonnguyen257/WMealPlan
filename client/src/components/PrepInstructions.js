@@ -6,7 +6,7 @@ function PrepInstructions({ prepInstructions }) {
 
   return (
     <div className="prep-instructions">
-      <h2>📋 Prep Day Instructions</h2>
+      <h2>Prep Day Instructions</h2>
       
       {prepInstructions.overview && (
         <div className="prep-overview">
@@ -26,7 +26,7 @@ function PrepInstructions({ prepInstructions }) {
       )}
 
       <div className="prep-tips">
-        <h3>💡 Pro Tips</h3>
+        <h3>Pro Tips</h3>
         <ul>
           <li>Label all containers with the meal name and date</li>
           <li>Store meals in clear containers for easy identification</li>

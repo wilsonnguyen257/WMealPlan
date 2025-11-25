@@ -21,7 +21,7 @@ function MealPlanDisplay({ mealPlan, recipes }) {
 
   return (
     <div className="meal-plan-display">
-      <h2>📅 Your 7-Day Meal Plan</h2>
+      <h2>Your 7-Day Meal Plan</h2>
       
       <div className="meal-grid">
         {days.map(day => (
@@ -50,9 +50,9 @@ function MealPlanDisplay({ mealPlan, recipes }) {
             <h2>{selectedRecipe.name}</h2>
             
             <div className="recipe-meta">
-              <span>👥 {selectedRecipe.servings} servings</span>
-              <span>⏱️ Prep: {selectedRecipe.prepTime}</span>
-              <span>🍳 Cook: {selectedRecipe.cookTime}</span>
+              <span>{selectedRecipe.servings} servings</span>
+              <span>Prep: {selectedRecipe.prepTime}</span>
+              <span>Cook: {selectedRecipe.cookTime}</span>
             </div>
 
             <div className="recipe-section">
@@ -75,7 +75,7 @@ function MealPlanDisplay({ mealPlan, recipes }) {
 
             {selectedRecipe.storageInstructions && (
               <div className="recipe-section storage">
-                <h3>📦 Storage & Reheating</h3>
+                <h3>Storage & Reheating</h3>
                 <p>{selectedRecipe.storageInstructions}</p>
               </div>
             )}
@@ -84,15 +84,15 @@ function MealPlanDisplay({ mealPlan, recipes }) {
       )}
 
       <div className="recipes-section">
-        <h2>📖 All Recipes</h2>
+        <h2>All Recipes</h2>
         <div className="recipes-list">
           {recipes.map((recipe, idx) => (
-            <div key={idx} className="recipe-card" onClick={() => setSelectedRecipe(recipe)}>
+            <div className="recipe-card" onClick={() => setSelectedRecipe(recipe)}>
               <h4>{recipe.name}</h4>
               <div className="recipe-quick-info">
-                <span>👥 {recipe.servings}</span>
-                <span>⏱️ {recipe.prepTime}</span>
-                <span>🍳 {recipe.cookTime}</span>
+                <span>{recipe.servings} servings</span>
+                <span>{recipe.prepTime}</span>
+                <span>{recipe.cookTime}</span>
               </div>
             </div>
           ))}

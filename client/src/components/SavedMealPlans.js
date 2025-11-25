@@ -53,7 +53,7 @@ function SavedMealPlans({ onLoadPlan, onClose }) {
     <div className="saved-meal-plans-modal" onClick={onClose}>
       <div className="saved-plans-content" onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
-          <h2>📚 Saved Meal Plans</h2>
+          <h2>Saved Meal Plans</h2>
           <button className="close-modal-btn" onClick={onClose}>×</button>
         </div>
         
@@ -66,7 +66,6 @@ function SavedMealPlans({ onLoadPlan, onClose }) {
         
         {!loading && savedPlans.length === 0 && (
           <div className="no-plans">
-            <span className="empty-icon">📋</span>
             <p>No saved meal plans yet</p>
             <p className="empty-subtitle">Generate a meal plan and save it for later!</p>
           </div>
@@ -89,29 +88,26 @@ function SavedMealPlans({ onLoadPlan, onClose }) {
                 <div className="plan-details">
                   {plan.preferences && (
                     <span className="detail-tag">
-                      <span className="tag-icon">🍽️</span>
                       {plan.preferences}
                     </span>
                   )}
                   {plan.servings && (
                     <span className="detail-tag">
-                      <span className="tag-icon">👥</span>
                       {plan.servings} servings
                     </span>
                   )}
                   {plan.dietaryRestrictions && (
                     <span className="detail-tag">
-                      <span className="tag-icon">⚕️</span>
                       {plan.dietaryRestrictions}
                     </span>
                   )}
                 </div>
                 <div className="plan-actions">
                   <button onClick={() => handleLoad(plan.id)} className="load-btn">
-                    📂 Load Plan
+                    Load Plan
                   </button>
                   <button onClick={() => handleDelete(plan.id)} className="delete-btn">
-                    🗑️
+                    Delete
                   </button>
                 </div>
               </div>

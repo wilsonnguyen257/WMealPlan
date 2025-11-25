@@ -44,7 +44,7 @@ function PantryMeals() {
   return (
     <div className="pantry-meals-section">
       <div className="pantry-header">
-        <h2>🍳 Cook from Pantry</h2>
+        <h2>Cook from Pantry</h2>
         <p>Enter what you have, get instant meal ideas</p>
       </div>
 
@@ -83,7 +83,7 @@ function PantryMeals() {
         </div>
 
         <button type="submit" className="pantry-generate-btn" disabled={loading}>
-          {loading ? '🔍 Finding Recipes...' : '✨ Generate Meal Ideas'}
+          {loading ? 'Finding Recipes...' : 'Generate Meal Ideas'}
         </button>
       </form>
 
@@ -131,7 +131,7 @@ function PantryMeals() {
 
           {meals.shoppingList && meals.shoppingList.length > 0 && (
             <div className="missing-items-section">
-              <h4>📋 Additional Items Needed</h4>
+              <h4>Additional Items Needed</h4>
               <ul>
                 {meals.shoppingList.map((item, index) => (
                   <li key={index}>{item}</li>
@@ -166,7 +166,7 @@ function PantryMeals() {
 
             {selectedRecipe.missingIngredients && selectedRecipe.missingIngredients.length > 0 && (
               <div className="recipe-section missing-alert">
-                <h3>⚠️ Missing Ingredients</h3>
+                <h3>Missing Ingredients</h3>
                 <ul>
                   {selectedRecipe.missingIngredients.map((ing, idx) => (
                     <li key={idx}>{ing}</li>
@@ -186,7 +186,7 @@ function PantryMeals() {
 
             {selectedRecipe.tips && (
               <div className="recipe-section tips">
-                <h3>💡 Tips</h3>
+                <h3>Tips</h3>
                 <p>{selectedRecipe.tips}</p>
               </div>
             )}

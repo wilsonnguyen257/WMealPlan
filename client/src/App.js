@@ -137,14 +137,14 @@ function App() {
     <div className="App">
       <header className="app-header">
         <div className="header-content">
-          <h1>🍽️ WMealPlan</h1>
+          <h1>WMealPlan</h1>
           <p className="tagline">Your AI-Powered Meal Planning Assistant</p>
           <div className="header-actions">
             <button 
               className="saved-plans-toggle"
               onClick={() => setShowSavedPlans(!showSavedPlans)}
             >
-              📚 {showSavedPlans ? 'Hide' : 'View'} Saved Plans ({savedPlansCount})
+              {showSavedPlans ? 'Hide' : 'View'} Saved Plans ({savedPlansCount})
             </button>
           </div>
         </div>
@@ -162,17 +162,14 @@ function App() {
           <p>Generate personalized weekly meal plans or find recipes from ingredients you already have</p>
           <div className="feature-highlights">
             <div className="feature-card">
-              <span className="feature-icon">📅</span>
               <h3>Weekly Planner</h3>
               <p>7-day meal plans with recipes & shopping lists</p>
             </div>
             <div className="feature-card">
-              <span className="feature-icon">🍳</span>
               <h3>Pantry Chef</h3>
               <p>Cook from what you have at home</p>
             </div>
             <div className="feature-card">
-              <span className="feature-icon">💰</span>
               <h3>Budget Friendly</h3>
               <p>Price estimates from local stores</p>
             </div>
@@ -184,13 +181,13 @@ function App() {
             className={`tab-btn ${activeTab === 'weekly' ? 'active' : ''}`}
             onClick={() => setActiveTab('weekly')}
           >
-            📅 Weekly Meal Planner
+            Weekly Meal Planner
           </button>
           <button 
             className={`tab-btn ${activeTab === 'pantry' ? 'active' : ''}`}
             onClick={() => setActiveTab('pantry')}
           >
-            🍳 Cook from Pantry
+            Cook from Pantry
           </button>
         </div>
 
@@ -200,14 +197,14 @@ function App() {
 
             {error && (
               <div className="error-message">
-                <p>⚠️ {error}</p>
+                <p>{error}</p>
               </div>
             )}
 
             {loading && (
               <div className="loading-spinner">
                 <div className="spinner"></div>
-                <p>🍳 Crafting your personalized meal plan...</p>
+                <p>Crafting your personalized meal plan...</p>
                 <p className="loading-subtext">This may take 10-20 seconds</p>
               </div>
             )}
@@ -216,7 +213,7 @@ function App() {
               <div className="results-container">
                 <div className="save-bar">
                   <button onClick={saveMealPlan} className="save-btn">
-                    💾 Save This Meal Plan
+                    Save This Meal Plan
                   </button>
                 </div>
                 <MealPlanDisplay mealPlan={mealPlan.mealPlan} recipes={mealPlan.recipes} />
@@ -235,7 +232,7 @@ function App() {
 
       <footer className="app-footer">
         <div className="footer-content">
-          <p>Made with ❤️ for healthy meal prep</p>
+          <p>Made for healthy meal prep</p>
           <p className="footer-note">Powered by Google Gemini AI</p>
         </div>
       </footer>

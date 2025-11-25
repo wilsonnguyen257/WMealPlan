@@ -36,7 +36,7 @@ function SmartShopper({ groceryList }) {
 
   return (
     <div className="smart-shopper">
-      <h2>🤖 Smart Shopper</h2>
+      <h2>Smart Shopper</h2>
       <p>Get AI-powered price estimates for your grocery list from Coles, Woolworths, and Aldi.</p>
       
       <button onClick={handleEstimatePrices} disabled={loading} className="estimate-btn">
@@ -87,7 +87,7 @@ function SmartShopper({ groceryList }) {
 
           {estimates.shoppingTips && (
             <div className="shopping-tips">
-              <h4>💡 Shopping Tips</h4>
+              <h4>Shopping Tips</h4>
               <p>{estimates.shoppingTips}</p>
             </div>
           )}

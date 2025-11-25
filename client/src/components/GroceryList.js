@@ -30,9 +30,9 @@ function GroceryList({ groceryList }) {
   return (
     <div className="grocery-list">
       <div className="grocery-header">
-        <h2>🛒 Grocery List</h2>
+        <h2>Grocery List</h2>
         <button onClick={handlePrint} className="print-btn">
-          🖨️ Print
+          Print
         </button>
       </div>
 
@@ -40,7 +40,6 @@ function GroceryList({ groceryList }) {
         items && items.length > 0 && (
           <div key={category} className="grocery-category">
             <h3>
-              <span className="category-icon">{getCategoryIcon(category)}</span>
               {category.charAt(0).toUpperCase() + category.slice(1)}
             </h3>
             <ul>

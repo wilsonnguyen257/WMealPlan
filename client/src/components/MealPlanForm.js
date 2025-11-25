@@ -204,7 +204,7 @@ function MealPlanForm({ onGenerate, loading }) {
         )}
 
         <button type="submit" className="generate-btn" disabled={loading}>
-          {loading ? '🔄 Generating Your Plan...' : '✨ Generate Meal Plan'}
+          {loading ? 'Generating Your Plan...' : 'Generate Meal Plan'}
         </button>
       </form>
     </div>

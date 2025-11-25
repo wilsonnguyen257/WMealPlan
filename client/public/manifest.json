@@ -1,0 +1,10 @@
+{
+  "short_name": "WMealPlan",
+  "name": "WMealPlan - AI Meal Planning",
+  "description": "AI-powered weekly meal planning with smart grocery lists",
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#4CAF50",
+  "background_color": "#FAFAFA",
+  "orientation": "portrait"
+}

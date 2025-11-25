@@ -60,6 +60,13 @@ const model = genAI.getGenerativeModel({
 app.use(cors());
 app.use(express.json());
 
+// Request logging middleware
+app.use((req, res, next) => {
+  const timestamp = new Date().toISOString();
+  console.log(`[${timestamp}] ${req.method} ${req.path}`);
+  next();
+});
+
 // Serve static files from React build in production
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static('client/build'));
@@ -153,9 +160,21 @@ Format:
 
   } catch (error) {
     console.error('Error generating meal plan:', error);
+    
+    // Provide more specific error messages
+    let errorMessage = 'Failed to generate meal plan';
+    
+    if (error.message.includes('503')) {
+      errorMessage = 'AI service is temporarily busy. Please try again in a moment.';
+    } else if (error.message.includes('API key')) {
+      errorMessage = 'API configuration error. Please contact support.';
+    } else if (error.message.includes('quota')) {
+      errorMessage = 'Service quota exceeded. Please try again later.';
+    }
+    
     res.status(500).json({
       success: false,
-      error: error.message || 'Failed to generate meal plan'
+      error: errorMessage
     });
   }
 });
@@ -286,9 +305,16 @@ Required JSON format:
 
   } catch (error) {
     console.error('Error estimating prices:', error);
+    
+    let errorMessage = 'Failed to estimate prices';
+    
+    if (error.message.includes('503')) {
+      errorMessage = 'Price estimation service is busy. Please try again.';
+    }
+    
     res.status(500).json({
       success: false,
-      error: error.message || 'Failed to estimate prices'
+      error: errorMessage
     });
   }
 });
@@ -341,9 +367,16 @@ Format:
 
   } catch (error) {
     console.error('Error generating from pantry:', error);
+    
+    let errorMessage = 'Failed to generate meals from pantry';
+    
+    if (error.message.includes('503')) {
+      errorMessage = 'AI service is temporarily busy. Please try again.';
+    }
+    
     res.status(500).json({
       success: false,
-      error: error.message || 'Failed to generate meals from pantry'
+      error: errorMessage
     });
   }
 });

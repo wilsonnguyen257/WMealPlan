@@ -12,9 +12,28 @@ function MealPlanForm({ onGenerate, loading }) {
   const [budgetMin, setBudgetMin] = useState('');
   const [budgetMax, setBudgetMax] = useState('');
   const [showAdvanced, setShowAdvanced] = useState(false);
+  const [errors, setErrors] = useState({});
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    
+    // Basic validation
+    const newErrors = {};
+    
+    if (budgetMin && budgetMax && parseFloat(budgetMin) > parseFloat(budgetMax)) {
+      newErrors.budget = 'Minimum budget cannot be greater than maximum';
+    }
+    
+    if (weight && (parseFloat(weight) < 20 || parseFloat(weight) > 300)) {
+      newErrors.weight = 'Please enter a realistic weight (20-300 kg)';
+    }
+    
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
+    
+    setErrors({});
     onGenerate(preferences, servings, dietaryRestrictions, budgetMin, budgetMax, allergies, healthGoal, weight, activityLevel);
   };
 
@@ -147,6 +166,7 @@ function MealPlanForm({ onGenerate, loading }) {
                     min="0"
                     disabled={loading}
                   />
+                  {errors.weight && <span className="error-hint">{errors.weight}</span>}
                 </div>
               </div>
             </div>
@@ -154,26 +174,30 @@ function MealPlanForm({ onGenerate, loading }) {
             <div className="form-section advanced">
               <h3 className="section-title">💰 Budget Range</h3>
               
-              <div className="budget-inputs">
-                <input
-                  type="number"
-                  id="budgetMin"
-                  value={budgetMin}
-                  onChange={(e) => setBudgetMin(e.target.value)}
-                  placeholder="Min (AUD)"
-                  min="0"
-                  disabled={loading}
-                />
-                <span className="budget-divider">to</span>
-                <input
-                  type="number"
-                  id="budgetMax"
-                  value={budgetMax}
-                  onChange={(e) => setBudgetMax(e.target.value)}
-                  placeholder="Max (AUD)"
-                  min="0"
-                  disabled={loading}
-                />
+              <div className="form-group">
+                <label htmlFor="budgetMin">Weekly Grocery Budget (AUD)</label>
+                <div className="budget-inputs">
+                  <input
+                    type="number"
+                    id="budgetMin"
+                    value={budgetMin}
+                    onChange={(e) => setBudgetMin(e.target.value)}
+                    placeholder="Min"
+                    min="0"
+                    disabled={loading}
+                  />
+                  <span className="budget-divider">to</span>
+                  <input
+                    type="number"
+                    id="budgetMax"
+                    value={budgetMax}
+                    onChange={(e) => setBudgetMax(e.target.value)}
+                    placeholder="Max"
+                    min="0"
+                    disabled={loading}
+                  />
+                </div>
+                {errors.budget && <span className="error-hint">{errors.budget}</span>}
               </div>
             </div>
           </>

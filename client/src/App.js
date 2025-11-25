@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import MealPlanForm from './components/MealPlanForm';
 import MealPlanDisplay from './components/MealPlanDisplay';
@@ -7,6 +7,7 @@ import PrepInstructions from './components/PrepInstructions';
 import SmartShopper from './components/SmartShopper';
 import SavedMealPlans from './components/SavedMealPlans';
 import PantryMeals from './components/PantryMeals';
+import Toast from './components/Toast';
 
 function App() {
   const [mealPlan, setMealPlan] = useState(null);
@@ -16,6 +17,13 @@ function App() {
   const [activeTab, setActiveTab] = useState('weekly'); // 'weekly' or 'pantry'
   const [showSavedPlans, setShowSavedPlans] = useState(false);
   const [savedPlansCount, setSavedPlansCount] = useState(0);
+  const [toast, setToast] = useState({ show: false, message: '', type: 'success' });
+
+  // Show toast notification
+  const showToast = (message, type = 'success') => {
+    setToast({ show: true, message, type });
+    setTimeout(() => setToast({ show: false, message: '', type: 'success' }), 4000);
+  };
 
   // Fetch saved plans count
   const updateSavedPlansCount = async () => {
@@ -62,11 +70,17 @@ function App() {
 
       if (data.success) {
         setMealPlan(data.data);
+        showToast('✨ Meal plan generated successfully!', 'success');
+        window.scrollTo({ top: document.querySelector('.results-container')?.offsetTop - 100 || 0, behavior: 'smooth' });
       } else {
-        setError(data.error || 'Failed to generate meal plan');
+        const errorMsg = data.error || 'Failed to generate meal plan';
+        setError(errorMsg);
+        showToast(errorMsg, 'error');
       }
     } catch (err) {
-      setError('Failed to connect to server. Make sure the backend is running.');
+      const errorMsg = 'Failed to connect to server. Please check your connection.';
+      setError(errorMsg);
+      showToast(errorMsg, 'error');
       console.error('Error:', err);
     } finally {
       setLoading(false);
@@ -75,14 +89,14 @@ function App() {
 
   const saveMealPlan = async () => {
     const name = prompt('Enter a name for this meal plan:');
-    if (!name) return;
+    if (!name || !name.trim()) return;
 
     try {
       const response = await fetch('/api/save-meal-plan', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          name,
+          name: name.trim(),
           ...formData,
           ...mealPlan
         })
@@ -90,13 +104,14 @@ function App() {
 
       const data = await response.json();
       if (data.success) {
-        alert('✅ Meal plan saved successfully!');
+        showToast(`✅ "${name.trim()}" saved successfully!`, 'success');
         updateSavedPlansCount();
       } else {
-        alert('Failed to save meal plan');
+        showToast('Failed to save meal plan. Please try again.', 'error');
       }
     } catch (err) {
-      alert('Failed to save meal plan');
+      showToast('Network error. Please check your connection.', 'error');
+      console.error('Save error:', err);
     }
   };
 
@@ -114,6 +129,7 @@ function App() {
       dietaryRestrictions: plan.dietaryRestrictions
     });
     setShowSavedPlans(false);
+    showToast(`📂 Loaded "${plan.name}" successfully!`, 'success');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -191,7 +207,8 @@ function App() {
             {loading && (
               <div className="loading-spinner">
                 <div className="spinner"></div>
-                <p>Generating your personalized meal plan...</p>
+                <p>🍳 Crafting your personalized meal plan...</p>
+                <p className="loading-subtext">This may take 10-20 seconds</p>
               </div>
             )}
 
@@ -222,6 +239,8 @@ function App() {
           <p className="footer-note">Powered by Google Gemini AI</p>
         </div>
       </footer>
+
+      {toast.show && <Toast message={toast.message} type={toast.type} />}
     </div>
   );
 }

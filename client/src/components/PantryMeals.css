@@ -179,22 +179,22 @@
 
 .recipe-meta {
   display: flex;
-  gap: 1rem;
-  font-size: 0.9rem;
-  color: #718096;
-  margin-bottom: 1rem;
+  gap: 16px;
+  font-size: 14px;
+  color: #444444;
+  margin-bottom: 16px;
 }
 
 .match-indicator {
-  margin-top: 0.75rem;
-  padding-top: 0.75rem;
-  border-top: 1px solid #e2e8f0;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #EAEAEA;
 }
 
 .perfect-match {
-  color: #38a169;
+  color: #4CAF50;
   font-weight: 700;
-  font-size: 0.9rem;
+  font-size: 14px;
 }
 
 .missing-items {
@@ -391,7 +391,7 @@
   
   .recipe-info {
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 8px;
   }
 }
 

@@ -11,6 +11,7 @@ function MealPlanForm({ onGenerate, loading }) {
   const [activityLevel, setActivityLevel] = useState('moderate');
   const [budgetMin, setBudgetMin] = useState('');
   const [budgetMax, setBudgetMax] = useState('');
+  const [showAdvanced, setShowAdvanced] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -20,13 +21,14 @@ function MealPlanForm({ onGenerate, loading }) {
   return (
     <div className="meal-plan-form">
       <h2>Create Your Weekly Meal Plan</h2>
+      <p className="form-subtitle">Fill in the essentials, expand for more options</p>
+      
       <form onSubmit={handleSubmit}>
-        <div className="form-section">
-          <h3 className="section-title">📋 Basic Information</h3>
-          
+        {/* Essential Information */}
+        <div className="form-section essential">
           <div className="form-row">
             <div className="form-group">
-              <label htmlFor="servings">Servings per Meal</label>
+              <label htmlFor="servings">How many people?</label>
               <select
                 id="servings"
                 value={servings}
@@ -43,149 +45,142 @@ function MealPlanForm({ onGenerate, loading }) {
             </div>
 
             <div className="form-group">
-              <label htmlFor="activityLevel">Activity Level</label>
-              <select
-                id="activityLevel"
-                value={activityLevel}
-                onChange={(e) => setActivityLevel(e.target.value)}
-                disabled={loading}
-              >
-                <option value="sedentary">Sedentary (little/no exercise)</option>
-                <option value="light">Light (1-3 days/week)</option>
-                <option value="moderate">Moderate (3-5 days/week)</option>
-                <option value="active">Active (6-7 days/week)</option>
-                <option value="very-active">Very Active (athlete)</option>
-              </select>
-            </div>
-          </div>
-        </div>
-
-        <div className="form-section">
-          <h3 className="section-title">🎯 Health & Fitness</h3>
-          
-          <div className="form-row">
-            <div className="form-group">
-              <label htmlFor="weight">
-                Current Weight (Optional)
-                <span className="hint">Used for calorie calculations</span>
-              </label>
+              <label htmlFor="preferences">What do you like to eat?</label>
               <input
-                type="number"
-                id="weight"
-                value={weight}
-                onChange={(e) => setWeight(e.target.value)}
-                placeholder="e.g., 70 kg"
-                min="0"
+                type="text"
+                id="preferences"
+                value={preferences}
+                onChange={(e) => setPreferences(e.target.value)}
+                placeholder="e.g., chicken, pasta, asian food..."
                 disabled={loading}
               />
             </div>
-
-            <div className="form-group">
-              <label htmlFor="healthGoal">Health Goal</label>
-              <select
-                id="healthGoal"
-                value={healthGoal}
-                onChange={(e) => setHealthGoal(e.target.value)}
-                disabled={loading}
-              >
-                <option value="">General Health</option>
-                <option value="weight-loss">Weight Loss</option>
-                <option value="muscle-gain">Muscle Gain</option>
-                <option value="maintenance">Weight Maintenance</option>
-                <option value="energy">Increase Energy</option>
-                <option value="heart-health">Heart Health</option>
-              </select>
-            </div>
           </div>
 
-          <div className="form-group">
-            <label htmlFor="preferences">
-              Meal Preferences
-              <span className="hint">e.g., high protein, low carb, mediterranean</span>
-            </label>
-            <input
-              type="text"
-              id="preferences"
-              value={preferences}
-              onChange={(e) => setPreferences(e.target.value)}
-              placeholder="Enter your meal preferences..."
-              disabled={loading}
-            />
-          </div>
-        </div>
-
-        <div className="form-section">
-          <h3 className="section-title">⚠️ Dietary Restrictions & Allergies</h3>
-          
           <div className="form-row">
             <div className="form-group">
-              <label htmlFor="restrictions">
-                Dietary Restrictions
-                <span className="hint">e.g., vegetarian, vegan, halal</span>
-              </label>
+              <label htmlFor="restrictions">Any dietary restrictions?</label>
               <input
                 type="text"
                 id="restrictions"
                 value={dietaryRestrictions}
                 onChange={(e) => setDietaryRestrictions(e.target.value)}
-                placeholder="e.g., gluten-free, dairy-free, keto"
+                placeholder="e.g., vegetarian, gluten-free (leave blank if none)"
                 disabled={loading}
               />
             </div>
 
             <div className="form-group">
-              <label htmlFor="allergies">
-                Food Allergies
-                <span className="hint">Important for safety!</span>
-              </label>
+              <label htmlFor="allergies">Any allergies?</label>
               <input
                 type="text"
                 id="allergies"
                 value={allergies}
                 onChange={(e) => setAllergies(e.target.value)}
-                placeholder="e.g., nuts, shellfish, eggs"
+                placeholder="e.g., nuts, shellfish (leave blank if none)"
                 disabled={loading}
               />
             </div>
           </div>
         </div>
 
-        <div className="form-section">
-          <h3 className="section-title">💰 Budget</h3>
-          
-          <div className="form-group">
-            <label htmlFor="budgetMin">
-              Weekly Grocery Budget (AUD)
-              <span className="hint">Optional - set your budget range</span>
-            </label>
-            <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-              <input
-                type="number"
-                id="budgetMin"
-                value={budgetMin}
-                onChange={(e) => setBudgetMin(e.target.value)}
-                placeholder="Min $"
-                min="0"
-                disabled={loading}
-                style={{ flex: 1 }}
-              />
-              <span>to</span>
-              <input
-                type="number"
-                id="budgetMax"
-                value={budgetMax}
-                onChange={(e) => setBudgetMax(e.target.value)}
-                placeholder="Max $"
-                min="0"
-                disabled={loading}
-                style={{ flex: 1 }}
-              />
+        {/* Advanced Options Toggle */}
+        <button
+          type="button"
+          className="toggle-advanced"
+          onClick={() => setShowAdvanced(!showAdvanced)}
+        >
+          {showAdvanced ? '▼ Hide' : '▶ Show'} Advanced Options
+          <span className="optional-badge">Optional</span>
+        </button>
+
+        {/* Advanced Options */}
+        {showAdvanced && (
+          <>
+            <div className="form-section advanced">
+              <h3 className="section-title">🎯 Health & Fitness Goals</h3>
+              
+              <div className="form-row">
+                <div className="form-group">
+                  <label htmlFor="healthGoal">Health Goal</label>
+                  <select
+                    id="healthGoal"
+                    value={healthGoal}
+                    onChange={(e) => setHealthGoal(e.target.value)}
+                    disabled={loading}
+                  >
+                    <option value="">General Health</option>
+                    <option value="weight-loss">Weight Loss</option>
+                    <option value="muscle-gain">Muscle Gain</option>
+                    <option value="maintenance">Weight Maintenance</option>
+                    <option value="energy">Increase Energy</option>
+                    <option value="heart-health">Heart Health</option>
+                  </select>
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="activityLevel">Activity Level</label>
+                  <select
+                    id="activityLevel"
+                    value={activityLevel}
+                    onChange={(e) => setActivityLevel(e.target.value)}
+                    disabled={loading}
+                  >
+                    <option value="sedentary">Sedentary (little exercise)</option>
+                    <option value="light">Light (1-3 days/week)</option>
+                    <option value="moderate">Moderate (3-5 days/week)</option>
+                    <option value="active">Active (6-7 days/week)</option>
+                    <option value="very-active">Very Active (athlete)</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="form-row">
+                <div className="form-group">
+                  <label htmlFor="weight">Current Weight (kg)</label>
+                  <input
+                    type="number"
+                    id="weight"
+                    value={weight}
+                    onChange={(e) => setWeight(e.target.value)}
+                    placeholder="e.g., 70"
+                    min="0"
+                    disabled={loading}
+                  />
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
+
+            <div className="form-section advanced">
+              <h3 className="section-title">💰 Budget Range</h3>
+              
+              <div className="budget-inputs">
+                <input
+                  type="number"
+                  id="budgetMin"
+                  value={budgetMin}
+                  onChange={(e) => setBudgetMin(e.target.value)}
+                  placeholder="Min (AUD)"
+                  min="0"
+                  disabled={loading}
+                />
+                <span className="budget-divider">to</span>
+                <input
+                  type="number"
+                  id="budgetMax"
+                  value={budgetMax}
+                  onChange={(e) => setBudgetMax(e.target.value)}
+                  placeholder="Max (AUD)"
+                  min="0"
+                  disabled={loading}
+                />
+              </div>
+            </div>
+          </>
+        )}
 
         <button type="submit" className="generate-btn" disabled={loading}>
-          {loading ? '🔄 Generating Your Personalized Plan...' : '✨ Generate My Meal Plan'}
+          {loading ? '🔄 Generating Your Plan...' : '✨ Generate Meal Plan'}
         </button>
       </form>
     </div>

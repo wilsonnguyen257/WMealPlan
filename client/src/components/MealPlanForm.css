@@ -24,10 +24,98 @@
 
 .meal-plan-form h2 {
   color: #222222;
-  margin-bottom: 32px;
+  margin-bottom: 8px;
   font-size: 32px;
   font-weight: 700;
   letter-spacing: -0.5px;
+}
+
+.form-subtitle {
+  color: #444444;
+  font-size: 16px;
+  margin-bottom: 32px;
+  line-height: 1.6;
+}
+
+.form-section.essential {
+  margin-bottom: 24px;
+  padding: 0;
+  background: transparent;
+  border-left: none;
+}
+
+.form-section.essential:hover {
+  background: transparent;
+}
+
+.form-section.advanced {
+  margin-bottom: 24px;
+  padding: 24px;
+  background: #FAFAFA;
+  border-radius: 16px;
+  border-left: 4px solid #FFB55A;
+  animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.toggle-advanced {
+  width: 100%;
+  padding: 16px 24px;
+  background: #FAFAFA;
+  border: 1px solid #EAEAEA;
+  border-radius: 16px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #222222;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.toggle-advanced:hover {
+  background: #F5F5F5;
+  border-color: #CCCCCC;
+}
+
+.optional-badge {
+  background: #FFB55A;
+  color: white;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.budget-inputs {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.budget-inputs input {
+  flex: 1;
+}
+
+.budget-divider {
+  color: #444444;
+  font-weight: 600;
+  font-size: 16px;
 }
 
 .form-section {
@@ -62,7 +150,6 @@
   color: #222222;
   font-weight: 600;
   font-size: 16px;
-  min-height: 48px;
 }
 
 .hint {

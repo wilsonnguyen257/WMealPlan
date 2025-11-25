@@ -21,7 +21,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1.5rem;
+  margin-bottom: 24px;
 }
 
 .grocery-list h2 {
@@ -67,7 +67,7 @@
 }
 
 .category-icon {
-  font-size: 1.5rem;
+  font-size: 24px;
 }
 
 .grocery-category ul {
@@ -139,7 +139,7 @@
 
 @media (max-width: 768px) {
   .grocery-list {
-    padding: 1.5rem;
+    padding: 24px;
   }
 }
 

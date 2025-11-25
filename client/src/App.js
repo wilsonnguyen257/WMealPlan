@@ -7,6 +7,7 @@ import PrepInstructions from './components/PrepInstructions';
 import SmartShopper from './components/SmartShopper';
 import SavedMealPlans from './components/SavedMealPlans';
 import PantryMeals from './components/PantryMeals';
+import RecipeSearch from './components/RecipeSearch';
 import Toast from './components/Toast';
 
 function App() {
@@ -14,7 +15,7 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [formData, setFormData] = useState(null);
-  const [activeTab, setActiveTab] = useState('weekly'); // 'weekly' or 'pantry'
+  const [activeTab, setActiveTab] = useState('weekly'); // 'weekly', 'pantry', or 'search'
   const [showSavedPlans, setShowSavedPlans] = useState(false);
   const [savedPlansCount, setSavedPlansCount] = useState(0);
   const [toast, setToast] = useState({ show: false, message: '', type: 'success' });
@@ -189,6 +190,12 @@ function App() {
           >
             Cook from Pantry
           </button>
+          <button 
+            className={`tab-btn ${activeTab === 'search' ? 'active' : ''}`}
+            onClick={() => setActiveTab('search')}
+          >
+            Find Recipes
+          </button>
         </div>
 
         {activeTab === 'weekly' ? (
@@ -225,8 +232,10 @@ function App() {
               </div>
             )}
           </>
-        ) : (
+        ) : activeTab === 'pantry' ? (
           <PantryMeals />
+        ) : (
+          <RecipeSearch />
         )}
       </main>
 

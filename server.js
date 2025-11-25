@@ -319,6 +319,96 @@ Required JSON format:
   }
 });
 
+// Search for recipes endpoint
+app.post('/api/search-recipes', async (req, res) => {
+  try {
+    const { query } = req.body;
+
+    if (!query || !query.trim()) {
+      return res.status(400).json({ 
+        success: false, 
+        message: 'Search query is required' 
+      });
+    }
+
+    const prompt = `You are a professional recipe database. Search for recipes matching: "${query}"
+
+Find 6-8 diverse recipes that match the search query. The query might be:
+- A specific dish name (e.g., "chicken pasta", "chocolate cake")
+- An ingredient (e.g., "salmon", "mushrooms")
+- A cuisine type (e.g., "italian", "thai", "mexican")
+- A meal type (e.g., "breakfast", "dessert", "appetizer")
+
+For each recipe, provide:
+- name: Recipe name
+- description: Brief 1-2 sentence description
+- cuisine: Type of cuisine (Italian, Thai, Mexican, etc.)
+- difficulty: Easy, Medium, or Hard
+- cookTime: Total time (e.g., "30 mins", "1 hour")
+- servings: Number of servings (e.g., "4 servings")
+- ingredients: Array of ingredients with measurements
+- instructions: Array of step-by-step instructions
+- nutrition: Object with calories, protein, carbs, fat per serving
+
+Return in JSON format:
+{
+  "recipes": [
+    {
+      "name": "Recipe Name",
+      "description": "Brief description",
+      "cuisine": "Cuisine type",
+      "difficulty": "Easy/Medium/Hard",
+      "cookTime": "30 mins",
+      "servings": "4 servings",
+      "ingredients": ["ingredient 1", "ingredient 2", ...],
+      "instructions": ["step 1", "step 2", ...],
+      "nutrition": {
+        "calories": "400 kcal",
+        "protein": "25g",
+        "carbs": "45g",
+        "fat": "12g"
+      }
+    }
+  ]
+}`;
+
+    const result = await withRetry(async () => {
+      const response = await model.generateContent(prompt);
+      return response;
+    });
+
+    const text = result.response.text();
+    const data = repairJson(text);
+
+    if (!data.recipes || !Array.isArray(data.recipes)) {
+      throw new Error('Invalid recipe data format');
+    }
+
+    res.json({
+      success: true,
+      recipes: data.recipes
+    });
+
+  } catch (error) {
+    console.error('Recipe search error:', error);
+    
+    let errorMessage = 'Failed to search recipes';
+    
+    if (error.message.includes('API key')) {
+      errorMessage = 'API configuration error. Please check settings.';
+    } else if (error.message.includes('quota')) {
+      errorMessage = 'Daily API limit reached. Please try again tomorrow.';
+    } else if (error.message.includes('503')) {
+      errorMessage = 'Recipe search service is busy. Please try again.';
+    }
+    
+    res.status(500).json({
+      success: false,
+      message: errorMessage
+    });
+  }
+});
+
 // Generate meals from pantry items
 app.post('/api/generate-from-pantry', async (req, res) => {
   try {

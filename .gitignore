@@ -4,6 +4,4 @@ client/node_modules/
 client/build/
 .DS_Store
 *.log
-mealplans.db
-mealplans.db-journal
 .vercel

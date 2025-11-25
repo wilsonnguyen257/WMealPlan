@@ -57,8 +57,7 @@ WMealPlan/
 │   └── package.json
 ├── docs/                  # Documentation files
 ├── server.js              # Express backend server
-├── database.js            # SQLite database (local)
-├── database-postgres.js   # PostgreSQL (production)
+├── database-postgres.js   # PostgreSQL database
 ├── vercel.json            # Vercel deployment config
 └── package.json           # Backend dependencies
 ```
@@ -67,7 +66,7 @@ WMealPlan/
 
 - **Frontend:** React 18, CSS3
 - **Backend:** Node.js, Express
-- **Database:** SQLite (local), PostgreSQL (production)
+- **Database:** PostgreSQL (Vercel Postgres)
 - **AI:** Google Gemini 2.5 Flash
 - **Deployment:** Vercel
 

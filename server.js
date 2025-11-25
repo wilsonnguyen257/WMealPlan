@@ -4,10 +4,8 @@ const cors = require('cors');
 const { GoogleGenerativeAI } = require('@google/generative-ai');
 const { jsonrepair } = require('jsonrepair');
 
-// Use Vercel Postgres in production, SQLite locally
-const db = process.env.POSTGRES_URL 
-  ? require('./database-postgres')
-  : require('./database');
+// Use Vercel Postgres database
+const db = require('./database-postgres');
 
 const app = express();
 const PORT = process.env.PORT || 3001;

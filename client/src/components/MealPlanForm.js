@@ -117,7 +117,7 @@ function MealPlanForm({ onGenerate, loading }) {
         {showAdvanced && (
           <>
             <div className="form-section advanced">
-              <h3 className="section-title">🎯 Health & Fitness Goals</h3>
+              <h3 className="section-title">Health & Fitness Goals</h3>
               
               <div className="form-row">
                 <div className="form-group">
@@ -172,7 +172,7 @@ function MealPlanForm({ onGenerate, loading }) {
             </div>
 
             <div className="form-section advanced">
-              <h3 className="section-title">💰 Budget Range</h3>
+              <h3 className="section-title">Budget Range</h3>
               
               <div className="form-group">
                 <label htmlFor="budgetMin">Weekly Grocery Budget (AUD)</label>

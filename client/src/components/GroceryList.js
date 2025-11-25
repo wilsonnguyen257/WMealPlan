@@ -12,17 +12,6 @@ function GroceryList({ groceryList }) {
     }));
   };
 
-  const getCategoryIcon = (category) => {
-    const icons = {
-      produce: '🥬',
-      proteins: '🥩',
-      dairy: '🥛',
-      pantry: '🥫',
-      other: '🛒'
-    };
-    return icons[category] || '📦';
-  };
-
   const handlePrint = () => {
     window.print();
   };

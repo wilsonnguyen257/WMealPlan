@@ -106,8 +106,8 @@ function SavedMealPlans({ onLoadPlan, onClose }) {
                   <button onClick={() => handleLoad(plan.id)} className="load-btn">
                     Load Plan
                   </button>
-                  <button onClick={() => handleDelete(plan.id)} className="delete-btn">
-                    Delete
+                  <button onClick={() => handleDelete(plan.id)} className="delete-btn" title="Delete plan">
+                    ×
                   </button>
                 </div>
               </div>

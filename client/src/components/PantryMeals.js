@@ -230,7 +230,6 @@ function PantryMeals() {
           ]}
         />
       )}
-      )}
 
       {meals && (
         <div className="pantry-results">

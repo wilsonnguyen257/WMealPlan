@@ -25,6 +25,125 @@
   letter-spacing: -0.5px;
 }
 
+.plan-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.plan-header h2 {
+  margin-bottom: 0;
+}
+
+.share-buttons {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.share-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 16px;
+  border: 1px solid #EAEAEA;
+  border-radius: 12px;
+  background: #FFFFFF;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 14px;
+  font-weight: 500;
+  color: #444444;
+  min-height: 44px;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.share-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.share-btn:active {
+  transform: translateY(0);
+}
+
+.share-icon {
+  font-size: 18px;
+  line-height: 1;
+}
+
+.share-label {
+  white-space: nowrap;
+}
+
+.copy-btn:hover {
+  background: #E8F5E9;
+  border-color: #4CAF50;
+  color: #2E7D32;
+}
+
+.twitter-btn:hover {
+  background: #E3F2FD;
+  border-color: #1DA1F2;
+  color: #1DA1F2;
+}
+
+.facebook-btn:hover {
+  background: #E3F2FD;
+  border-color: #1877F2;
+  color: #1877F2;
+}
+
+.whatsapp-btn:hover {
+  background: #E8F5E9;
+  border-color: #25D366;
+  color: #25D366;
+}
+
+.email-btn:hover {
+  background: #FFF3E0;
+  border-color: #FFB55A;
+  color: #E65100;
+}
+
+.share-toast {
+  position: fixed;
+  top: 80px;
+  right: 20px;
+  background: #2E7D32;
+  color: white;
+  padding: 16px 24px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  animation: slideInRight 0.3s ease, fadeOut 0.3s ease 2.7s;
+  z-index: 1000;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(100px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeOut {
+  to {
+    opacity: 0;
+    transform: translateX(100px);
+  }
+}
+
 .meal-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -243,6 +362,47 @@
 @media (max-width: 768px) {
   .meal-plan-display {
     padding: 24px 16px;
+  }
+
+  .plan-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 16px;
+  }
+
+  .plan-header h2 {
+    font-size: 24px;
+    text-align: center;
+  }
+
+  .share-buttons {
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .share-btn {
+    flex: 1;
+    min-width: 0;
+    justify-content: center;
+    padding: 12px 12px;
+    font-size: 13px;
+  }
+
+  .share-label {
+    display: none;
+  }
+
+  .share-icon {
+    font-size: 20px;
+  }
+
+  .share-toast {
+    top: 60px;
+    right: 10px;
+    left: 10px;
+    text-align: center;
+    font-size: 14px;
+    padding: 12px 16px;
   }
 
   .meal-plan-display h2 {

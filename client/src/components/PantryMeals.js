@@ -1,17 +1,74 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './PantryMeals.css';
 import ProgressBar from './ProgressBar';
 import EmptyState from './EmptyState';
 
+const AUTOSAVE_KEY = 'pantryMealsFormData';
+const AUTOSAVE_DELAY = 1000;
+
 function PantryMeals() {
-  const [pantryItems, setPantryItems] = useState('');
-  const [servings, setServings] = useState(2);
+  // Initialize from localStorage
+  const getSavedData = () => {
+    try {
+      const saved = localStorage.getItem(AUTOSAVE_KEY);
+      return saved ? JSON.parse(saved) : null;
+    } catch (error) {
+      console.error('Error loading saved form data:', error);
+      return null;
+    }
+  };
+
+  const savedData = getSavedData();
+
+  const [pantryItems, setPantryItems] = useState(savedData?.pantryItems || '');
+  const [servings, setServings] = useState(savedData?.servings || 2);
   const [loading, setLoading] = useState(false);
   const [meals, setMeals] = useState(null);
   const [error, setError] = useState(null);
   const [selectedRecipe, setSelectedRecipe] = useState(null);
   const [progress, setProgress] = useState(0);
   const [progressStage, setProgressStage] = useState('');
+  const [lastSaved, setLastSaved] = useState(savedData ? new Date(savedData.timestamp) : null);
+  
+  const saveTimeoutRef = useRef(null);
+
+  // Autosave effect
+  useEffect(() => {
+    if (saveTimeoutRef.current) {
+      clearTimeout(saveTimeoutRef.current);
+    }
+
+    saveTimeoutRef.current = setTimeout(() => {
+      const formData = {
+        pantryItems,
+        servings,
+        timestamp: new Date().toISOString()
+      };
+
+      try {
+        localStorage.setItem(AUTOSAVE_KEY, JSON.stringify(formData));
+        setLastSaved(new Date());
+      } catch (error) {
+        console.error('Error saving form data:', error);
+      }
+    }, AUTOSAVE_DELAY);
+
+    return () => {
+      if (saveTimeoutRef.current) {
+        clearTimeout(saveTimeoutRef.current);
+      }
+    };
+  }, [pantryItems, servings]);
+
+  // Clear saved data
+  const clearSavedData = () => {
+    try {
+      localStorage.removeItem(AUTOSAVE_KEY);
+      setLastSaved(null);
+    } catch (error) {
+      console.error('Error clearing saved data:', error);
+    }
+  };
 
   // Handle ESC key to close recipe modal
   React.useEffect(() => {
@@ -34,6 +91,7 @@ function PantryMeals() {
     setMeals(null);
     setProgress(0);
     setProgressStage('Analyzing your ingredients...');
+    clearSavedData(); // Clear autosaved data on submission
 
     const progressInterval = setInterval(() => {
       setProgress(prev => {
@@ -87,8 +145,24 @@ function PantryMeals() {
   return (
     <div className="pantry-meals-section">
       <div className="pantry-header">
-        <h2>Cook from Pantry</h2>
-        <p>Enter what you have, get instant meal ideas</p>
+        <div>
+          <h2>Cook from Pantry</h2>
+          <p>Enter what you have, get instant meal ideas</p>
+        </div>
+        {lastSaved && (
+          <div className="autosave-indicator">
+            <span className="autosave-icon">💾</span>
+            <span className="autosave-text">Draft saved</span>
+            <button 
+              type="button" 
+              className="clear-draft-btn"
+              onClick={clearSavedData}
+              title="Clear saved draft"
+            >
+              ✕
+            </button>
+          </div>
+        )}
       </div>
 
       <form onSubmit={generateFromPantry} className="pantry-form">

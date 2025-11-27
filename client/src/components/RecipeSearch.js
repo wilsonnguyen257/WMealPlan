@@ -1,16 +1,72 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './RecipeSearch.css';
 import ProgressBar from './ProgressBar';
 import EmptyState from './EmptyState';
 
+const AUTOSAVE_KEY = 'recipeSearchFormData';
+const AUTOSAVE_DELAY = 1000;
+
 function RecipeSearch() {
-  const [searchQuery, setSearchQuery] = useState('');
+  // Initialize from localStorage
+  const getSavedData = () => {
+    try {
+      const saved = localStorage.getItem(AUTOSAVE_KEY);
+      return saved ? JSON.parse(saved) : null;
+    } catch (error) {
+      console.error('Error loading saved form data:', error);
+      return null;
+    }
+  };
+
+  const savedData = getSavedData();
+
+  const [searchQuery, setSearchQuery] = useState(savedData?.searchQuery || '');
   const [recipes, setRecipes] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [selectedRecipe, setSelectedRecipe] = useState(null);
   const [progress, setProgress] = useState(0);
   const [progressStage, setProgressStage] = useState('');
+  const [lastSaved, setLastSaved] = useState(savedData ? new Date(savedData.timestamp) : null);
+  
+  const saveTimeoutRef = useRef(null);
+
+  // Autosave effect
+  useEffect(() => {
+    if (saveTimeoutRef.current) {
+      clearTimeout(saveTimeoutRef.current);
+    }
+
+    saveTimeoutRef.current = setTimeout(() => {
+      const formData = {
+        searchQuery,
+        timestamp: new Date().toISOString()
+      };
+
+      try {
+        localStorage.setItem(AUTOSAVE_KEY, JSON.stringify(formData));
+        setLastSaved(new Date());
+      } catch (error) {
+        console.error('Error saving form data:', error);
+      }
+    }, AUTOSAVE_DELAY);
+
+    return () => {
+      if (saveTimeoutRef.current) {
+        clearTimeout(saveTimeoutRef.current);
+      }
+    };
+  }, [searchQuery]);
+
+  // Clear saved data
+  const clearSavedData = () => {
+    try {
+      localStorage.removeItem(AUTOSAVE_KEY);
+      setLastSaved(null);
+    } catch (error) {
+      console.error('Error clearing saved data:', error);
+    }
+  };
 
   const handleSearch = async (e) => {
     e.preventDefault();
@@ -25,6 +81,7 @@ function RecipeSearch() {
     setRecipes([]);
     setProgress(0);
     setProgressStage('Searching recipes...');
+    clearSavedData(); // Clear autosaved data on search
 
     const progressInterval = setInterval(() => {
       setProgress(prev => {
@@ -99,8 +156,24 @@ function RecipeSearch() {
   return (
     <div className="recipe-search">
       <div className="search-header">
-        <h2>Find Your Perfect Recipe</h2>
-        <p className="search-subtitle">Search by recipe name, ingredient, or cuisine type</p>
+        <div>
+          <h2>Find Your Perfect Recipe</h2>
+          <p className="search-subtitle">Search by recipe name, ingredient, or cuisine type</p>
+        </div>
+        {lastSaved && (
+          <div className="autosave-indicator">
+            <span className="autosave-icon">💾</span>
+            <span className="autosave-text">Draft saved</span>
+            <button 
+              type="button" 
+              className="clear-draft-btn"
+              onClick={clearSavedData}
+              title="Clear saved draft"
+            >
+              ✕
+            </button>
+          </div>
+        )}
       </div>
 
       <form onSubmit={handleSearch} className="search-form">

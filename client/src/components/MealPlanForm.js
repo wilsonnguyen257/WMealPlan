@@ -1,18 +1,86 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './MealPlanForm.css';
 
+const AUTOSAVE_KEY = 'mealPlanFormData';
+const AUTOSAVE_DELAY = 1000; // 1 second debounce
+
 function MealPlanForm({ onGenerate, loading }) {
-  const [preferences, setPreferences] = useState('');
-  const [servings, setServings] = useState(2);
-  const [dietaryRestrictions, setDietaryRestrictions] = useState('');
-  const [allergies, setAllergies] = useState('');
-  const [healthGoal, setHealthGoal] = useState('');
-  const [weight, setWeight] = useState('');
-  const [activityLevel, setActivityLevel] = useState('moderate');
-  const [budgetMin, setBudgetMin] = useState('');
-  const [budgetMax, setBudgetMax] = useState('');
-  const [showAdvanced, setShowAdvanced] = useState(false);
+  // Initialize state from localStorage if available
+  const getSavedData = () => {
+    try {
+      const saved = localStorage.getItem(AUTOSAVE_KEY);
+      return saved ? JSON.parse(saved) : null;
+    } catch (error) {
+      console.error('Error loading saved form data:', error);
+      return null;
+    }
+  };
+
+  const savedData = getSavedData();
+
+  const [preferences, setPreferences] = useState(savedData?.preferences || '');
+  const [servings, setServings] = useState(savedData?.servings || 2);
+  const [dietaryRestrictions, setDietaryRestrictions] = useState(savedData?.dietaryRestrictions || '');
+  const [allergies, setAllergies] = useState(savedData?.allergies || '');
+  const [healthGoal, setHealthGoal] = useState(savedData?.healthGoal || '');
+  const [weight, setWeight] = useState(savedData?.weight || '');
+  const [activityLevel, setActivityLevel] = useState(savedData?.activityLevel || 'moderate');
+  const [budgetMin, setBudgetMin] = useState(savedData?.budgetMin || '');
+  const [budgetMax, setBudgetMax] = useState(savedData?.budgetMax || '');
+  const [showAdvanced, setShowAdvanced] = useState(savedData?.showAdvanced || false);
   const [errors, setErrors] = useState({});
+  const [lastSaved, setLastSaved] = useState(savedData ? new Date(savedData.timestamp) : null);
+  
+  const saveTimeoutRef = useRef(null);
+
+  // Autosave effect - debounced
+  useEffect(() => {
+    // Clear existing timeout
+    if (saveTimeoutRef.current) {
+      clearTimeout(saveTimeoutRef.current);
+    }
+
+    // Set new timeout to save data
+    saveTimeoutRef.current = setTimeout(() => {
+      const formData = {
+        preferences,
+        servings,
+        dietaryRestrictions,
+        allergies,
+        healthGoal,
+        weight,
+        activityLevel,
+        budgetMin,
+        budgetMax,
+        showAdvanced,
+        timestamp: new Date().toISOString()
+      };
+
+      try {
+        localStorage.setItem(AUTOSAVE_KEY, JSON.stringify(formData));
+        setLastSaved(new Date());
+      } catch (error) {
+        console.error('Error saving form data:', error);
+      }
+    }, AUTOSAVE_DELAY);
+
+    // Cleanup timeout on unmount
+    return () => {
+      if (saveTimeoutRef.current) {
+        clearTimeout(saveTimeoutRef.current);
+      }
+    };
+  }, [preferences, servings, dietaryRestrictions, allergies, healthGoal, weight, activityLevel, budgetMin, budgetMax, showAdvanced]);
+
+  // Clear saved data
+  const clearSavedData = () => {
+    try {
+      localStorage.removeItem(AUTOSAVE_KEY);
+      setLastSaved(null);
+    } catch (error) {
+      console.error('Error clearing saved data:', error);
+    }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -34,13 +102,32 @@ function MealPlanForm({ onGenerate, loading }) {
     }
     
     setErrors({});
+    clearSavedData(); // Clear autosaved data on successful submission
     onGenerate(preferences, servings, dietaryRestrictions, budgetMin, budgetMax, allergies, healthGoal, weight, activityLevel);
   };
 
   return (
     <div className="meal-plan-form">
-      <h2>Create Your Weekly Meal Plan</h2>
-      <p className="form-subtitle">Fill in the essentials, expand for more options</p>
+      <div className="form-header">
+        <div>
+          <h2>Create Your Weekly Meal Plan</h2>
+          <p className="form-subtitle">Fill in the essentials, expand for more options</p>
+        </div>
+        {lastSaved && (
+          <div className="autosave-indicator">
+            <span className="autosave-icon">💾</span>
+            <span className="autosave-text">Draft saved</span>
+            <button 
+              type="button" 
+              className="clear-draft-btn"
+              onClick={clearSavedData}
+              title="Clear saved draft"
+            >
+              ✕
+            </button>
+          </div>
+        )}
+      </div>
       
       <div className="example-prompts">
         <p className="prompts-label">Quick ideas:</p>

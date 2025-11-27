@@ -324,16 +324,18 @@
 .recipe-modal-content {
   background: white;
   padding: 48px;
+  padding-right: 40px;
   border-radius: 16px;
   max-width: 750px;
   width: 100%;
-  max-height: calc(100vh - 40px);
+  max-height: 85vh;
   overflow-y: scroll;
   overflow-x: hidden;
   position: relative;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
   border: 1px solid #EAEAEA;
   -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
 }
 
 .recipe-modal-content::-webkit-scrollbar {
@@ -488,7 +490,8 @@
 
   .recipe-modal-content {
     padding: 24px 20px;
-    max-height: calc(100vh - 24px);
+    padding-right: 16px;
+    max-height: 90vh;
   }
   
   .recipe-info {

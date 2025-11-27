@@ -155,99 +155,100 @@ function RecipeSearch() {
 
   return (
     <div className="recipe-search">
-      <div className="search-header">
-        <div>
-          <h2>Find Your Perfect Recipe</h2>
-          <p className="search-subtitle">Search by recipe name, ingredient, or cuisine type</p>
+      <div className="search-container">
+        <div className="search-header">
+          <div>
+            <h2>Find Your Perfect Recipe</h2>
+            <p className="search-subtitle">Search by recipe name, ingredient, or cuisine type</p>
+          </div>
+          {lastSaved && (
+            <div className="autosave-indicator">
+              <span className="autosave-icon">💾</span>
+              <span className="autosave-text">Draft saved</span>
+              <button 
+                type="button" 
+                className="clear-draft-btn"
+                onClick={clearSavedData}
+                title="Clear saved draft"
+              >
+                ✕
+              </button>
+            </div>
+          )}
         </div>
-        {lastSaved && (
-          <div className="autosave-indicator">
-            <span className="autosave-icon">💾</span>
-            <span className="autosave-text">Draft saved</span>
-            <button 
-              type="button" 
-              className="clear-draft-btn"
-              onClick={clearSavedData}
-              title="Clear saved draft"
-            >
-              ✕
+
+        <form onSubmit={handleSearch} className="search-form">
+          <div className="search-input-group">
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="e.g., chicken pasta, chocolate cake, thai curry..."
+              disabled={loading}
+              className="search-input"
+            />
+            <button type="submit" disabled={loading} className="search-btn">
+              {loading ? 'Searching...' : 'Search'}
             </button>
           </div>
+        </form>
+
+        {error && (
+          <div className="search-error">
+            <p>{error}</p>
+          </div>
         )}
-      </div>
 
-      <form onSubmit={handleSearch} className="search-form">
-        <div className="search-input-group">
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="e.g., chicken pasta, chocolate cake, thai curry..."
-            disabled={loading}
-            className="search-input"
+        {loading && (
+          <ProgressBar 
+            progress={progress} 
+            message="Finding delicious recipes..."
+            stage={progressStage}
           />
-          <button type="submit" disabled={loading} className="search-btn">
-            {loading ? 'Searching...' : 'Search'}
-          </button>
-        </div>
-      </form>
+        )}
 
-      {error && (
-        <div className="search-error">
-          <p>{error}</p>
-        </div>
-      )}
+        {!loading && !error && recipes.length === 0 && !searchQuery && (
+          <EmptyState
+            icon="search"
+            title="Discover Amazing Recipes"
+            message="Search for recipes by name, ingredient, or cuisine type to get started."
+            tips={[
+              'Try searching for "chicken pasta" or "chocolate cake"',
+              'Search by cuisine: "thai curry", "italian", "mexican"',
+              'Find recipes by ingredient: "salmon", "tofu", "quinoa"'
+            ]}
+          />
+        )}
 
-      {loading && (
-        <ProgressBar 
-          progress={progress} 
-          message="Finding delicious recipes..."
-          stage={progressStage}
-        />
-      )}
+        {!loading && recipes.length === 0 && searchQuery && !error && (
+          <EmptyState
+            icon="search"
+            title="No recipes found"
+            message={`We couldn't find any recipes matching "${searchQuery}". Try different keywords!`}
+            tips={[
+              'Check your spelling',
+              'Try more general terms (e.g., "pasta" instead of specific dish)',
+              'Search for main ingredients or cuisine types'
+            ]}
+            action={() => setSearchQuery('')}
+            actionText="Clear Search"
+          />
+        )}
 
-      {!loading && !error && recipes.length === 0 && !searchQuery && (
-        <EmptyState
-          icon="search"
-          title="Discover Amazing Recipes"
-          message="Search for recipes by name, ingredient, or cuisine type to get started."
-          tips={[
-            'Try searching for "chicken pasta" or "chocolate cake"',
-            'Search by cuisine: "thai curry", "italian", "mexican"',
-            'Find recipes by ingredient: "salmon", "tofu", "quinoa"'
-          ]}
-        />
-      )}
-
-      {!loading && recipes.length === 0 && searchQuery && !error && (
-        <EmptyState
-          icon="search"
-          title="No recipes found"
-          message={`We couldn't find any recipes matching "${searchQuery}". Try different keywords!`}
-          tips={[
-            'Check your spelling',
-            'Try more general terms (e.g., "pasta" instead of specific dish)',
-            'Search for main ingredients or cuisine types'
-          ]}
-          action={() => setSearchQuery('')}
-          actionText="Clear Search"
-        />
-      )}
-
-      {recipes.length > 0 && (
-        <div className="recipes-grid">
-          {recipes.map((recipe, index) => (
-            <div key={index} className="recipe-card">
-              <div className="recipe-card-header">
-                <h3>{recipe.name}</h3>
-                {recipe.cookTime && (
-                  <span className="cook-time">{recipe.cookTime}</span>
-                )}
-              </div>
+        {recipes.length > 0 && (
+          <div className="recipes-grid">
+            {recipes.map((recipe, index) => (
+              <div key={index} className="recipe-card">
+                <div className="recipe-card-header">
+                  <h3>{recipe.name}</h3>
+                  {recipe.cookTime && (
+                    <span className="cook-time">{recipe.cookTime}</span>
+                  )}
+                </div>
               
-              {recipe.description && (
-                <p className="recipe-description">{recipe.description}</p>
-              )}
+                {recipe.description && (
+                  <p className="recipe-description">{recipe.description}</p>
+                )}
 
               <div className="recipe-tags">
                 {recipe.cuisine && (
@@ -336,6 +337,7 @@ function RecipeSearch() {
           </div>
         </div>
       )}
+      </div>
     </div>
   );
 }

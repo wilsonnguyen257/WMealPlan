@@ -214,16 +214,30 @@ function App() {
 
   return (
     <div className="App">
-      <header className="app-header">
+      <header className="app-header" role="banner">
         <div className="header-content">
-          <h1>WMealPlan</h1>
-          <p className="tagline">Your AI-Powered Meal Planning Assistant</p>
+          <div className="brand-section">
+            <h1>WMeal</h1>
+            <p className="tagline">Meal planning that adapts to your life</p>
+          </div>
           <div className="header-actions">
             <button 
               className="saved-plans-toggle"
               onClick={() => setShowSavedPlans(!showSavedPlans)}
+              aria-label={`${showSavedPlans ? 'Hide' : 'View'} saved meal plans. You have ${savedPlansCount} saved plans`}
+              aria-expanded={showSavedPlans}
             >
-              {showSavedPlans ? 'Hide' : 'View'} Saved Plans ({savedPlansCount})
+              <span className="saved-icon">📁</span>
+              <span>Saved Plans</span>
+              {savedPlansCount > 0 && <span className="badge">{savedPlansCount}</span>}
+            </button>
+            <button
+              className="keyboard-hint-btn"
+              onClick={() => setShowShortcuts(true)}
+              aria-label="View keyboard shortcuts"
+              title="Keyboard shortcuts (?)"
+            >
+              <span>⌨️</span>
             </button>
           </div>
         </div>
@@ -237,24 +251,28 @@ function App() {
 
       <main className="app-main">
         <section className="hero-section">
-          <h2>Plan Smarter, Eat Better</h2>
-          <p>Generate personalized weekly meal plans or find recipes from ingredients you already have</p>
+          <h2>Your week's meals, planned in minutes</h2>
+          <p className="hero-description">Smart meal plans, instant grocery lists, and recipe ideas that fit your lifestyle</p>
           <div className="feature-highlights">
             <div className="feature-card">
-              <h3>Weekly Planner</h3>
-              <p>AI-powered 7-day meal plans with detailed recipes & shopping lists</p>
+              <span className="feature-icon" aria-hidden="true">📅</span>
+              <h3>Weekly Plans</h3>
+              <p>7-day plans with recipes, grocery lists, and price estimates</p>
             </div>
             <div className="feature-card">
-              <h3>Recipe Search</h3>
-              <p>Find perfect recipes by name, ingredient, or cuisine</p>
+              <span className="feature-icon" aria-hidden="true">🔍</span>
+              <h3>Recipe Library</h3>
+              <p>Search thousands of recipes by ingredient or cuisine</p>
             </div>
             <div className="feature-card">
-              <h3>Pantry Chef</h3>
-              <p>Turn leftover ingredients into delicious meals</p>
+              <span className="feature-icon" aria-hidden="true">🥘</span>
+              <h3>Use What You Have</h3>
+              <p>Transform pantry staples into delicious meals</p>
             </div>
             <div className="feature-card">
+              <span className="feature-icon" aria-hidden="true">💰</span>
               <h3>Smart Shopping</h3>
-              <p>Price estimates from Coles, Woolworths & Aldi</p>
+              <p>Compare prices across Coles, Woolworths & Aldi</p>
             </div>
           </div>
           
@@ -281,26 +299,38 @@ function App() {
           </div>
         </section>
         
-        <div className="tab-navigation">
+        <nav className="tab-navigation" role="tablist" aria-label="Meal planning options">
           <button 
             className={`tab-btn ${activeTab === 'weekly' ? 'active' : ''}`}
             onClick={() => setActiveTab('weekly')}
+            role="tab"
+            aria-selected={activeTab === 'weekly'}
+            aria-controls="weekly-panel"
           >
-            Weekly Meal Planner
+            <span className="tab-icon">📅</span>
+            <span>Weekly Plans</span>
           </button>
           <button 
             className={`tab-btn ${activeTab === 'pantry' ? 'active' : ''}`}
             onClick={() => setActiveTab('pantry')}
+            role="tab"
+            aria-selected={activeTab === 'pantry'}
+            aria-controls="pantry-panel"
           >
-            Cook from Pantry
+            <span className="tab-icon">🥘</span>
+            <span>Use Pantry</span>
           </button>
           <button 
             className={`tab-btn ${activeTab === 'search' ? 'active' : ''}`}
             onClick={() => setActiveTab('search')}
+            role="tab"
+            aria-selected={activeTab === 'search'}
+            aria-controls="search-panel"
           >
-            Find Recipes
+            <span className="tab-icon">🔍</span>
+            <span>Find Recipes</span>
           </button>
-        </div>
+        </nav>
 
         {activeTab === 'weekly' ? (
           <>
@@ -355,10 +385,10 @@ function App() {
         )}
       </main>
 
-      <footer className="app-footer">
+      <footer className="app-footer" role="contentinfo">
         <div className="footer-content">
-          <p>Made for healthy meal prep</p>
-          <p className="footer-note">Powered by Google Gemini AI</p>
+          <p>Built for home cooks who value their time</p>
+          <p className="footer-note">Powered by AI · Made with care</p>
         </div>
       </footer>
 

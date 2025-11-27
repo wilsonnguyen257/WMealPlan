@@ -1,36 +1,25 @@
 .meal-plan-display {
-  background: #FFFFFF;
-  padding: 40px;
-  border-radius: 16px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
-  border: 1px solid #EAEAEA;
-}
-
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  background: var(--white);
+  padding: var(--space-10);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--gray-200);
 }
 
 .meal-plan-display h2 {
-  color: #222222;
-  margin-bottom: 32px;
-  font-size: 32px;
-  font-weight: 700;
-  letter-spacing: -0.5px;
+  color: var(--gray-900);
+  margin-bottom: var(--space-8);
+  font-size: var(--text-3xl);
+  font-weight: 800;
+  letter-spacing: -0.02em;
 }
 
 .plan-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 32px;
-  gap: 16px;
+  margin-bottom: var(--space-8);
+  gap: var(--space-4);
   flex-wrap: wrap;
 }
 
@@ -40,39 +29,45 @@
 
 .share-buttons {
   display: flex;
-  gap: 8px;
+  gap: var(--space-2);
   flex-wrap: wrap;
 }
 
 .share-btn {
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 10px 16px;
-  border: 1px solid #EAEAEA;
-  border-radius: 12px;
-  background: #FFFFFF;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  border: 1.5px solid var(--gray-200);
+  border-radius: var(--radius-lg);
+  background: var(--white);
   cursor: pointer;
-  transition: all 0.2s ease;
-  font-size: 14px;
-  font-weight: 500;
-  color: #444444;
+  transition: all var(--transition-base);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--gray-700);
   min-height: 44px;
   -webkit-tap-highlight-color: transparent;
 }
 
 .share-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--gray-300);
 }
 
 .share-btn:active {
-  transform: translateY(0);
+  transform: translateY(-1px) scale(1);
 }
 
 .share-icon {
-  font-size: 18px;
+  font-size: var(--text-lg);
   line-height: 1;
+  transition: transform var(--transition-base);
+}
+
+.share-btn:hover .share-icon {
+  transform: rotate(12deg) scale(1.1);
 }
 
 .share-label {

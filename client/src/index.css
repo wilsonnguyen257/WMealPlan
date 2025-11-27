@@ -1,31 +1,94 @@
 /*
-  DESIGN SYSTEM
-  Brand: Fresh, Minimal, Helpful
+  PROFESSIONAL DESIGN SYSTEM
+  Brand: Confident, Helpful, Effortless
   
-  COLORS:
-  - Primary: #4CAF50 (fresh green)
-  - Secondary: #FFB55A (peach highlight)
-  - Background: #FAFAFA (off-white)
-  - Text: #222222 (dark), #444444 (medium)
-  - Neutral: #EAEAEA, #CCCCCC
-  - White: #FFFFFF
+  COLOR PALETTE:
+  Primary: Deep greens for trust and health
+  Accent: Warm orange for energy
+  Neutrals: Modern grays for clarity
   
   TYPOGRAPHY:
-  - Font: Inter
-  - H1: 40px
-  - H2: 32-36px
-  - H3: 28px
-  - Body: 16-18px
-  - Line-height: 1.6
+  Scale: Fluid and responsive
+  Font: Inter (optimized for readability)
   
-  SPACING (8px system):
-  - 8px, 16px, 24px, 32px, 40px
-  
-  INTERACTIONS:
-  - Buttons: Small lift (2px) + shadow
-  - Cards: Scale 1.02
-  - Border radius: 16px (signature)
+  SPACING: 4px base unit for precision
+  INTERACTIONS: Subtle, purposeful motion
 */
+
+:root {
+  /* Primary Colors */
+  --primary-600: #2E7D32;
+  --primary-500: #4CAF50;
+  --primary-400: #66BB6A;
+  --primary-50: #E8F5E9;
+  
+  /* Accent Colors */
+  --accent-600: #E65100;
+  --accent-500: #FF9800;
+  --accent-400: #FFB74D;
+  --accent-50: #FFF3E0;
+  
+  /* Neutral Grays */
+  --gray-900: #1A1A1A;
+  --gray-800: #2D3748;
+  --gray-700: #374151;
+  --gray-600: #4B5563;
+  --gray-500: #6B7280;
+  --gray-400: #9CA3AF;
+  --gray-300: #D1D5DB;
+  --gray-200: #E5E7EB;
+  --gray-100: #F3F4F6;
+  --gray-50: #F9FAFB;
+  --white: #FFFFFF;
+  
+  /* Semantic Colors */
+  --success: #10B981;
+  --error: #EF4444;
+  --warning: #F59E0B;
+  --info: #3B82F6;
+  
+  /* Typography Scale */
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --text-4xl: 2.25rem;
+  --text-5xl: 3rem;
+  
+  /* Spacing Scale (4px base) */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  
+  /* Border Radius */
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+  --radius-full: 9999px;
+  
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  
+  /* Transitions */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+}
 
 * {
   margin: 0;
@@ -37,10 +100,10 @@ body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: #FAFAFA;
+  background: var(--gray-50);
   min-height: 100vh;
-  color: #222222;
-  font-size: 16px;
+  color: var(--gray-900);
+  font-size: var(--text-base);
   line-height: 1.6;
 }
 
@@ -59,15 +122,26 @@ html {
 }
 
 ::-webkit-scrollbar-track {
-  background: #EAEAEA;
+  background: var(--gray-200);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #4CAF50;
-  border-radius: 16px;
+  background: var(--primary-500);
+  border-radius: var(--radius-lg);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #45a049;
+  background: var(--primary-600);
+}
+
+/* Focus visible for accessibility */
+*:focus-visible {
+  outline: 2px solid var(--primary-500);
+  outline-offset: 2px;
+}
+
+/* Remove default focus for mouse users */
+*:focus:not(:focus-visible) {
+  outline: none;
 }
 

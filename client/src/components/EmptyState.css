@@ -1,26 +1,15 @@
 .empty-state {
   text-align: center;
-  padding: 64px 32px;
+  padding: var(--space-16) var(--space-8);
   max-width: 500px;
   margin: 0 auto;
   animation: fadeIn 0.4s ease;
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
 .empty-icon {
   width: 160px;
   height: 160px;
-  margin: 0 auto 24px;
+  margin: 0 auto var(--space-6);
   animation: float 3s ease-in-out infinite;
 }
 
@@ -34,34 +23,34 @@
 }
 
 .empty-title {
-  color: #222222;
-  font-size: 24px;
-  font-weight: 700;
-  margin-bottom: 12px;
-  letter-spacing: -0.5px;
+  color: var(--gray-900);
+  font-size: var(--text-2xl);
+  font-weight: 800;
+  margin-bottom: var(--space-3);
+  letter-spacing: -0.02em;
 }
 
 .empty-message {
-  color: #666666;
-  font-size: 16px;
+  color: var(--gray-600);
+  font-size: var(--text-base);
   line-height: 1.6;
-  margin-bottom: 24px;
+  margin-bottom: var(--space-6);
 }
 
 .empty-tips {
-  background: #FAFAFA;
-  border-radius: 16px;
-  padding: 20px 24px;
-  margin-bottom: 24px;
-  border: 2px solid #EAEAEA;
+  background: var(--gray-50);
+  border-radius: var(--radius-xl);
+  padding: var(--space-5) var(--space-6);
+  margin-bottom: var(--space-6);
+  border: 2px solid var(--gray-200);
   text-align: left;
 }
 
 .tips-label {
-  color: #222222;
-  font-size: 14px;
+  color: var(--gray-900);
+  font-size: var(--text-sm);
   font-weight: 700;
-  margin-bottom: 12px;
+  margin-bottom: var(--space-3);
 }
 
 .tips-list {
@@ -71,12 +60,12 @@
 }
 
 .tips-list li {
-  color: #444444;
-  font-size: 14px;
+  color: var(--gray-700);
+  font-size: var(--text-sm);
   line-height: 1.8;
-  padding-left: 24px;
+  padding-left: var(--space-6);
   position: relative;
-  margin-bottom: 8px;
+  margin-bottom: var(--space-2);
 }
 
 .tips-list li:last-child {
@@ -87,17 +76,17 @@
   content: '→';
   position: absolute;
   left: 0;
-  color: #4CAF50;
+  color: var(--primary-600);
   font-weight: 700;
 }
 
 .empty-action-btn {
-  padding: 14px 32px;
-  background: #4CAF50;
-  color: white;
+  padding: var(--space-4) var(--space-8);
+  background: linear-gradient(135deg, var(--primary-600) 0%, var(--primary-500) 100%);
+  color: var(--white);
   border: none;
-  border-radius: 16px;
-  font-size: 16px;
+  border-radius: var(--radius-xl);
+  font-size: var(--text-base);
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;

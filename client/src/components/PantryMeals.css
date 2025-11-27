@@ -1,29 +1,18 @@
 .pantry-meals-section {
-  background: #FFFFFF;
-  padding: 40px;
-  border-radius: 16px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
-  margin-bottom: 40px;
-  border: 1px solid #EAEAEA;
-}
-
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  background: var(--white);
+  padding: var(--space-10);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-sm);
+  margin-bottom: var(--space-10);
+  border: 1px solid var(--gray-200);
 }
 
 .pantry-header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  gap: 16px;
-  margin-bottom: 32px;
+  gap: var(--space-4);
+  margin-bottom: var(--space-8);
   text-align: left;
 }
 
@@ -32,16 +21,16 @@
 }
 
 .pantry-header h2 {
-  color: #FFB55A;
-  font-size: 36px;
-  font-weight: 700;
-  margin-bottom: 8px;
-  letter-spacing: -0.5px;
+  color: var(--accent-500);
+  font-size: var(--text-4xl);
+  font-weight: 800;
+  margin-bottom: var(--space-2);
+  letter-spacing: -0.02em;
 }
 
 .pantry-header p {
-  color: #444444;
-  font-size: 18px;
+  color: var(--gray-600);
+  font-size: var(--text-lg);
 }
 
 .pantry-form {
@@ -51,20 +40,26 @@
 
 .pantry-form textarea {
   width: 100%;
-  padding: 16px;
-  border: 1px solid #CCCCCC;
-  border-radius: 16px;
-  font-size: 16px;
+  padding: var(--space-4);
+  border: 1.5px solid var(--gray-300);
+  border-radius: var(--radius-xl);
+  font-size: var(--text-base);
   font-family: inherit;
-  transition: all 0.2s ease;
-  background: #FFFFFF;
+  transition: all var(--transition-base);
+  background: var(--white);
   resize: vertical;
-  color: #222222;
+  color: var(--gray-900);
   line-height: 1.6;
 }
 
 .pantry-form textarea:hover {
-  border-color: #FFB55A;
+  border-color: var(--accent-400);
+}
+
+.pantry-form textarea:focus {
+  outline: none;
+  border-color: var(--accent-500);
+  box-shadow: 0 0 0 3px var(--accent-100);
 }
 
 .autosave-indicator {

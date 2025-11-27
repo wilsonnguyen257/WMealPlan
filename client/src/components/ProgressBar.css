@@ -1,43 +1,43 @@
 .progress-container {
   text-align: center;
-  padding: 48px 32px;
+  padding: var(--space-12) var(--space-8);
   max-width: 600px;
   margin: 0 auto;
 }
 
 .progress-info {
-  margin-bottom: 24px;
+  margin-bottom: var(--space-6);
 }
 
 .progress-message {
-  color: #222222;
-  font-size: 20px;
-  font-weight: 700;
-  margin-bottom: 8px;
+  color: var(--gray-900);
+  font-size: var(--text-xl);
+  font-weight: 800;
+  margin-bottom: var(--space-2);
 }
 
 .progress-stage {
-  color: #666666;
-  font-size: 16px;
-  font-weight: 500;
+  color: var(--gray-600);
+  font-size: var(--text-base);
+  font-weight: 600;
   margin: 0;
 }
 
 .progress-bar-wrapper {
   width: 100%;
   height: 12px;
-  background: #EAEAEA;
-  border-radius: 16px;
+  background: var(--gray-200);
+  border-radius: var(--radius-full);
   overflow: hidden;
   box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
-  margin-bottom: 12px;
+  margin-bottom: var(--space-3);
   position: relative;
 }
 
 .progress-bar-fill {
   height: 100%;
-  background: linear-gradient(90deg, #4CAF50 0%, #66BB6A 100%);
-  border-radius: 16px;
+  background: linear-gradient(90deg, var(--primary-600) 0%, var(--primary-400) 100%);
+  border-radius: var(--radius-full);
   transition: width 0.4s ease;
   position: relative;
   overflow: hidden;

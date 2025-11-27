@@ -1,78 +1,67 @@
 .meal-plan-form {
-  background: #FFFFFF;
-  padding: 40px;
-  border-radius: 16px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
-  transition: all 0.2s ease;
-  border: 1px solid #EAEAEA;
-}
-
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  background: var(--white);
+  padding: var(--space-10);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-base);
+  border: 1px solid var(--gray-200);
 }
 
 .meal-plan-form:hover {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--shadow-md);
 }
 
 .meal-plan-form h2 {
-  color: #222222;
-  margin-bottom: 8px;
-  font-size: 32px;
-  font-weight: 700;
-  letter-spacing: -0.5px;
+  color: var(--gray-900);
+  margin-bottom: var(--space-2);
+  font-size: var(--text-3xl);
+  font-weight: 800;
+  letter-spacing: -0.02em;
 }
 
 .form-header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  gap: 16px;
+  gap: var(--space-4);
   margin-bottom: 0;
 }
 
 .autosave-indicator {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 8px 12px;
-  background: #E8F5E9;
-  border: 1px solid #4CAF50;
-  border-radius: 8px;
-  font-size: 13px;
-  color: #2E7D32;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  background: var(--primary-50);
+  border: 1px solid var(--primary-300);
+  border-radius: var(--radius-md);
+  font-size: var(--text-xs);
+  color: var(--primary-700);
   animation: fadeIn 0.3s ease;
   flex-shrink: 0;
 }
 
 .autosave-icon {
-  font-size: 16px;
+  font-size: var(--text-base);
   line-height: 1;
 }
 
 .autosave-text {
-  font-weight: 500;
+  font-weight: 600;
   white-space: nowrap;
 }
 
 .clear-draft-btn {
   background: transparent;
   border: none;
-  color: #2E7D32;
+  color: var(--primary-700);
   cursor: pointer;
-  padding: 0 4px;
-  font-size: 14px;
+  padding: 0 var(--space-1);
+  font-size: var(--text-sm);
   line-height: 1;
-  opacity: 0.6;
-  transition: opacity 0.2s ease;
-  margin-left: 4px;
+  opacity: 0.7;
+  transition: opacity var(--transition-fast);
+  margin-left: var(--space-1);
 }
 
 .clear-draft-btn:hover {
@@ -95,53 +84,75 @@
 }
 
 .form-subtitle {
-  color: #444444;
-  font-size: 16px;
-  margin-bottom: 24px;
+  color: var(--gray-600);
+  font-size: var(--text-base);
+  margin-bottom: var(--space-6);
   line-height: 1.6;
 }
 
 .example-prompts {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: var(--space-2);
   align-items: center;
-  margin-bottom: 32px;
-  padding: 16px;
-  background: #FAFAFA;
-  border-radius: 12px;
-  border: 1px solid #EAEAEA;
+  margin-bottom: var(--space-8);
+  padding: var(--space-4);
+  background: var(--gray-50);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--gray-200);
+  animation: slideUp 0.5s ease-out 0.2s backwards;
 }
 
 .prompts-label {
-  font-size: 14px;
-  color: #666666;
-  font-weight: 600;
+  font-size: var(--text-sm);
+  color: var(--gray-600);
+  font-weight: 700;
   margin: 0;
-  margin-right: 8px;
+  margin-right: var(--space-2);
 }
 
 .prompt-chip {
-  padding: 8px 16px;
-  background: white;
-  border: 2px solid #EAEAEA;
-  border-radius: 20px;
-  color: #444444;
-  font-size: 14px;
-  font-weight: 500;
+  padding: var(--space-2) var(--space-4);
+  background: var(--white);
+  border: 2px solid var(--gray-200);
+  border-radius: var(--radius-full);
+  color: var(--gray-700);
+  font-size: var(--text-sm);
+  font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all var(--transition-base);
   min-height: 44px;
   display: inline-flex;
   align-items: center;
   -webkit-tap-highlight-color: transparent;
+  position: relative;
+  overflow: hidden;
+}
+
+.prompt-chip::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: var(--primary-100);
+  transform: translate(-50%, -50%);
+  transition: width 0.4s, height 0.4s;
+}
+
+.prompt-chip:hover:not(:disabled)::before {
+  width: 200px;
+  height: 200px;
 }
 
 .prompt-chip:hover:not(:disabled) {
-  background: #4CAF50;
-  color: white;
-  border-color: #4CAF50;
+  background: var(--primary-500);
+  color: var(--white);
+  border-color: var(--primary-500);
   transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
 }
 
 .prompt-chip:active:not(:disabled) {

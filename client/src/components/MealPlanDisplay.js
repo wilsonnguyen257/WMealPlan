@@ -121,41 +121,45 @@ function MealPlanDisplay({ mealPlan, recipes }) {
 
       {selectedRecipe && (
         <div className="recipe-modal" onClick={() => setSelectedRecipe(null)}>
-          <div className="recipe-modal-content" onClick={(e) => e.stopPropagation()}>
-            <button className="close-btn" onClick={() => setSelectedRecipe(null)}>×</button>
-            
-            <h2>{selectedRecipe.name}</h2>
-            
-            <div className="recipe-meta">
-              <span>{selectedRecipe.servings} servings</span>
-              <span>Prep: {selectedRecipe.prepTime}</span>
-              <span>Cook: {selectedRecipe.cookTime}</span>
-            </div>
-
-            <div className="recipe-section">
-              <h3>Ingredients</h3>
-              <ul>
-                {selectedRecipe.ingredients.map((ingredient, idx) => (
-                  <li key={idx}>{ingredient}</li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="recipe-section">
-              <h3>Instructions</h3>
-              <ol>
-                {selectedRecipe.instructions.map((instruction, idx) => (
-                  <li key={idx}>{instruction}</li>
-                ))}
-              </ol>
-            </div>
-
-            {selectedRecipe.storageInstructions && (
-              <div className="recipe-section storage">
-                <h3>Storage & Reheating</h3>
-                <p>{selectedRecipe.storageInstructions}</p>
+          <div className="recipe-modal-wrapper" onClick={(e) => e.stopPropagation()}>
+            <div className="recipe-modal-header">
+              <div className="recipe-header-content">
+                <h2>{selectedRecipe.name}</h2>
+                <div className="recipe-meta">
+                  <span>🍽️ {selectedRecipe.servings} servings</span>
+                  <span>⏱️ Prep: {selectedRecipe.prepTime}</span>
+                  <span>🔥 Cook: {selectedRecipe.cookTime}</span>
+                </div>
               </div>
-            )}
+              <button className="close-btn" onClick={() => setSelectedRecipe(null)}>×</button>
+            </div>
+            
+            <div className="recipe-modal-body">
+              <div className="recipe-section">
+                <h3>Ingredients</h3>
+                <ul>
+                  {selectedRecipe.ingredients.map((ingredient, idx) => (
+                    <li key={idx}>{ingredient}</li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="recipe-section">
+                <h3>Instructions</h3>
+                <ol>
+                  {selectedRecipe.instructions.map((instruction, idx) => (
+                    <li key={idx}>{instruction}</li>
+                  ))}
+                </ol>
+              </div>
+
+              {selectedRecipe.storageInstructions && (
+                <div className="recipe-section storage">
+                  <h3>Storage & Reheating</h3>
+                  <p>{selectedRecipe.storageInstructions}</p>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       )}

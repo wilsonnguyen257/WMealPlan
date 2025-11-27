@@ -275,52 +275,56 @@ function PantryMeals() {
 
       {selectedRecipe && (
         <div className="recipe-modal" onClick={() => setSelectedRecipe(null)}>
-          <div className="recipe-modal-content" onClick={(e) => e.stopPropagation()}>
-            <button className="close-btn" onClick={() => setSelectedRecipe(null)}>×</button>
-            
-            <h2>{selectedRecipe.name}</h2>
-            
-            <div className="recipe-info">
-              <span><strong>Prep:</strong> {selectedRecipe.prepTime}</span>
-              <span><strong>Cook:</strong> {selectedRecipe.cookTime}</span>
-              <span><strong>Servings:</strong> {selectedRecipe.servings}</span>
+          <div className="recipe-modal-wrapper" onClick={(e) => e.stopPropagation()}>
+            <div className="recipe-modal-header">
+              <div className="recipe-header-content">
+                <h2>{selectedRecipe.name}</h2>
+                <div className="recipe-info">
+                  <span>🍽️ {selectedRecipe.servings} servings</span>
+                  <span>⏱️ Prep: {selectedRecipe.prepTime}</span>
+                  <span>🔥 Cook: {selectedRecipe.cookTime}</span>
+                </div>
+              </div>
+              <button className="close-btn" onClick={() => setSelectedRecipe(null)}>×</button>
             </div>
-
-            <div className="recipe-section">
-              <h3>Ingredients</h3>
-              <ul>
-                {selectedRecipe.ingredients.map((ing, idx) => (
-                  <li key={idx}>{ing}</li>
-                ))}
-              </ul>
-            </div>
-
-            {selectedRecipe.missingIngredients && selectedRecipe.missingIngredients.length > 0 && (
-              <div className="recipe-section missing-alert">
-                <h3>Missing Ingredients</h3>
+            
+            <div className="recipe-modal-body">
+              <div className="recipe-section">
+                <h3>Ingredients</h3>
                 <ul>
-                  {selectedRecipe.missingIngredients.map((ing, idx) => (
+                  {selectedRecipe.ingredients.map((ing, idx) => (
                     <li key={idx}>{ing}</li>
                   ))}
                 </ul>
               </div>
-            )}
 
-            <div className="recipe-section">
-              <h3>Instructions</h3>
-              <ol>
-                {selectedRecipe.instructions.map((step, idx) => (
-                  <li key={idx}>{step}</li>
-                ))}
-              </ol>
-            </div>
+              {selectedRecipe.missingIngredients && selectedRecipe.missingIngredients.length > 0 && (
+                <div className="recipe-section missing-alert">
+                  <h3>⚠️ Missing Ingredients</h3>
+                  <ul>
+                    {selectedRecipe.missingIngredients.map((ing, idx) => (
+                      <li key={idx}>{ing}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
 
-            {selectedRecipe.tips && (
-              <div className="recipe-section tips">
-                <h3>Tips</h3>
-                <p>{selectedRecipe.tips}</p>
+              <div className="recipe-section">
+                <h3>Instructions</h3>
+                <ol>
+                  {selectedRecipe.instructions.map((step, idx) => (
+                    <li key={idx}>{step}</li>
+                  ))}
+                </ol>
               </div>
-            )}
+
+              {selectedRecipe.tips && (
+                <div className="recipe-section tips">
+                  <h3>💡 Tips</h3>
+                  <p>{selectedRecipe.tips}</p>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       )}

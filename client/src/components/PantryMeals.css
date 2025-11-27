@@ -315,10 +315,12 @@
   background: rgba(0, 0, 0, 0.6);
   backdrop-filter: blur(4px);
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   z-index: 1000;
   padding: 32px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .recipe-modal-content {
@@ -327,13 +329,10 @@
   border-radius: 16px;
   max-width: 750px;
   width: 100%;
-  max-height: 90vh;
-  overflow-y: auto;
-  overflow-x: hidden;
+  margin: 40px auto;
   position: relative;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
   border: 1px solid #EAEAEA;
-  -webkit-overflow-scrolling: touch;
 }
 
 .close-btn {
@@ -466,13 +465,11 @@
 
   .recipe-modal {
     padding: 16px;
-    align-items: flex-start;
   }
 
   .recipe-modal-content {
     padding: 24px 20px;
-    max-height: 95vh;
-    margin-top: 20px;
+    margin: 20px auto;
   }
   
   .recipe-info {

@@ -484,11 +484,13 @@
   }
 
   .recipe-modal {
-    padding: 12px;
+    padding: 16px;
+    align-items: flex-start;
   }
 
   .recipe-modal-content {
-    max-height: 92vh;
+    max-height: 95vh;
+    margin-top: 20px;
     border-radius: 12px;
   }
 

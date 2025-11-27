@@ -326,11 +326,14 @@
   padding: 48px;
   border-radius: 16px;
   max-width: 750px;
+  width: 100%;
   max-height: 90vh;
   overflow-y: auto;
+  overflow-x: hidden;
   position: relative;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
   border: 1px solid #EAEAEA;
+  -webkit-overflow-scrolling: touch;
 }
 
 .close-btn {
@@ -461,8 +464,15 @@
     grid-template-columns: 1fr;
   }
 
+  .recipe-modal {
+    padding: 16px;
+    align-items: flex-start;
+  }
+
   .recipe-modal-content {
-    padding: 32px;
+    padding: 24px 20px;
+    max-height: 95vh;
+    margin-top: 20px;
   }
   
   .recipe-info {

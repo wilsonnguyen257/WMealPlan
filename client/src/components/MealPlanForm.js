@@ -42,6 +42,42 @@ function MealPlanForm({ onGenerate, loading }) {
       <h2>Create Your Weekly Meal Plan</h2>
       <p className="form-subtitle">Fill in the essentials, expand for more options</p>
       
+      <div className="example-prompts">
+        <p className="prompts-label">Quick ideas:</p>
+        <button 
+          type="button" 
+          className="prompt-chip"
+          onClick={() => setPreferences('healthy mediterranean meals')}
+          disabled={loading}
+        >
+          Mediterranean
+        </button>
+        <button 
+          type="button" 
+          className="prompt-chip"
+          onClick={() => setPreferences('quick 30-minute meals')}
+          disabled={loading}
+        >
+          Quick & Easy
+        </button>
+        <button 
+          type="button" 
+          className="prompt-chip"
+          onClick={() => setPreferences('high protein low carb')}
+          disabled={loading}
+        >
+          High Protein
+        </button>
+        <button 
+          type="button" 
+          className="prompt-chip"
+          onClick={() => setPreferences('budget-friendly family meals')}
+          disabled={loading}
+        >
+          Budget Friendly
+        </button>
+      </div>
+      
       <form onSubmit={handleSubmit}>
         {/* Essential Information */}
         <div className="form-section essential">

@@ -33,8 +33,52 @@
 .form-subtitle {
   color: #444444;
   font-size: 16px;
-  margin-bottom: 32px;
+  margin-bottom: 24px;
   line-height: 1.6;
+}
+
+.example-prompts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 32px;
+  padding: 16px;
+  background: #FAFAFA;
+  border-radius: 12px;
+  border: 1px solid #EAEAEA;
+}
+
+.prompts-label {
+  font-size: 14px;
+  color: #666666;
+  font-weight: 600;
+  margin: 0;
+  margin-right: 8px;
+}
+
+.prompt-chip {
+  padding: 8px 16px;
+  background: white;
+  border: 2px solid #EAEAEA;
+  border-radius: 20px;
+  color: #444444;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.prompt-chip:hover:not(:disabled) {
+  background: #4CAF50;
+  color: white;
+  border-color: #4CAF50;
+  transform: translateY(-2px);
+}
+
+.prompt-chip:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 .form-section.essential {

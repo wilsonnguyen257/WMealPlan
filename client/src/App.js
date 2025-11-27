@@ -164,15 +164,41 @@ function App() {
           <div className="feature-highlights">
             <div className="feature-card">
               <h3>Weekly Planner</h3>
-              <p>7-day meal plans with recipes & shopping lists</p>
+              <p>AI-powered 7-day meal plans with detailed recipes & shopping lists</p>
+            </div>
+            <div className="feature-card">
+              <h3>Recipe Search</h3>
+              <p>Find perfect recipes by name, ingredient, or cuisine</p>
             </div>
             <div className="feature-card">
               <h3>Pantry Chef</h3>
-              <p>Cook from what you have at home</p>
+              <p>Turn leftover ingredients into delicious meals</p>
             </div>
             <div className="feature-card">
-              <h3>Budget Friendly</h3>
-              <p>Price estimates from local stores</p>
+              <h3>Smart Shopping</h3>
+              <p>Price estimates from Coles, Woolworths & Aldi</p>
+            </div>
+          </div>
+          
+          <div className="how-it-works">
+            <h3>How It Works</h3>
+            <div className="steps">
+              <div className="step">
+                <span className="step-number">1</span>
+                <p>Choose your preferences and serving size</p>
+              </div>
+              <div className="step">
+                <span className="step-number">2</span>
+                <p>AI generates personalized meal plan in seconds</p>
+              </div>
+              <div className="step">
+                <span className="step-number">3</span>
+                <p>Get recipes, grocery list & price estimates</p>
+              </div>
+              <div className="step">
+                <span className="step-number">4</span>
+                <p>Save favorites and shop with confidence</p>
+              </div>
             </div>
           </div>
         </section>

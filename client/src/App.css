@@ -141,15 +141,15 @@
 
 .feature-highlights {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 24px;
-  max-width: 900px;
-  margin: 0 auto;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  max-width: 1000px;
+  margin: 0 auto 48px;
 }
 
 .feature-card {
   background: #FFFFFF;
-  padding: 32px 24px;
+  padding: 28px 20px;
   border-radius: 16px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
   transition: all 0.2s ease;
@@ -159,20 +159,68 @@
 .feature-card:hover {
   transform: scale(1.02);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border-color: #4CAF50;
 }
 
 .feature-card h3 {
   color: #222222;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 600;
   margin-bottom: 8px;
   letter-spacing: -0.3px;
 }
 
 .feature-card p {
-  color: #444444;
-  font-size: 16px;
+  color: #666666;
+  font-size: 14px;
   line-height: 1.6;
+}
+
+.how-it-works {
+  margin-top: 48px;
+  padding-top: 48px;
+  border-top: 2px solid #EAEAEA;
+}
+
+.how-it-works h3 {
+  color: #222222;
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 32px;
+  text-align: center;
+}
+
+.steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 24px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.step {
+  text-align: center;
+  padding: 24px 16px;
+}
+
+.step-number {
+  display: inline-block;
+  width: 48px;
+  height: 48px;
+  line-height: 48px;
+  border-radius: 50%;
+  background: #4CAF50;
+  color: white;
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.step p {
+  color: #444444;
+  font-size: 15px;
+  line-height: 1.6;
+  margin: 0;
 }
 
 .tab-navigation {

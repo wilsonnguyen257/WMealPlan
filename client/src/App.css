@@ -328,13 +328,15 @@
 
 .save-bar {
   grid-column: 1 / -1;
-  text-align: center;
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  align-items: center;
   margin-bottom: 1rem;
 }
 
-.save-btn {
+.save-btn, .export-btn {
   padding: 18px 40px;
-  background: #4CAF50;
   color: white;
   border: none;
   border-radius: 16px;
@@ -345,12 +347,25 @@
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
 }
 
-.save-btn:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 25px rgba(17, 153, 142, 0.5);
+.save-btn {
+  background: #4CAF50;
 }
 
-.save-btn:active {
+.save-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(76, 175, 80, 0.4);
+}
+
+.export-btn {
+  background: #FFB55A;
+}
+
+.export-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(255, 181, 90, 0.4);
+}
+
+.save-btn:active, .export-btn:active {
   transform: translateY(-1px);
 }
 

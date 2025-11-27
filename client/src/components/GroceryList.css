@@ -24,6 +24,11 @@
   margin-bottom: 24px;
 }
 
+.grocery-actions {
+  display: flex;
+  gap: 8px;
+}
+
 .grocery-list h2 {
   color: #222222;
   font-size: 32px;
@@ -32,8 +37,7 @@
   letter-spacing: -0.5px;
 }
 
-.print-btn {
-  background: #4CAF50;
+.print-btn, .export-btn {
   color: white;
   border: none;
   padding: 12px 24px;
@@ -42,12 +46,26 @@
   font-size: 16px;
   font-weight: 600;
   transition: all 0.2s ease;
+}
+
+.print-btn {
+  background: #4CAF50;
   box-shadow: 0 2px 8px rgba(76, 175, 80, 0.2);
 }
 
 .print-btn:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+}
+
+.export-btn {
+  background: #FFB55A;
+  box-shadow: 0 2px 8px rgba(255, 181, 90, 0.2);
+}
+
+.export-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 181, 90, 0.3);
 }
 
 .grocery-category {

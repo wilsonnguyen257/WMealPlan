@@ -9,6 +9,7 @@ import SavedMealPlans from './components/SavedMealPlans';
 import PantryMeals from './components/PantryMeals';
 import RecipeSearch from './components/RecipeSearch';
 import Toast from './components/Toast';
+import { exportMealPlanToPDF } from './utils/pdfExport';
 
 function App() {
   const [mealPlan, setMealPlan] = useState(null);
@@ -247,6 +248,18 @@ function App() {
                 <div className="save-bar">
                   <button onClick={saveMealPlan} className="save-btn">
                     Save This Meal Plan
+                  </button>
+                  <button 
+                    onClick={() => exportMealPlanToPDF(
+                      mealPlan.mealPlan, 
+                      mealPlan.recipes, 
+                      mealPlan.groceryList, 
+                      mealPlan.prepInstructions,
+                      formData
+                    )} 
+                    className="export-btn"
+                  >
+                    Download PDF
                   </button>
                 </div>
                 <MealPlanDisplay mealPlan={mealPlan.mealPlan} recipes={mealPlan.recipes} />

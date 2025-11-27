@@ -104,6 +104,13 @@ Dietary restrictions: ${dietaryRestrictions || 'none'}${budgetText}${healthText}
 
 IMPORTANT: Respond ONLY with valid JSON. No markdown, no explanations, just the JSON object.
 
+MEASUREMENT UNITS - CRITICAL:
+- Use METRIC measurements ONLY (Australian standard)
+- Weights: grams (g) or kilograms (kg) - NOT pounds, lbs, or ounces
+- Liquids: millilitres (ml) or litres (L) - NOT cups, fluid ounces, or pints
+- Examples: "500g chicken breast", "200ml milk", "1.5kg potatoes", "250ml cream"
+- Temperature: Celsius (°C) - NOT Fahrenheit
+
 For the grocery list, EXCLUDE common kitchen staples that most people already have:
 - Do NOT include: salt, pepper, olive oil, vegetable oil, flour, sugar, baking powder, baking soda, butter, garlic, onions (small amounts)
 - ONLY include items that need to be specifically purchased for these recipes
@@ -188,6 +195,13 @@ app.post('/api/generate-recipe', async (req, res) => {
     const { recipeName, servings = 2 } = req.body;
 
     const prompt = `Create a detailed recipe for "${recipeName}" that serves ${servings} people and is suitable for meal prep.
+
+MEASUREMENT UNITS - CRITICAL:
+- Use METRIC measurements ONLY (Australian standard)
+- Weights: grams (g) or kilograms (kg) - NOT pounds, lbs, or ounces
+- Liquids: millilitres (ml) or litres (L) - NOT cups, fluid ounces, or pints
+- Examples: "500g chicken", "200ml milk", "2kg beef", "100ml oil"
+- Temperature: Celsius (°C) - NOT Fahrenheit
 
 Provide the response as a JSON object with this structure:
 {
@@ -342,6 +356,13 @@ Find 6-8 diverse recipes that match the search query. The query might be:
 - A cuisine type (e.g., "italian", "thai", "mexican")
 - A meal type (e.g., "breakfast", "dessert", "appetizer")
 
+MEASUREMENT UNITS - CRITICAL:
+- Use METRIC measurements ONLY (Australian standard)
+- Weights: grams (g) or kilograms (kg) - NOT pounds, lbs, or ounces
+- Liquids: millilitres (ml) or litres (L) - NOT cups, fluid ounces, or pints
+- Examples: "300g pasta", "150ml water", "1kg chicken", "50ml olive oil"
+- Temperature: Celsius (°C) - NOT Fahrenheit
+
 For each recipe, provide:
 - name: Recipe name
 - description: Brief 1-2 sentence description
@@ -423,6 +444,13 @@ Available ingredients: ${pantryItems}
 Servings needed: ${servings}
 
 Generate 3-5 different meal ideas using primarily these ingredients. For each recipe, identify which ingredients from the list you're using and which additional common items (if any) are needed.
+
+MEASUREMENT UNITS - CRITICAL:
+- Use METRIC measurements ONLY (Australian standard)
+- Weights: grams (g) or kilograms (kg) - NOT pounds, lbs, or ounces
+- Liquids: millilitres (ml) or litres (L) - NOT cups, fluid ounces, or pints
+- Examples: "400g rice", "250ml broth", "500g vegetables"
+- Temperature: Celsius (°C) - NOT Fahrenheit
 
 IMPORTANT: Respond ONLY with valid JSON. No markdown, no explanations.
 

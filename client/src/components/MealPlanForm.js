@@ -242,14 +242,19 @@ function MealPlanForm({ onGenerate, loading }) {
 
               <div className="form-row">
                 <div className="form-group">
-                  <label htmlFor="weight">Current Weight (kg)</label>
+                  <label htmlFor="weight">
+                    Current Weight (kg)
+                    <span className="optional-hint"> • Optional</span>
+                  </label>
                   <input
                     type="number"
                     id="weight"
                     value={weight}
                     onChange={(e) => setWeight(e.target.value)}
-                    placeholder="e.g., 70"
-                    min="0"
+                    placeholder="e.g., 70 kg (adults: 50-100 kg)"
+                    min="20"
+                    max="300"
+                    step="0.5"
                     disabled={loading}
                   />
                   {errors.weight && <span className="error-hint">{errors.weight}</span>}

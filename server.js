@@ -103,7 +103,6 @@ Servings per meal: ${servings}
 Dietary restrictions: ${dietaryRestrictions || 'none'}${budgetText}${healthText}
 
 IMPORTANT: Respond ONLY with valid JSON. No markdown, no explanations, just the JSON object.
-${servings > 3 ? '\nNote: Keep recipes simple and practical for larger batch cooking. Focus on efficient meal prep.' : ''}
 
 For the grocery list, EXCLUDE common kitchen staples that most people already have:
 - Do NOT include: salt, pepper, olive oil, vegetable oil, flour, sugar, baking powder, baking soda, butter, garlic, onions (small amounts)

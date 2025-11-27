@@ -4,6 +4,9 @@ import './SavedMealPlans.css';
 function SavedMealPlans({ onLoadPlan, onClose }) {
   const [savedPlans, setSavedPlans] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filterDiet, setFilterDiet] = useState('all');
+  const [sortBy, setSortBy] = useState('newest');
 
   const fetchSavedPlans = async () => {
     setLoading(true);
@@ -23,6 +26,60 @@ function SavedMealPlans({ onLoadPlan, onClose }) {
   useEffect(() => {
     fetchSavedPlans();
   }, []);
+
+  // Get unique dietary restrictions from all plans
+  const getDietaryOptions = () => {
+    const diets = new Set();
+    savedPlans.forEach(plan => {
+      if (plan.dietaryRestrictions) {
+        // Split multiple restrictions and add each one
+        plan.dietaryRestrictions.split(',').forEach(diet => {
+          diets.add(diet.trim());
+        });
+      }
+    });
+    return Array.from(diets).sort();
+  };
+
+  // Filter and sort plans
+  const getFilteredPlans = () => {
+    let filtered = [...savedPlans];
+
+    // Filter by search term (name or preferences)
+    if (searchTerm) {
+      filtered = filtered.filter(plan => 
+        plan.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        (plan.preferences && plan.preferences.toLowerCase().includes(searchTerm.toLowerCase())) ||
+        (plan.dietaryRestrictions && plan.dietaryRestrictions.toLowerCase().includes(searchTerm.toLowerCase()))
+      );
+    }
+
+    // Filter by dietary restriction
+    if (filterDiet !== 'all') {
+      filtered = filtered.filter(plan => 
+        plan.dietaryRestrictions && plan.dietaryRestrictions.includes(filterDiet)
+      );
+    }
+
+    // Sort plans
+    filtered.sort((a, b) => {
+      switch(sortBy) {
+        case 'newest':
+          return new Date(b.created_at) - new Date(a.created_at);
+        case 'oldest':
+          return new Date(a.created_at) - new Date(b.created_at);
+        case 'name':
+          return a.name.localeCompare(b.name);
+        default:
+          return 0;
+      }
+    });
+
+    return filtered;
+  };
+
+  const filteredPlans = getFilteredPlans();
+  const dietaryOptions = getDietaryOptions();
 
   const handleLoad = async (id) => {
     try {
@@ -57,6 +114,79 @@ function SavedMealPlans({ onLoadPlan, onClose }) {
           <button className="close-modal-btn" onClick={onClose}>×</button>
         </div>
         
+        {!loading && savedPlans.length > 0 && (
+          <div className="search-filters">
+            <div className="search-bar">
+              <input
+                type="text"
+                placeholder="Search by name or preference..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="search-input"
+              />
+              {searchTerm && (
+                <button 
+                  className="clear-search" 
+                  onClick={() => setSearchTerm('')}
+                  title="Clear search"
+                >
+                  ×
+                </button>
+              )}
+            </div>
+            
+            <div className="filter-controls">
+              <div className="filter-group">
+                <label htmlFor="diet-filter">Diet:</label>
+                <select 
+                  id="diet-filter"
+                  value={filterDiet} 
+                  onChange={(e) => setFilterDiet(e.target.value)}
+                  className="filter-select"
+                >
+                  <option value="all">All Diets</option>
+                  {dietaryOptions.map(diet => (
+                    <option key={diet} value={diet}>{diet}</option>
+                  ))}
+                </select>
+              </div>
+              
+              <div className="filter-group">
+                <label htmlFor="sort-by">Sort:</label>
+                <select 
+                  id="sort-by"
+                  value={sortBy} 
+                  onChange={(e) => setSortBy(e.target.value)}
+                  className="filter-select"
+                >
+                  <option value="newest">Newest First</option>
+                  <option value="oldest">Oldest First</option>
+                  <option value="name">Name (A-Z)</option>
+                </select>
+              </div>
+            </div>
+
+            {(searchTerm || filterDiet !== 'all') && (
+              <div className="active-filters">
+                <span className="results-count">
+                  {filteredPlans.length} of {savedPlans.length} plans
+                </span>
+                {(searchTerm || filterDiet !== 'all') && (
+                  <button 
+                    className="clear-all-filters"
+                    onClick={() => {
+                      setSearchTerm('');
+                      setFilterDiet('all');
+                    }}
+                  >
+                    Clear Filters
+                  </button>
+                )}
+              </div>
+            )}
+          </div>
+        )}
+        
         {loading && (
           <div className="modal-loading">
             <div className="spinner"></div>
@@ -70,10 +200,26 @@ function SavedMealPlans({ onLoadPlan, onClose }) {
             <p className="empty-subtitle">Generate a meal plan and save it for later!</p>
           </div>
         )}
+
+        {!loading && savedPlans.length > 0 && filteredPlans.length === 0 && (
+          <div className="no-plans">
+            <p>No plans match your filters</p>
+            <p className="empty-subtitle">Try adjusting your search or filters</p>
+            <button 
+              className="reset-filters-btn"
+              onClick={() => {
+                setSearchTerm('');
+                setFilterDiet('all');
+              }}
+            >
+              Clear All Filters
+            </button>
+          </div>
+        )}
         
-        {!loading && savedPlans.length > 0 && (
+        {!loading && filteredPlans.length > 0 && (
           <div className="plans-grid">
-            {savedPlans.map(plan => (
+            {filteredPlans.map(plan => (
               <div key={plan.id} className="plan-card">
                 <div className="plan-header">
                   <h3>{plan.name}</h3>

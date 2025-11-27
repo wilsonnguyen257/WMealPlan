@@ -9,6 +9,7 @@ import SavedMealPlans from './components/SavedMealPlans';
 import PantryMeals from './components/PantryMeals';
 import RecipeSearch from './components/RecipeSearch';
 import Toast from './components/Toast';
+import ProgressBar from './components/ProgressBar';
 import { exportMealPlanToPDF } from './utils/pdfExport';
 
 function App() {
@@ -20,6 +21,8 @@ function App() {
   const [showSavedPlans, setShowSavedPlans] = useState(false);
   const [savedPlansCount, setSavedPlansCount] = useState(0);
   const [toast, setToast] = useState({ show: false, message: '', type: 'success' });
+  const [progress, setProgress] = useState(0);
+  const [progressStage, setProgressStage] = useState('');
 
   // Show toast notification
   const showToast = (message, type = 'success') => {
@@ -47,7 +50,33 @@ function App() {
   const generateMealPlan = async (preferences, servings, dietaryRestrictions, budgetMin, budgetMax, allergies, healthGoal, weight, activityLevel) => {
     setLoading(true);
     setError(null);
+    setProgress(0);
+    setProgressStage('Analyzing your preferences...');
     setFormData({ preferences, servings, dietaryRestrictions, budgetMin, budgetMax, allergies, healthGoal, weight, activityLevel });
+
+    // Simulate progress stages
+    const progressInterval = setInterval(() => {
+      setProgress(prev => {
+        if (prev >= 90) return prev; // Stop at 90%, complete on success
+        const increment = Math.random() * 15 + 5;
+        const newProgress = Math.min(prev + increment, 90);
+        
+        // Update stage based on progress
+        if (newProgress < 20) {
+          setProgressStage('Analyzing your preferences...');
+        } else if (newProgress < 40) {
+          setProgressStage('Finding perfect recipes...');
+        } else if (newProgress < 60) {
+          setProgressStage('Building your meal plan...');
+        } else if (newProgress < 80) {
+          setProgressStage('Creating grocery list...');
+        } else {
+          setProgressStage('Finalizing details...');
+        }
+        
+        return newProgress;
+      });
+    }, 800);
 
     try {
       const response = await fetch('/api/generate-meal-plan', {
@@ -69,17 +98,23 @@ function App() {
       });
 
       const data = await response.json();
+      clearInterval(progressInterval);
 
       if (data.success) {
-        setMealPlan(data.data);
-        showToast('✨ Meal plan generated successfully!', 'success');
-        window.scrollTo({ top: document.querySelector('.results-container')?.offsetTop - 100 || 0, behavior: 'smooth' });
+        setProgress(100);
+        setProgressStage('Complete!');
+        setTimeout(() => {
+          setMealPlan(data.data);
+          showToast('✨ Meal plan generated successfully!', 'success');
+          window.scrollTo({ top: document.querySelector('.results-container')?.offsetTop - 100 || 0, behavior: 'smooth' });
+        }, 500);
       } else {
         const errorMsg = data.error || 'Failed to generate meal plan';
         setError(errorMsg);
         showToast(errorMsg, 'error');
       }
     } catch (err) {
+      clearInterval(progressInterval);
       const errorMsg = 'Failed to connect to server. Please check your connection.';
       setError(errorMsg);
       showToast(errorMsg, 'error');
@@ -236,11 +271,11 @@ function App() {
             )}
 
             {loading && (
-              <div className="loading-spinner">
-                <div className="spinner"></div>
-                <p>Crafting your personalized meal plan...</p>
-                <p className="loading-subtext">This may take 10-20 seconds</p>
-              </div>
+              <ProgressBar 
+                progress={progress} 
+                message="Crafting your personalized meal plan..."
+                stage={progressStage}
+              />
             )}
 
             {mealPlan && !loading && (

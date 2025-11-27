@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './PantryMeals.css';
+import ProgressBar from './ProgressBar';
 
 function PantryMeals() {
   const [pantryItems, setPantryItems] = useState('');
@@ -8,12 +9,33 @@ function PantryMeals() {
   const [meals, setMeals] = useState(null);
   const [error, setError] = useState(null);
   const [selectedRecipe, setSelectedRecipe] = useState(null);
+  const [progress, setProgress] = useState(0);
+  const [progressStage, setProgressStage] = useState('');
 
   const generateFromPantry = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
     setMeals(null);
+    setProgress(0);
+    setProgressStage('Analyzing your ingredients...');
+
+    const progressInterval = setInterval(() => {
+      setProgress(prev => {
+        if (prev >= 90) return prev;
+        const newProgress = Math.min(prev + 12, 90);
+        
+        if (newProgress < 30) {
+          setProgressStage('Analyzing your ingredients...');
+        } else if (newProgress < 60) {
+          setProgressStage('Finding recipe combinations...');
+        } else {
+          setProgressStage('Creating meal ideas...');
+        }
+        
+        return newProgress;
+      });
+    }, 600);
 
     try {
       const response = await fetch('/api/generate-from-pantry', {
@@ -28,16 +50,22 @@ function PantryMeals() {
       });
 
       const data = await response.json();
+      clearInterval(progressInterval);
 
       if (data.success) {
-        setMeals(data.data);
+        setProgress(100);
+        setProgressStage('Complete!');
+        setTimeout(() => {
+          setMeals(data.data);
+        }, 400);
       } else {
         setError(data.error || 'Failed to generate meals from pantry');
       }
     } catch (err) {
+      clearInterval(progressInterval);
       setError('Network error. Please try again.');
     } finally {
-      setLoading(false);
+      setTimeout(() => setLoading(false), 500);
     }
   };
 
@@ -94,10 +122,12 @@ function PantryMeals() {
       )}
 
       {loading && (
-        <div className="pantry-loading">
-          <div className="spinner"></div>
-          <p>Creating meal ideas from your ingredients...</p>
-        </div>
+        <ProgressBar 
+          progress={progress} 
+          message="Creating meal ideas from your ingredients..."
+          stage={progressStage}
+        />
+      )}
       )}
 
       {meals && (

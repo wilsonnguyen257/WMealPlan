@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './SavedMealPlans.css';
+import ProgressBar from './ProgressBar';
 
 function SavedMealPlans({ onLoadPlan, onClose }) {
   const [savedPlans, setSavedPlans] = useState([]);
@@ -7,19 +8,32 @@ function SavedMealPlans({ onLoadPlan, onClose }) {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterDiet, setFilterDiet] = useState('all');
   const [sortBy, setSortBy] = useState('newest');
+  const [progress, setProgress] = useState(0);
 
   const fetchSavedPlans = async () => {
     setLoading(true);
+    setProgress(0);
+    
+    const progressInterval = setInterval(() => {
+      setProgress(prev => Math.min(prev + 15, 90));
+    }, 200);
+    
     try {
       const response = await fetch('/api/meal-plans');
       const data = await response.json();
+      clearInterval(progressInterval);
+      
       if (data.success) {
-        setSavedPlans(data.data);
+        setProgress(100);
+        setTimeout(() => {
+          setSavedPlans(data.data);
+        }, 300);
       }
     } catch (error) {
+      clearInterval(progressInterval);
       console.error('Error fetching saved plans:', error);
     } finally {
-      setLoading(false);
+      setTimeout(() => setLoading(false), 400);
     }
   };
 
@@ -188,10 +202,10 @@ function SavedMealPlans({ onLoadPlan, onClose }) {
         )}
         
         {loading && (
-          <div className="modal-loading">
-            <div className="spinner"></div>
-            <p>Loading saved plans...</p>
-          </div>
+          <ProgressBar 
+            progress={progress} 
+            message="Loading your saved plans..."
+          />
         )}
         
         {!loading && savedPlans.length === 0 && (

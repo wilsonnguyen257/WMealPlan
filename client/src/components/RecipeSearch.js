@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './RecipeSearch.css';
+import ProgressBar from './ProgressBar';
 
 function RecipeSearch() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -7,6 +8,8 @@ function RecipeSearch() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [selectedRecipe, setSelectedRecipe] = useState(null);
+  const [progress, setProgress] = useState(0);
+  const [progressStage, setProgressStage] = useState('');
 
   const handleSearch = async (e) => {
     e.preventDefault();
@@ -19,6 +22,25 @@ function RecipeSearch() {
     setLoading(true);
     setError('');
     setRecipes([]);
+    setProgress(0);
+    setProgressStage('Searching recipes...');
+
+    const progressInterval = setInterval(() => {
+      setProgress(prev => {
+        if (prev >= 90) return prev;
+        const newProgress = Math.min(prev + 20, 90);
+        
+        if (newProgress < 40) {
+          setProgressStage('Searching recipes...');
+        } else if (newProgress < 70) {
+          setProgressStage('Analyzing matches...');
+        } else {
+          setProgressStage('Preparing results...');
+        }
+        
+        return newProgress;
+      });
+    }, 400);
 
     try {
       const response = await fetch('/api/search-recipes', {
@@ -28,20 +50,26 @@ function RecipeSearch() {
       });
 
       const data = await response.json();
+      clearInterval(progressInterval);
 
       if (data.success) {
-        setRecipes(data.recipes);
-        if (data.recipes.length === 0) {
-          setError('No recipes found. Try a different search term.');
-        }
+        setProgress(100);
+        setProgressStage('Complete!');
+        setTimeout(() => {
+          setRecipes(data.recipes);
+          if (data.recipes.length === 0) {
+            setError('No recipes found. Try a different search term.');
+          }
+        }, 300);
       } else {
         setError(data.message || 'Failed to search recipes');
       }
     } catch (err) {
+      clearInterval(progressInterval);
       setError('Error searching recipes. Please try again.');
       console.error('Search error:', err);
     } finally {
-      setLoading(false);
+      setTimeout(() => setLoading(false), 400);
     }
   };
 
@@ -83,10 +111,11 @@ function RecipeSearch() {
       )}
 
       {loading && (
-        <div className="search-loading">
-          <div className="spinner"></div>
-          <p>Finding delicious recipes...</p>
-        </div>
+        <ProgressBar 
+          progress={progress} 
+          message="Finding delicious recipes..."
+          stage={progressStage}
+        />
       )}
 
       {recipes.length > 0 && (

@@ -63,12 +63,18 @@
   cursor: pointer;
   transition: all 0.3s ease;
   white-space: nowrap;
+  min-height: 56px;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .search-btn:hover:not(:disabled) {
   background: #45a049;
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+}
+
+.search-btn:active:not(:disabled) {
+  transform: translateY(0);
 }
 
 .search-btn:disabled {
@@ -198,11 +204,17 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
+  min-height: 44px;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .view-recipe-btn:hover {
   background: #45a049;
   transform: translateY(-2px);
+}
+
+.view-recipe-btn:active {
+  transform: translateY(0);
 }
 
 .recipe-modal {
@@ -270,12 +282,17 @@
   line-height: 1;
   flex-shrink: 0;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  -webkit-tap-highlight-color: transparent;
 }
 
 .close-btn:hover {
   background: #f5f5f5;
   transform: rotate(90deg) scale(1.1);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.close-btn:active {
+  transform: rotate(90deg) scale(1);
 }
 
 .recipe-modal-body {
@@ -351,38 +368,101 @@
 
 @media (max-width: 768px) {
   .recipe-search {
-    padding: 24px 16px;
+    padding: 20px 16px;
   }
 
   .search-header h2 {
     font-size: 24px;
   }
 
+  .search-subtitle {
+    font-size: 14px;
+  }
+
   .search-input-group {
     flex-direction: column;
+    gap: 10px;
+  }
+
+  .search-input {
+    padding: 14px 16px;
+    font-size: 16px;
+  }
+
+  .search-btn {
+    width: 100%;
+    padding: 14px 24px;
   }
 
   .recipes-grid {
     grid-template-columns: 1fr;
+    gap: 12px;
   }
 
-  .recipe-modal {
+  .recipe-card {
     padding: 16px;
   }
 
+  .recipe-card h3 {
+    font-size: 16px;
+  }
+
+  .recipe-modal {
+    padding: 12px;
+  }
+
   .recipe-modal-content {
-    max-height: 90vh;
+    max-height: 92vh;
+    border-radius: 12px;
   }
 
   .recipe-modal-header {
-    padding: 20px;
+    padding: 16px;
+  }
+
+  .recipe-modal-header h2 {
+    font-size: 20px;
+  }
+
+  .close-recipe-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 24px;
   }
 
   .recipe-modal-body {
-    padding: 24px;
+    padding: 20px 16px;
+  }
+
+  .recipe-meta {
+    flex-direction: column;
+    gap: 8px;
+    font-size: 14px;
+  }
+
+  .recipe-section h3 {
+    font-size: 18px;
+  }
+
+  .ingredients-list li,
+  .instructions-list li {
+    font-size: 14px;
   }
 
   .nutrition-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .nutrition-item {
+    padding: 10px 12px;
+  }
+
+  .nutrition-label {
+    font-size: 12px;
+  }
+
+  .nutrition-value {
+    font-size: 15px;
   }
 }

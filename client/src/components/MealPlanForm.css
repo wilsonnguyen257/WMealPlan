@@ -67,6 +67,10 @@
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .prompt-chip:hover:not(:disabled) {
@@ -74,6 +78,10 @@
   color: white;
   border-color: #4CAF50;
   transform: translateY(-2px);
+}
+
+.prompt-chip:active:not(:disabled) {
+  transform: translateY(0);
 }
 
 .prompt-chip:disabled {
@@ -128,11 +136,17 @@
   justify-content: center;
   gap: 8px;
   margin-bottom: 24px;
+  min-height: 44px;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .toggle-advanced:hover {
   background: #F5F5F5;
   border-color: #CCCCCC;
+}
+
+.toggle-advanced:active {
+  transform: scale(0.98);
 }
 
 .optional-badge {
@@ -282,6 +296,8 @@
   transition: all 0.2s ease;
   margin-top: 24px;
   box-shadow: 0 2px 8px rgba(76, 175, 80, 0.2);
+  min-height: 56px;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .generate-btn:hover:not(:disabled) {
@@ -302,11 +318,64 @@
 
 @media (max-width: 768px) {
   .meal-plan-form {
-    padding: 1.5rem;
+    padding: 24px 16px;
+  }
+
+  .meal-plan-form h2 {
+    font-size: 24px;
+  }
+
+  .form-subtitle {
+    font-size: 14px;
+  }
+
+  .example-prompts {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 12px;
+    gap: 10px;
+  }
+
+  .prompts-label {
+    text-align: center;
+    margin-right: 0;
+    margin-bottom: 4px;
+  }
+
+  .prompt-chip {
+    width: 100%;
+    text-align: center;
+    padding: 12px 16px;
+    font-size: 15px;
   }
 
   .form-row {
     grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .form-section.advanced {
+    padding: 16px;
+  }
+
+  .form-section.advanced h3 {
+    font-size: 18px;
+  }
+
+  .form-group label {
+    font-size: 14px;
+  }
+
+  .form-group input,
+  .form-group select {
+    padding: 14px 16px;
+    font-size: 16px;
+  }
+
+  .generate-btn {
+    padding: 16px;
+    font-size: 16px;
+    margin-top: 20px;
   }
 }
 

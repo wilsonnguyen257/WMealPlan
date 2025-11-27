@@ -46,6 +46,8 @@
   font-size: 16px;
   font-weight: 600;
   transition: all 0.2s ease;
+  min-height: 44px;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .print-btn {
@@ -58,6 +60,10 @@
   box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
 }
 
+.print-btn:active {
+  transform: translateY(0);
+}
+
 .export-btn {
   background: #FFB55A;
   box-shadow: 0 2px 8px rgba(255, 181, 90, 0.2);
@@ -66,6 +72,10 @@
 .export-btn:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(255, 181, 90, 0.3);
+}
+
+.export-btn:active {
+  transform: translateY(0);
 }
 
 .grocery-category {
@@ -153,7 +163,50 @@
 
 @media (max-width: 768px) {
   .grocery-list {
-    padding: 24px;
+    padding: 24px 16px;
+  }
+
+  .grocery-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+
+  .grocery-list h2 {
+    font-size: 24px;
+  }
+
+  .grocery-actions {
+    width: 100%;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .print-btn, .export-btn {
+    width: 100%;
+    padding: 14px 20px;
+    font-size: 15px;
+  }
+
+  .grocery-category {
+    margin-bottom: 20px;
+  }
+
+  .grocery-category h3 {
+    font-size: 16px;
+    margin-bottom: 10px;
+    padding-bottom: 6px;
+  }
+
+  .grocery-category li {
+    padding: 14px 12px;
+    margin-bottom: 6px;
+    font-size: 15px;
+  }
+
+  .grocery-category li:hover {
+    padding-left: 12px;
   }
 }
 

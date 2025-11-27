@@ -63,11 +63,17 @@
   cursor: pointer;
   transition: all 0.2s ease;
   box-shadow: 0 2px 8px rgba(76, 175, 80, 0.2);
+  min-height: 44px;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .saved-plans-toggle:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+}
+
+.saved-plans-toggle:active {
+  transform: translateY(0);
 }
 
 .saved-plans-overlay {
@@ -345,6 +351,8 @@
   cursor: pointer;
   transition: all 0.2s ease;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  min-height: 56px;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .save-btn {
@@ -366,7 +374,7 @@
 }
 
 .save-btn:active, .export-btn:active {
-  transform: translateY(-1px);
+  transform: translateY(0);
 }
 
 .side-panel {
@@ -417,66 +425,113 @@
 
 @media (max-width: 768px) {
   .app-header {
-    padding: 1.5rem 1rem 1.25rem;
+    padding: 20px 16px;
   }
   
   .app-header h1 {
-    font-size: 2rem;
+    font-size: 28px;
   }
   
   .tagline {
-    font-size: 0.95rem;
-    margin-bottom: 1rem;
+    font-size: 15px;
+    margin-bottom: 16px;
+  }
+  
+  .header-actions {
+    gap: 12px;
   }
   
   .saved-plans-toggle {
-    padding: 0.625rem 1.25rem;
-    font-size: 0.9rem;
+    padding: 12px 20px;
+    font-size: 15px;
+    width: 100%;
+    max-width: 300px;
   }
   
   .app-main {
-    padding: 1.5rem;
+    padding: 24px 16px;
   }
   
   .hero-section {
-    padding: 2rem 1rem;
+    padding: 32px 16px;
   }
   
   .hero-section h2 {
-    font-size: 1.75rem;
+    font-size: 26px;
   }
   
   .hero-section > p {
-    font-size: 1rem;
-    margin-bottom: 2rem;
+    font-size: 15px;
+    margin-bottom: 32px;
   }
   
   .feature-highlights {
     grid-template-columns: 1fr;
-    gap: 1rem;
+    gap: 12px;
   }
   
   .feature-card {
-    padding: 1.5rem;
+    padding: 20px 16px;
+  }
+
+  .feature-card h3 {
+    font-size: 16px;
+  }
+
+  .feature-card p {
+    font-size: 13px;
+  }
+
+  .how-it-works {
+    margin-top: 32px;
+    padding-top: 32px;
+  }
+
+  .how-it-works h3 {
+    font-size: 22px;
+    margin-bottom: 24px;
+  }
+
+  .steps {
+    grid-template-columns: 1fr;
+    gap: 16px;
   }
   
   .tab-navigation {
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 8px;
   }
   
   .tab-btn {
-    padding: 0.875rem 1.5rem;
-    font-size: 1rem;
+    padding: 14px 24px;
+    font-size: 15px;
   }
   
-  .save-btn {
-    padding: 1rem 1.5rem;
-    font-size: 1rem;
+  .save-bar {
+    flex-direction: column;
+    gap: 10px;
+    padding: 0 16px;
+  }
+
+  .save-btn, .export-btn {
+    padding: 16px 32px;
+    font-size: 16px;
+    width: 100%;
+    max-width: 400px;
   }
   
   .results-container {
     grid-template-columns: 1fr;
+    gap: 24px;
+    margin-top: 24px;
+  }
+
+  .loading-spinner p {
+    font-size: 16px;
+  }
+
+  .loading-spinner .loading-subtext {
+    font-size: 14px;
   }
 }
 

@@ -242,19 +242,75 @@
 
 @media (max-width: 768px) {
   .meal-plan-display {
-    padding: 24px;
+    padding: 24px 16px;
+  }
+
+  .meal-plan-display h2 {
+    font-size: 24px;
+    margin-bottom: 24px;
   }
 
   .meal-grid {
     grid-template-columns: 1fr;
+    gap: 12px;
   }
 
-  .recipe-modal {
+  .day-card {
     padding: 16px;
   }
 
+  .day-card h3 {
+    font-size: 18px;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+  }
+
+  .meal-item {
+    padding: 12px;
+    margin-bottom: 8px;
+  }
+
+  .meal-type {
+    font-size: 11px;
+  }
+
+  .meal-name {
+    font-size: 15px;
+  }
+
+  .recipes-section {
+    margin-top: 32px;
+  }
+
+  .recipe-card {
+    padding: 16px;
+  }
+
+  .recipe-card h3 {
+    font-size: 18px;
+  }
+
+  .recipe-meta {
+    flex-direction: column;
+    gap: 8px;
+    padding: 12px;
+    font-size: 14px;
+  }
+
+  .recipe-section h3 {
+    font-size: 18px;
+  }
+
+  .recipe-section li {
+    font-size: 14px;
+  }
+
+  .recipe-modal {
+    padding: 12px;
+  }
+
   .recipe-modal-content {
-    padding: 24px;
+    padding: 20px 16px;
   }
 }
 

@@ -68,11 +68,16 @@
   align-items: center;
   justify-content: center;
   line-height: 1;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .close-modal-btn:hover {
   background: rgba(255, 255, 255, 0.3);
   transform: rotate(90deg);
+}
+
+.close-modal-btn:active {
+  transform: rotate(90deg) scale(0.95);
 }
 
 .modal-loading {
@@ -206,6 +211,8 @@
   cursor: pointer;
   transition: all 0.3s ease;
   font-size: 16px;
+  min-height: 48px;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .load-btn {
@@ -218,6 +225,10 @@
 .load-btn:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+}
+
+.load-btn:active {
+  transform: translateY(0);
 }
 
 .delete-btn {
@@ -239,23 +250,65 @@
   transform: scale(1.05);
 }
 
+.delete-btn:active {
+  transform: scale(1);
+}
+
 @media (max-width: 768px) {
+  .saved-meal-plans-modal {
+    padding: 16px;
+  }
+
   .saved-plans-content {
-    margin: 16px;
-    max-height: 90vh;
+    max-height: 92vh;
+    border-radius: 12px;
   }
 
   .modal-header {
-    padding: 24px;
+    padding: 20px 16px;
   }
 
   .modal-header h2 {
-    font-size: 22px;
+    font-size: 20px;
+  }
+
+  .close-modal-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 24px;
   }
 
   .plans-grid {
     grid-template-columns: 1fr;
-    padding: 24px;
+    padding: 16px;
+    gap: 12px;
+  }
+
+  .plan-card {
+    padding: 16px;
+  }
+
+  .plan-card h3 {
+    font-size: 16px;
+  }
+
+  .plan-details {
+    font-size: 13px;
+  }
+
+  .plan-actions {
+    gap: 8px;
+  }
+
+  .load-btn, .delete-btn {
+    padding: 14px 18px;
+    font-size: 15px;
+  }
+
+  .delete-btn {
+    width: 44px;
+    height: 44px;
+    font-size: 24px;
   }
 }
 

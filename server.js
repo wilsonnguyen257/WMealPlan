@@ -11,16 +11,16 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 
 // Helper function for retrying API calls with exponential backoff
-async function withRetry(apiCall, maxRetries = 3) {
+async function withRetry(apiCall, maxRetries = 5) {
   let attempt = 0;
   while (attempt < maxRetries) {
     try {
       return await apiCall();
     } catch (error) {
-      if (error.message.includes('503')) {
+      if (error.message.includes('503') || error.message.includes('timeout') || error.message.includes('DEADLINE_EXCEEDED')) {
         attempt++;
-        const delay = Math.pow(2, attempt) * 1000; // 2s, 4s, 8s
-        console.log(`API overloaded. Retrying attempt ${attempt} in ${delay / 1000}s...`);
+        const delay = Math.pow(2, attempt) * 1500; // 3s, 6s, 12s, 24s, 48s
+        console.log(`API issue (${error.message.substring(0, 50)}). Retrying attempt ${attempt}/${maxRetries} in ${delay / 1000}s...`);
         await new Promise(res => setTimeout(res, delay));
       } else {
         // For other errors, fail immediately
@@ -50,7 +50,7 @@ const model = genAI.getGenerativeModel({
   generationConfig: {
     responseMimeType: "application/json",
     temperature: 0.7,
-    maxOutputTokens: 8000,
+    maxOutputTokens: 16000,
   }
 });
 
@@ -103,6 +103,7 @@ Servings per meal: ${servings}
 Dietary restrictions: ${dietaryRestrictions || 'none'}${budgetText}${healthText}
 
 IMPORTANT: Respond ONLY with valid JSON. No markdown, no explanations, just the JSON object.
+${servings > 3 ? '\nNote: Keep recipes simple and practical for larger batch cooking. Focus on efficient meal prep.' : ''}
 
 For the grocery list, EXCLUDE common kitchen staples that most people already have:
 - Do NOT include: salt, pepper, olive oil, vegetable oil, flour, sugar, baking powder, baking soda, butter, garlic, onions (small amounts)
@@ -158,16 +159,21 @@ Format:
 
   } catch (error) {
     console.error('Error generating meal plan:', error);
+    console.error('Error details:', error.message);
     
     // Provide more specific error messages
     let errorMessage = 'Failed to generate meal plan';
     
-    if (error.message.includes('503')) {
+    if (error.message.includes('503') || error.message.includes('unavailable')) {
       errorMessage = 'AI service is temporarily busy. Please try again in a moment.';
+    } else if (error.message.includes('DEADLINE_EXCEEDED') || error.message.includes('timeout')) {
+      errorMessage = 'Request took too long. Try reducing servings or simplifying preferences.';
     } else if (error.message.includes('API key')) {
       errorMessage = 'API configuration error. Please contact support.';
-    } else if (error.message.includes('quota')) {
-      errorMessage = 'Service quota exceeded. Please try again later.';
+    } else if (error.message.includes('quota') || error.message.includes('RESOURCE_EXHAUSTED')) {
+      errorMessage = 'Daily request limit reached (20 requests/day). Please try again tomorrow or upgrade your API key.';
+    } else if (error.message.includes('rate limit')) {
+      errorMessage = 'Too many requests. Please wait a minute and try again.';
     }
     
     res.status(500).json({

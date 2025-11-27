@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './RecipeSearch.css';
 import ProgressBar from './ProgressBar';
+import EmptyState from './EmptyState';
 
 function RecipeSearch() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -115,6 +116,34 @@ function RecipeSearch() {
           progress={progress} 
           message="Finding delicious recipes..."
           stage={progressStage}
+        />
+      )}
+
+      {!loading && !error && recipes.length === 0 && !searchQuery && (
+        <EmptyState
+          icon="search"
+          title="Discover Amazing Recipes"
+          message="Search for recipes by name, ingredient, or cuisine type to get started."
+          tips={[
+            'Try searching for "chicken pasta" or "chocolate cake"',
+            'Search by cuisine: "thai curry", "italian", "mexican"',
+            'Find recipes by ingredient: "salmon", "tofu", "quinoa"'
+          ]}
+        />
+      )}
+
+      {!loading && recipes.length === 0 && searchQuery && !error && (
+        <EmptyState
+          icon="search"
+          title="No recipes found"
+          message={`We couldn't find any recipes matching "${searchQuery}". Try different keywords!`}
+          tips={[
+            'Check your spelling',
+            'Try more general terms (e.g., "pasta" instead of specific dish)',
+            'Search for main ingredients or cuisine types'
+          ]}
+          action={() => setSearchQuery('')}
+          actionText="Clear Search"
         />
       )}
 

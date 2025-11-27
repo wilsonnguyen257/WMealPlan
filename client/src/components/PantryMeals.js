@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './PantryMeals.css';
 import ProgressBar from './ProgressBar';
+import EmptyState from './EmptyState';
 
 function PantryMeals() {
   const [pantryItems, setPantryItems] = useState('');
@@ -126,6 +127,19 @@ function PantryMeals() {
           progress={progress} 
           message="Creating meal ideas from your ingredients..."
           stage={progressStage}
+        />
+      )}
+
+      {!loading && !error && !meals && (
+        <EmptyState
+          icon="pantry"
+          title="Turn Ingredients into Meals"
+          message="Enter what you have in your kitchen, and we'll create delicious meal ideas for you."
+          tips={[
+            'List at least 3-4 ingredients for best results',
+            'Include proteins, vegetables, and pantry staples',
+            'Be specific: "chicken breast" vs just "chicken"'
+          ]}
         />
       )}
       )}

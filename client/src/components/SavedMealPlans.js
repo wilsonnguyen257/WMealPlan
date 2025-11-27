@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './SavedMealPlans.css';
 import ProgressBar from './ProgressBar';
+import EmptyState from './EmptyState';
 
 function SavedMealPlans({ onLoadPlan, onClose }) {
   const [savedPlans, setSavedPlans] = useState([]);
@@ -209,26 +210,36 @@ function SavedMealPlans({ onLoadPlan, onClose }) {
         )}
         
         {!loading && savedPlans.length === 0 && (
-          <div className="no-plans">
-            <p>No saved meal plans yet</p>
-            <p className="empty-subtitle">Generate a meal plan and save it for later!</p>
-          </div>
+          <EmptyState
+            icon="saved-plans"
+            title="No saved meal plans yet"
+            message="Start by generating a personalized meal plan and save it for later!"
+            tips={[
+              'Try our Weekly Meal Planner with your preferences',
+              'Each saved plan includes recipes and grocery lists',
+              'Access your plans anytime from this page'
+            ]}
+            action={onClose}
+            actionText="Create Your First Plan"
+          />
         )}
 
         {!loading && savedPlans.length > 0 && filteredPlans.length === 0 && (
-          <div className="no-plans">
-            <p>No plans match your filters</p>
-            <p className="empty-subtitle">Try adjusting your search or filters</p>
-            <button 
-              className="reset-filters-btn"
-              onClick={() => {
-                setSearchTerm('');
-                setFilterDiet('all');
-              }}
-            >
-              Clear All Filters
-            </button>
-          </div>
+          <EmptyState
+            icon="filter"
+            title="No plans match your filters"
+            message="Try adjusting your search terms or filters to find what you're looking for."
+            tips={[
+              'Check for typos in your search',
+              'Try using different keywords',
+              'Clear filters to see all plans'
+            ]}
+            action={() => {
+              setSearchTerm('');
+              setFilterDiet('all');
+            }}
+            actionText="Clear All Filters"
+          />
         )}
         
         {!loading && filteredPlans.length > 0 && (

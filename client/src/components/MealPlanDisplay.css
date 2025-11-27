@@ -261,13 +261,11 @@
   background: rgba(0, 0, 0, 0.75);
   backdrop-filter: blur(4px);
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
   z-index: 1000;
-  padding: 32px;
+  padding: 20px;
   animation: fadeIn 0.2s ease-out;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
 }
 
 @keyframes fadeIn {
@@ -281,10 +279,13 @@
   border-radius: 16px;
   max-width: 750px;
   width: 100%;
-  margin: 40px auto;
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
+  overflow-x: hidden;
   position: relative;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
   animation: slideUp 0.3s ease-out;
+  -webkit-overflow-scrolling: touch;
 }
 
 .close-btn {
@@ -468,12 +469,12 @@
   }
 
   .recipe-modal {
-    padding: 16px;
+    padding: 12px;
   }
 
   .recipe-modal-content {
     padding: 24px 20px;
-    margin: 20px auto;
+    max-height: calc(100vh - 24px);
   }
 }
 

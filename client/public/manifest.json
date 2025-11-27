@@ -1,10 +1,31 @@
 {
   "short_name": "WMealPlan",
-  "name": "WMealPlan - AI Meal Planning",
-  "description": "AI-powered weekly meal planning with smart grocery lists",
+  "name": "WMealPlan - Smart Meal Planning",
+  "description": "AI-powered weekly meal planning with smart grocery lists for families and individuals",
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#4CAF50",
-  "background_color": "#FAFAFA",
-  "orientation": "portrait"
+  "theme_color": "#2E7D32",
+  "background_color": "#F9FAFB",
+  "orientation": "portrait",
+  "categories": ["food", "lifestyle", "health"],
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-192.png.svg",
+      "type": "image/svg+xml",
+      "sizes": "192x192",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png.svg",
+      "type": "image/svg+xml",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    }
+  ]
 }

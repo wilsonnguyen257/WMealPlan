@@ -138,7 +138,13 @@ function SavedMealPlans({ onLoadPlan, onClose }) {
       <div className="saved-plans-content" onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
           <h2>Saved Meal Plans</h2>
-          <button className="close-modal-btn" onClick={onClose}>×</button>
+          <button 
+            className="close-modal-btn" 
+            onClick={onClose}
+            aria-label="Close saved plans"
+          >
+            ×
+          </button>
         </div>
         
         {!loading && savedPlans.length > 0 && (

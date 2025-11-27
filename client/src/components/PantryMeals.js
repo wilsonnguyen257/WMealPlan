@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
+import useAutosave from '../hooks/useAutosave';
 import './PantryMeals.css';
 import ProgressBar from './ProgressBar';
 import EmptyState from './EmptyState';
 
 const AUTOSAVE_KEY = 'pantryMealsFormData';
-const AUTOSAVE_DELAY = 1000;
 
 function PantryMeals() {
   // Initialize from localStorage
@@ -13,7 +13,6 @@ function PantryMeals() {
       const saved = localStorage.getItem(AUTOSAVE_KEY);
       return saved ? JSON.parse(saved) : null;
     } catch (error) {
-      console.error('Error loading saved form data:', error);
       return null;
     }
   };
@@ -28,47 +27,10 @@ function PantryMeals() {
   const [selectedRecipe, setSelectedRecipe] = useState(null);
   const [progress, setProgress] = useState(0);
   const [progressStage, setProgressStage] = useState('');
-  const [lastSaved, setLastSaved] = useState(savedData ? new Date(savedData.timestamp) : null);
   
-  const saveTimeoutRef = useRef(null);
-
-  // Autosave effect
-  useEffect(() => {
-    if (saveTimeoutRef.current) {
-      clearTimeout(saveTimeoutRef.current);
-    }
-
-    saveTimeoutRef.current = setTimeout(() => {
-      const formData = {
-        pantryItems,
-        servings,
-        timestamp: new Date().toISOString()
-      };
-
-      try {
-        localStorage.setItem(AUTOSAVE_KEY, JSON.stringify(formData));
-        setLastSaved(new Date());
-      } catch (error) {
-        console.error('Error saving form data:', error);
-      }
-    }, AUTOSAVE_DELAY);
-
-    return () => {
-      if (saveTimeoutRef.current) {
-        clearTimeout(saveTimeoutRef.current);
-      }
-    };
-  }, [pantryItems, servings]);
-
-  // Clear saved data
-  const clearSavedData = () => {
-    try {
-      localStorage.removeItem(AUTOSAVE_KEY);
-      setLastSaved(null);
-    } catch (error) {
-      console.error('Error clearing saved data:', error);
-    }
-  };
+  // Use autosave hook
+  const formData = { pantryItems, servings };
+  const { lastSaved, clearSavedData } = useAutosave(AUTOSAVE_KEY, formData);
 
   // Handle ESC key to close recipe modal
   React.useEffect(() => {
@@ -285,7 +247,13 @@ function PantryMeals() {
                   <span>🔥 Cook: {selectedRecipe.cookTime}</span>
                 </div>
               </div>
-              <button className="close-btn" onClick={() => setSelectedRecipe(null)}>×</button>
+              <button 
+                className="close-btn" 
+                onClick={() => setSelectedRecipe(null)}
+                aria-label="Close recipe details"
+              >
+                ×
+              </button>
             </div>
             
             <div className="recipe-modal-body">

@@ -131,7 +131,13 @@ function MealPlanDisplay({ mealPlan, recipes }) {
                   <span>🔥 Cook: {selectedRecipe.cookTime}</span>
                 </div>
               </div>
-              <button className="close-btn" onClick={() => setSelectedRecipe(null)}>×</button>
+              <button 
+                className="close-btn" 
+                onClick={() => setSelectedRecipe(null)}
+                aria-label="Close recipe details"
+              >
+                ×
+              </button>
             </div>
             
             <div className="recipe-modal-body">

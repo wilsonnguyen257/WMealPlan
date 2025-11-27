@@ -13,7 +13,7 @@ function EmptyState({
     switch(icon) {
       case 'saved-plans':
         return (
-          <svg className="empty-icon" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg className="empty-icon" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <circle cx="100" cy="100" r="80" fill="#F0F9F1"/>
             <path d="M70 90 L85 105 L130 60" stroke="#4CAF50" strokeWidth="8" strokeLinecap="round" strokeLinejoin="round"/>
             <rect x="60" y="50" width="80" height="100" rx="8" stroke="#4CAF50" strokeWidth="4" fill="white"/>
@@ -24,7 +24,7 @@ function EmptyState({
         );
       case 'search':
         return (
-          <svg className="empty-icon" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg className="empty-icon" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <circle cx="100" cy="100" r="80" fill="#FFF9F0"/>
             <circle cx="85" cy="85" r="35" stroke="#FFB55A" strokeWidth="6" fill="white"/>
             <line x1="110" y1="110" x2="135" y2="135" stroke="#FFB55A" strokeWidth="8" strokeLinecap="round"/>
@@ -33,7 +33,7 @@ function EmptyState({
         );
       case 'pantry':
         return (
-          <svg className="empty-icon" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg className="empty-icon" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <circle cx="100" cy="100" r="80" fill="#F0F9F1"/>
             <rect x="60" y="70" width="80" height="70" rx="4" fill="white" stroke="#4CAF50" strokeWidth="4"/>
             <path d="M60 90 L140 90" stroke="#4CAF50" strokeWidth="3"/>
@@ -46,7 +46,7 @@ function EmptyState({
         );
       case 'filter':
         return (
-          <svg className="empty-icon" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg className="empty-icon" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <circle cx="100" cy="100" r="80" fill="#F5F5F5"/>
             <path d="M60 70 L140 70 L115 105 L115 140 L85 140 L85 105 Z" fill="white" stroke="#CCCCCC" strokeWidth="4"/>
             <line x1="75" y1="100" x2="125" y2="100" stroke="#CCCCCC" strokeWidth="3"/>
@@ -54,7 +54,7 @@ function EmptyState({
         );
       default:
         return (
-          <svg className="empty-icon" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg className="empty-icon" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <circle cx="100" cy="100" r="80" fill="#FAFAFA"/>
             <circle cx="100" cy="90" r="25" stroke="#CCCCCC" strokeWidth="4" fill="white"/>
             <path d="M100 125 Q100 140 85 145 Q75 148 75 160 L125 160 Q125 148 115 145 Q100 140 100 125" fill="#CCCCCC"/>

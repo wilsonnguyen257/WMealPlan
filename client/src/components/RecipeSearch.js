@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
+import useAutosave from '../hooks/useAutosave';
 import './RecipeSearch.css';
 import ProgressBar from './ProgressBar';
 import EmptyState from './EmptyState';
 
 const AUTOSAVE_KEY = 'recipeSearchFormData';
-const AUTOSAVE_DELAY = 1000;
 
 function RecipeSearch() {
   // Initialize from localStorage
@@ -13,7 +13,6 @@ function RecipeSearch() {
       const saved = localStorage.getItem(AUTOSAVE_KEY);
       return saved ? JSON.parse(saved) : null;
     } catch (error) {
-      console.error('Error loading saved form data:', error);
       return null;
     }
   };
@@ -27,46 +26,10 @@ function RecipeSearch() {
   const [selectedRecipe, setSelectedRecipe] = useState(null);
   const [progress, setProgress] = useState(0);
   const [progressStage, setProgressStage] = useState('');
-  const [lastSaved, setLastSaved] = useState(savedData ? new Date(savedData.timestamp) : null);
   
-  const saveTimeoutRef = useRef(null);
-
-  // Autosave effect
-  useEffect(() => {
-    if (saveTimeoutRef.current) {
-      clearTimeout(saveTimeoutRef.current);
-    }
-
-    saveTimeoutRef.current = setTimeout(() => {
-      const formData = {
-        searchQuery,
-        timestamp: new Date().toISOString()
-      };
-
-      try {
-        localStorage.setItem(AUTOSAVE_KEY, JSON.stringify(formData));
-        setLastSaved(new Date());
-      } catch (error) {
-        console.error('Error saving form data:', error);
-      }
-    }, AUTOSAVE_DELAY);
-
-    return () => {
-      if (saveTimeoutRef.current) {
-        clearTimeout(saveTimeoutRef.current);
-      }
-    };
-  }, [searchQuery]);
-
-  // Clear saved data
-  const clearSavedData = () => {
-    try {
-      localStorage.removeItem(AUTOSAVE_KEY);
-      setLastSaved(null);
-    } catch (error) {
-      console.error('Error clearing saved data:', error);
-    }
-  };
+  // Use autosave hook
+  const formData = { searchQuery };
+  const { lastSaved, clearSavedData } = useAutosave(AUTOSAVE_KEY, formData);
 
   const handleSearch = async (e) => {
     e.preventDefault();
@@ -278,7 +241,13 @@ function RecipeSearch() {
           <div className="recipe-modal-content" onClick={(e) => e.stopPropagation()}>
             <div className="recipe-modal-header">
               <h2>{selectedRecipe.name}</h2>
-              <button className="close-btn" onClick={closeRecipeDetails}>×</button>
+              <button 
+                className="close-btn" 
+                onClick={closeRecipeDetails}
+                aria-label="Close recipe details"
+              >
+                ×
+              </button>
             </div>
 
             <div className="recipe-modal-body">

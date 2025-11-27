@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
+import useAutosave from '../hooks/useAutosave';
 import './MealPlanForm.css';
 
 const AUTOSAVE_KEY = 'mealPlanFormData';
-const AUTOSAVE_DELAY = 1000; // 1 second debounce
 
 function MealPlanForm({ onGenerate, loading }) {
   // Initialize state from localStorage if available
@@ -11,7 +11,6 @@ function MealPlanForm({ onGenerate, loading }) {
       const saved = localStorage.getItem(AUTOSAVE_KEY);
       return saved ? JSON.parse(saved) : null;
     } catch (error) {
-      console.error('Error loading saved form data:', error);
       return null;
     }
   };
@@ -29,58 +28,22 @@ function MealPlanForm({ onGenerate, loading }) {
   const [budgetMax, setBudgetMax] = useState(savedData?.budgetMax || '');
   const [showAdvanced, setShowAdvanced] = useState(savedData?.showAdvanced || false);
   const [errors, setErrors] = useState({});
-  const [lastSaved, setLastSaved] = useState(savedData ? new Date(savedData.timestamp) : null);
   
-  const saveTimeoutRef = useRef(null);
-
-  // Autosave effect - debounced
-  useEffect(() => {
-    // Clear existing timeout
-    if (saveTimeoutRef.current) {
-      clearTimeout(saveTimeoutRef.current);
-    }
-
-    // Set new timeout to save data
-    saveTimeoutRef.current = setTimeout(() => {
-      const formData = {
-        preferences,
-        servings,
-        dietaryRestrictions,
-        allergies,
-        healthGoal,
-        weight,
-        activityLevel,
-        budgetMin,
-        budgetMax,
-        showAdvanced,
-        timestamp: new Date().toISOString()
-      };
-
-      try {
-        localStorage.setItem(AUTOSAVE_KEY, JSON.stringify(formData));
-        setLastSaved(new Date());
-      } catch (error) {
-        console.error('Error saving form data:', error);
-      }
-    }, AUTOSAVE_DELAY);
-
-    // Cleanup timeout on unmount
-    return () => {
-      if (saveTimeoutRef.current) {
-        clearTimeout(saveTimeoutRef.current);
-      }
-    };
-  }, [preferences, servings, dietaryRestrictions, allergies, healthGoal, weight, activityLevel, budgetMin, budgetMax, showAdvanced]);
-
-  // Clear saved data
-  const clearSavedData = () => {
-    try {
-      localStorage.removeItem(AUTOSAVE_KEY);
-      setLastSaved(null);
-    } catch (error) {
-      console.error('Error clearing saved data:', error);
-    }
+  // Use autosave hook with all form data
+  const formData = {
+    preferences,
+    servings,
+    dietaryRestrictions,
+    allergies,
+    healthGoal,
+    weight,
+    activityLevel,
+    budgetMin,
+    budgetMax,
+    showAdvanced
   };
+  
+  const { lastSaved, clearSavedData } = useAutosave(AUTOSAVE_KEY, formData);
 
   const handleSubmit = (e) => {
     e.preventDefault();

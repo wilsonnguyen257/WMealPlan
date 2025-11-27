@@ -361,10 +361,27 @@
 
 .recipe-modal-body {
   padding: 32px;
-  overflow-y: auto;
+  overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
   flex: 1;
   min-height: 0;
+}
+
+.recipe-modal-body::-webkit-scrollbar {
+  width: 8px;
+}
+
+.recipe-modal-body::-webkit-scrollbar-track {
+  background: #F5F5F5;
+}
+
+.recipe-modal-body::-webkit-scrollbar-thumb {
+  background: #CCCCCC;
+  border-radius: 4px;
+}
+
+.recipe-modal-body::-webkit-scrollbar-thumb:hover {
+  background: #999999;
 }
 
 .recipe-info-row {

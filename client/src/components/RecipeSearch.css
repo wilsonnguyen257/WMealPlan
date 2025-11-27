@@ -225,14 +225,14 @@
   max-width: 800px;
   width: 100%;
   max-height: 85vh;
-  overflow-y: auto;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
   position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
 .recipe-modal-header {
-  position: sticky;
-  top: 0;
   background: #4CAF50;
   color: white;
   padding: 24px 32px;
@@ -241,7 +241,7 @@
   justify-content: space-between;
   align-items: center;
   gap: 16px;
-  z-index: 100;
+  flex-shrink: 0;
 }
 
 .recipe-modal-header h2 {
@@ -254,13 +254,14 @@
 }
 
 .close-btn {
-  background: rgba(255, 255, 255, 0.2);
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  color: white;
+  background: white;
+  border: none;
+  color: #4CAF50;
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  font-size: 24px;
+  font-size: 28px;
+  font-weight: bold;
   cursor: pointer;
   transition: all 0.2s ease;
   display: flex;
@@ -268,17 +269,19 @@
   justify-content: center;
   line-height: 1;
   flex-shrink: 0;
-  position: relative;
-  z-index: 101;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
 .close-btn:hover {
-  background: rgba(255, 255, 255, 0.3);
-  transform: rotate(90deg);
+  background: #f5f5f5;
+  transform: rotate(90deg) scale(1.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 .recipe-modal-body {
   padding: 32px;
+  overflow-y: auto;
+  flex: 1;
 }
 
 .recipe-info-row {

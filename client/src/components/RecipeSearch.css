@@ -281,7 +281,9 @@
 .recipe-modal-body {
   padding: 32px;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
   flex: 1;
+  min-height: 0;
 }
 
 .recipe-info-row {

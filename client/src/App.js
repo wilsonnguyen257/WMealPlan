@@ -10,6 +10,7 @@ import PantryMeals from './components/PantryMeals';
 import RecipeSearch from './components/RecipeSearch';
 import Toast from './components/Toast';
 import ProgressBar from './components/ProgressBar';
+import KeyboardShortcuts from './components/KeyboardShortcuts';
 import { exportMealPlanToPDF } from './utils/pdfExport';
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
   const [toast, setToast] = useState({ show: false, message: '', type: 'success' });
   const [progress, setProgress] = useState(0);
   const [progressStage, setProgressStage] = useState('');
+  const [showShortcuts, setShowShortcuts] = useState(false);
 
   // Show toast notification
   const showToast = (message, type = 'success') => {
@@ -46,6 +48,46 @@ function App() {
   React.useEffect(() => {
     updateSavedPlansCount();
   }, []);
+
+  // Global keyboard shortcuts
+  React.useEffect(() => {
+    const handleKeyPress = (e) => {
+      // ? to toggle shortcuts panel (Shift + /)
+      if (e.key === '?' && !e.target.matches('input, textarea, select')) {
+        e.preventDefault();
+        setShowShortcuts(prev => !prev);
+        return;
+      }
+
+      // Ctrl+S or Cmd+S to save meal plan
+      if ((e.ctrlKey || e.metaKey) && e.key === 's' && mealPlan && !loading) {
+        e.preventDefault();
+        saveMealPlan();
+        return;
+      }
+
+      // ESC to close saved plans modal
+      if (e.key === 'Escape' && showSavedPlans) {
+        setShowSavedPlans(false);
+        return;
+      }
+
+      // Number keys 1-3 for tab navigation (when not in input)
+      if (!e.target.matches('input, textarea, select')) {
+        if (e.key === '1') {
+          setActiveTab('weekly');
+        } else if (e.key === '2') {
+          setActiveTab('pantry');
+        } else if (e.key === '3') {
+          setActiveTab('search');
+        }
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyPress);
+    return () => document.removeEventListener('keydown', handleKeyPress);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mealPlan, loading, showSavedPlans]);
 
   const generateMealPlan = async (preferences, servings, dietaryRestrictions, budgetMin, budgetMax, allergies, healthGoal, weight, activityLevel) => {
     setLoading(true);
@@ -321,6 +363,7 @@ function App() {
       </footer>
 
       {toast.show && <Toast message={toast.message} type={toast.type} />}
+      <KeyboardShortcuts isOpen={showShortcuts} onClose={() => setShowShortcuts(false)} />
     </div>
   );
 }

@@ -13,6 +13,20 @@ function PantryMeals() {
   const [progress, setProgress] = useState(0);
   const [progressStage, setProgressStage] = useState('');
 
+  // Handle ESC key to close recipe modal
+  React.useEffect(() => {
+    if (selectedRecipe) {
+      const handleEscKey = (e) => {
+        if (e.key === 'Escape') {
+          setSelectedRecipe(null);
+        }
+      };
+      
+      document.addEventListener('keydown', handleEscKey);
+      return () => document.removeEventListener('keydown', handleEscKey);
+    }
+  }, [selectedRecipe]);
+
   const generateFromPantry = async (e) => {
     e.preventDefault();
     setLoading(true);

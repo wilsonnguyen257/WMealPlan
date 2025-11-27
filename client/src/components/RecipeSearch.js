@@ -82,6 +82,20 @@ function RecipeSearch() {
     setSelectedRecipe(null);
   };
 
+  // Handle ESC key to close recipe modal
+  React.useEffect(() => {
+    if (selectedRecipe) {
+      const handleEscKey = (e) => {
+        if (e.key === 'Escape') {
+          closeRecipeDetails();
+        }
+      };
+      
+      document.addEventListener('keydown', handleEscKey);
+      return () => document.removeEventListener('keydown', handleEscKey);
+    }
+  }, [selectedRecipe]);
+
   return (
     <div className="recipe-search">
       <div className="search-header">

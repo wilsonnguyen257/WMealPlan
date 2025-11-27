@@ -42,6 +42,18 @@ function SavedMealPlans({ onLoadPlan, onClose }) {
     fetchSavedPlans();
   }, []);
 
+  // Handle ESC key to close modal
+  useEffect(() => {
+    const handleEscKey = (e) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+    
+    document.addEventListener('keydown', handleEscKey);
+    return () => document.removeEventListener('keydown', handleEscKey);
+  }, [onClose]);
+
   // Get unique dietary restrictions from all plans
   const getDietaryOptions = () => {
     const diets = new Set();

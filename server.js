@@ -146,9 +146,16 @@ Format:
   },
   "prepInstructions": {
     "overview": "brief overview",
-    "steps": ["prep steps"]
+    "steps": ["prep step without numbers - the UI will auto-number them"]
   }
-}`;
+}
+
+CRITICAL FOR PREP INSTRUCTIONS:
+- In the "steps" array, write each step WITHOUT numbering (e.g., "Roast Whole Chicken..." not "1. Roast Whole Chicken...")
+- The frontend automatically numbers steps using an ordered list (<ol>)
+- Each step should be a complete sentence describing the prep task
+- Focus on batch cooking, chopping, portioning, and storage
+`;
 
     const fullPrompt = `You are a professional meal prep nutritionist and chef. You MUST respond with ONLY valid JSON. Do not include any markdown formatting, explanations, or text outside the JSON object. Start your response with { and end with }.\n\n${prompt}`;
     

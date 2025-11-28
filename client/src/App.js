@@ -36,23 +36,6 @@ function AppContent() {
     'Authorization': `Bearer ${token}`
   });
 
-  // Show loading screen while checking auth
-  if (authLoading) {
-    return (
-      <div className="App">
-        <div className="loading-spinner">
-          <div className="spinner"></div>
-          <p>Loading...</p>
-        </div>
-      </div>
-    );
-  }
-
-  // Show auth page if not logged in
-  if (!user) {
-    return <AuthPage />;
-  }
-
   // Show toast notification
   const showToast = (message, type = 'success') => {
     setToast({ show: true, message, type });
@@ -75,8 +58,11 @@ function AppContent() {
   };
 
   React.useEffect(() => {
-    updateSavedPlansCount();
-  }, []);
+    if (user) {
+      updateSavedPlansCount();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
 
   // Global keyboard shortcuts
   React.useEffect(() => {
@@ -117,6 +103,23 @@ function AppContent() {
     return () => document.removeEventListener('keydown', handleKeyPress);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mealPlan, loading, showSavedPlans]);
+
+  // Show loading screen while checking auth
+  if (authLoading) {
+    return (
+      <div className="App">
+        <div className="loading-spinner">
+          <div className="spinner"></div>
+          <p>Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Show auth page if not logged in
+  if (!user) {
+    return <AuthPage />;
+  }
 
   const generateMealPlan = async (preferences, servings, dietaryRestrictions, budgetMin, budgetMax, allergies, healthGoal, weight, activityLevel) => {
     setLoading(true);

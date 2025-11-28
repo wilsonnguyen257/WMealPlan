@@ -46,6 +46,7 @@ function SavedMealPlans({ onLoadPlan, onClose }) {
 
   useEffect(() => {
     fetchSavedPlans();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Handle ESC key to close modal

@@ -4,10 +4,12 @@ import { formatText } from '../utils/textFormatter';
 import './PantryMeals.css';
 import ProgressBar from './ProgressBar';
 import EmptyState from './EmptyState';
+import { useAuth } from '../context/AuthContext';
 
 const AUTOSAVE_KEY = 'pantryMealsFormData';
 
 function PantryMeals() {
+  const { token } = useAuth();
   // Initialize from localStorage
   const getSavedData = () => {
     try {
@@ -78,6 +80,7 @@ function PantryMeals() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify({
           pantryItems,

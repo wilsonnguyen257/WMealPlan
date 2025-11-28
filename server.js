@@ -1,11 +1,14 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
+const bcrypt = require('bcryptjs');
 const { GoogleGenerativeAI } = require('@google/generative-ai');
 const { jsonrepair } = require('jsonrepair');
 
 // Use Vercel Postgres database
 const db = require('./database-postgres');
+const { authenticateToken, generateToken } = require('./middleware/auth');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -55,8 +58,12 @@ const model = genAI.getGenerativeModel({
 });
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: process.env.CLIENT_URL || 'http://localhost:3000',
+  credentials: true
+}));
 app.use(express.json());
+app.use(cookieParser());
 
 // Request logging middleware
 app.use((req, res, next) => {
@@ -75,8 +82,137 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', message: 'Server is running' });
 });
 
-// Generate meal plan endpoint
-app.post('/api/generate-meal-plan', async (req, res) => {
+// ═══════════════════════════════════════════════════════
+// AUTHENTICATION ENDPOINTS
+// ═══════════════════════════════════════════════════════
+
+// Signup endpoint
+app.post('/api/auth/signup', async (req, res) => {
+  try {
+    const { email, password, name } = req.body;
+
+    // Validation
+    if (!email || !password) {
+      return res.status(400).json({ success: false, error: 'Email and password are required' });
+    }
+
+    if (password.length < 6) {
+      return res.status(400).json({ success: false, error: 'Password must be at least 6 characters' });
+    }
+
+    // Hash password
+    const passwordHash = await bcrypt.hash(password, 10);
+
+    // Create user
+    const user = await db.createUser(email, passwordHash, name);
+
+    // Generate token
+    const token = generateToken(user.id, user.email);
+
+    // Set cookie
+    res.cookie('token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
+    });
+
+    res.json({
+      success: true,
+      user: {
+        id: user.id,
+        email: user.email,
+        name: user.name
+      },
+      token
+    });
+  } catch (error) {
+    console.error('Signup error:', error);
+    if (error.message === 'Email already exists') {
+      return res.status(409).json({ success: false, error: 'Email already registered' });
+    }
+    res.status(500).json({ success: false, error: 'Failed to create account' });
+  }
+});
+
+// Login endpoint
+app.post('/api/auth/login', async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    // Validation
+    if (!email || !password) {
+      return res.status(400).json({ success: false, error: 'Email and password are required' });
+    }
+
+    // Get user
+    const user = await db.getUserByEmail(email);
+    if (!user) {
+      return res.status(401).json({ success: false, error: 'Invalid email or password' });
+    }
+
+    // Verify password
+    const validPassword = await bcrypt.compare(password, user.password_hash);
+    if (!validPassword) {
+      return res.status(401).json({ success: false, error: 'Invalid email or password' });
+    }
+
+    // Generate token
+    const token = generateToken(user.id, user.email);
+
+    // Set cookie
+    res.cookie('token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
+    });
+
+    res.json({
+      success: true,
+      user: {
+        id: user.id,
+        email: user.email,
+        name: user.name
+      },
+      token
+    });
+  } catch (error) {
+    console.error('Login error:', error);
+    res.status(500).json({ success: false, error: 'Failed to login' });
+  }
+});
+
+// Logout endpoint
+app.post('/api/auth/logout', (req, res) => {
+  res.clearCookie('token');
+  res.json({ success: true, message: 'Logged out successfully' });
+});
+
+// Get current user endpoint
+app.get('/api/auth/me', authenticateToken, async (req, res) => {
+  try {
+    const user = await db.getUserById(req.user.userId);
+    if (!user) {
+      return res.status(404).json({ success: false, error: 'User not found' });
+    }
+
+    res.json({
+      success: true,
+      user: {
+        id: user.id,
+        email: user.email,
+        name: user.name
+      }
+    });
+  } catch (error) {
+    console.error('Get user error:', error);
+    res.status(500).json({ success: false, error: 'Failed to get user' });
+  }
+});
+
+// Generate meal plan endpoint (now protected)
+app.post('/api/generate-meal-plan', authenticateToken, async (req, res) => {
   try {
     const { preferences, servings = 2, dietaryRestrictions = '', budgetMin = '', budgetMax = '', allergies = '', healthGoal = '', weight = '', activityLevel = 'moderate' } = req.body;
 
@@ -510,11 +646,13 @@ Format:
 });
 
 // Save meal plan to database
-app.post('/api/save-meal-plan', async (req, res) => {
+// Save meal plan endpoint (protected)
+app.post('/api/save-meal-plan', authenticateToken, async (req, res) => {
   try {
     const { name, preferences, servings, dietaryRestrictions, mealPlan, recipes, groceryList, prepInstructions } = req.body;
     
     const id = await db.saveMealPlan({
+      userId: req.user.userId,
       name,
       preferences,
       servings,
@@ -532,10 +670,10 @@ app.post('/api/save-meal-plan', async (req, res) => {
   }
 });
 
-// Get all saved meal plans
-app.get('/api/meal-plans', async (req, res) => {
+// Get all saved meal plans for current user (protected)
+app.get('/api/meal-plans', authenticateToken, async (req, res) => {
   try {
-    const plans = await db.getAllMealPlans();
+    const plans = await db.getAllMealPlans(req.user.userId);
     res.json({ success: true, data: plans });
   } catch (error) {
     console.error('Error getting meal plans:', error);
@@ -543,10 +681,10 @@ app.get('/api/meal-plans', async (req, res) => {
   }
 });
 
-// Get a specific meal plan
-app.get('/api/meal-plans/:id', async (req, res) => {
+// Get a specific meal plan (protected)
+app.get('/api/meal-plans/:id', authenticateToken, async (req, res) => {
   try {
-    const plan = await db.getMealPlan(req.params.id);
+    const plan = await db.getMealPlan(req.params.id, req.user.userId);
     if (!plan) {
       return res.status(404).json({ success: false, error: 'Meal plan not found' });
     }
@@ -557,10 +695,10 @@ app.get('/api/meal-plans/:id', async (req, res) => {
   }
 });
 
-// Delete a meal plan
-app.delete('/api/meal-plans/:id', async (req, res) => {
+// Delete a meal plan (protected)
+app.delete('/api/meal-plans/:id', authenticateToken, async (req, res) => {
   try {
-    await db.deleteMealPlan(req.params.id);
+    await db.deleteMealPlan(req.params.id, req.user.userId);
     res.json({ success: true });
   } catch (error) {
     console.error('Error deleting meal plan:', error);

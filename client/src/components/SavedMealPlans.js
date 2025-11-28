@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import './SavedMealPlans.css';
 import ProgressBar from './ProgressBar';
 import EmptyState from './EmptyState';
+import { useAuth } from '../context/AuthContext';
 
 function SavedMealPlans({ onLoadPlan, onClose }) {
+  const { token } = useAuth();
   const [savedPlans, setSavedPlans] = useState([]);
   const [loading, setLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
@@ -20,7 +22,11 @@ function SavedMealPlans({ onLoadPlan, onClose }) {
     }, 200);
     
     try {
-      const response = await fetch('/api/meal-plans');
+      const response = await fetch('/api/meal-plans', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
       const data = await response.json();
       clearInterval(progressInterval);
       
@@ -110,7 +116,11 @@ function SavedMealPlans({ onLoadPlan, onClose }) {
 
   const handleLoad = async (id) => {
     try {
-      const response = await fetch(`/api/meal-plans/${id}`);
+      const response = await fetch(`/api/meal-plans/${id}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
       const data = await response.json();
       if (data.success) {
         onLoadPlan(data.data);
@@ -126,7 +136,12 @@ function SavedMealPlans({ onLoadPlan, onClose }) {
     }
     
     try {
-      await fetch(`/api/meal-plans/${id}`, { method: 'DELETE' });
+      await fetch(`/api/meal-plans/${id}`, { 
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
       fetchSavedPlans();
     } catch (error) {
       console.error('Error deleting plan:', error);

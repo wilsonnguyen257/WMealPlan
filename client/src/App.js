@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import './App.css';
+import { AuthProvider, useAuth } from './context/AuthContext';
+import AuthPage from './components/AuthPage';
 import MealPlanForm from './components/MealPlanForm';
 import MealPlanDisplay from './components/MealPlanDisplay';
 import GroceryList from './components/GroceryList';
@@ -14,7 +16,8 @@ import KeyboardShortcuts from './components/KeyboardShortcuts';
 import { exportMealPlanToPDF } from './utils/pdfExport';
 import { Analytics } from '@vercel/analytics/react';
 
-function App() {
+function AppContent() {
+  const { user, loading: authLoading, logout, token } = useAuth();
   const [mealPlan, setMealPlan] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -27,6 +30,29 @@ function App() {
   const [progressStage, setProgressStage] = useState('');
   const [showShortcuts, setShowShortcuts] = useState(false);
 
+  // Helper function to add auth header
+  const getAuthHeaders = () => ({
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${token}`
+  });
+
+  // Show loading screen while checking auth
+  if (authLoading) {
+    return (
+      <div className="App">
+        <div className="loading-spinner">
+          <div className="spinner"></div>
+          <p>Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Show auth page if not logged in
+  if (!user) {
+    return <AuthPage />;
+  }
+
   // Show toast notification
   const showToast = (message, type = 'success') => {
     setToast({ show: true, message, type });
@@ -36,7 +62,9 @@ function App() {
   // Fetch saved plans count
   const updateSavedPlansCount = async () => {
     try {
-      const response = await fetch('/api/meal-plans');
+      const response = await fetch('/api/meal-plans', {
+        headers: getAuthHeaders()
+      });
       const data = await response.json();
       if (data.success) {
         setSavedPlansCount(data.data.length);
@@ -124,9 +152,7 @@ function App() {
     try {
       const response = await fetch('/api/generate-meal-plan', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: getAuthHeaders(),
         body: JSON.stringify({
           preferences,
           servings,
@@ -174,7 +200,7 @@ function App() {
     try {
       const response = await fetch('/api/save-meal-plan', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: getAuthHeaders(),
         body: JSON.stringify({
           name: name.trim(),
           ...formData,
@@ -222,6 +248,7 @@ function App() {
             <p className="tagline">Meal planning that adapts to your life</p>
           </div>
           <div className="header-actions">
+            {user && <span className="user-email">{user.email}</span>}
             <button 
               className="saved-plans-toggle"
               onClick={() => setShowSavedPlans(!showSavedPlans)}
@@ -239,6 +266,14 @@ function App() {
               title="Keyboard shortcuts (?)"
             >
               <span>⌨️</span>
+            </button>
+            <button
+              className="logout-btn"
+              onClick={logout}
+              aria-label="Logout"
+              title="Logout"
+            >
+              <span>🚪</span>
             </button>
           </div>
         </div>
@@ -397,6 +432,14 @@ function App() {
       <KeyboardShortcuts isOpen={showShortcuts} onClose={() => setShowShortcuts(false)} />
       <Analytics />
     </div>
+  );
+}
+
+function App() {
+  return (
+    <AuthProvider>
+      <AppContent />
+    </AuthProvider>
   );
 }
 

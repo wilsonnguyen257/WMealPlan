@@ -3,9 +3,22 @@ const { sql } = require('@vercel/postgres');
 // Initialize database schema
 async function initDatabase() {
   try {
+    // Create users table
+    await sql`
+      CREATE TABLE IF NOT EXISTS users (
+        id SERIAL PRIMARY KEY,
+        email TEXT UNIQUE NOT NULL,
+        password_hash TEXT NOT NULL,
+        name TEXT,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      )
+    `;
+
+    // Create meal_plans table with user_id
     await sql`
       CREATE TABLE IF NOT EXISTS meal_plans (
         id SERIAL PRIMARY KEY,
+        user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
         name TEXT NOT NULL,
         preferences TEXT,
         servings INTEGER,
@@ -17,6 +30,13 @@ async function initDatabase() {
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       )
     `;
+
+    // Create index on user_id for faster queries
+    await sql`
+      CREATE INDEX IF NOT EXISTS idx_meal_plans_user_id 
+      ON meal_plans(user_id)
+    `;
+
     console.log('Database schema initialized');
   } catch (error) {
     console.error('Error initializing database:', error);
@@ -31,10 +51,11 @@ async function saveMealPlan(data) {
   try {
     const result = await sql`
       INSERT INTO meal_plans (
-        name, preferences, servings, dietary_restrictions, 
+        user_id, name, preferences, servings, dietary_restrictions, 
         meal_plan, recipes, grocery_list, prep_instructions
       )
       VALUES (
+        ${data.userId},
         ${data.name},
         ${data.preferences || ''},
         ${data.servings || 2},
@@ -54,12 +75,13 @@ async function saveMealPlan(data) {
   }
 }
 
-// Get all meal plans (summary)
-async function getAllMealPlans() {
+// Get all meal plans for a specific user
+async function getAllMealPlans(userId) {
   try {
     const result = await sql`
       SELECT id, name, preferences, servings, dietary_restrictions, created_at
       FROM meal_plans
+      WHERE user_id = ${userId}
       ORDER BY created_at DESC
     `;
     
@@ -70,15 +92,15 @@ async function getAllMealPlans() {
   }
 }
 
-// Get a specific meal plan by ID
-async function getMealPlan(id) {
+// Get a specific meal plan by ID (with user verification)
+async function getMealPlan(id, userId) {
   try {
     const result = await sql`
       SELECT 
         id, name, preferences, servings, dietary_restrictions,
         meal_plan, recipes, grocery_list, prep_instructions, created_at
       FROM meal_plans
-      WHERE id = ${id}
+      WHERE id = ${id} AND user_id = ${userId}
     `;
     
     if (result.rows.length === 0) {
@@ -106,15 +128,61 @@ async function getMealPlan(id) {
   }
 }
 
-// Delete a meal plan
-async function deleteMealPlan(id) {
+// Delete a meal plan (with user verification)
+async function deleteMealPlan(id, userId) {
   try {
     await sql`
       DELETE FROM meal_plans
-      WHERE id = ${id}
+      WHERE id = ${id} AND user_id = ${userId}
     `;
   } catch (error) {
     console.error('Error deleting meal plan:', error);
+    throw error;
+  }
+}
+
+// User authentication functions
+async function createUser(email, passwordHash, name = null) {
+  try {
+    const result = await sql`
+      INSERT INTO users (email, password_hash, name)
+      VALUES (${email}, ${passwordHash}, ${name})
+      RETURNING id, email, name, created_at
+    `;
+    return result.rows[0];
+  } catch (error) {
+    if (error.message.includes('unique')) {
+      throw new Error('Email already exists');
+    }
+    console.error('Error creating user:', error);
+    throw error;
+  }
+}
+
+async function getUserByEmail(email) {
+  try {
+    const result = await sql`
+      SELECT id, email, password_hash, name, created_at
+      FROM users
+      WHERE email = ${email}
+    `;
+    return result.rows[0] || null;
+  } catch (error) {
+    console.error('Error getting user by email:', error);
+    throw error;
+  }
+}
+
+async function getUserById(id) {
+  try {
+    const result = await sql`
+      SELECT id, email, name, created_at
+      FROM users
+      WHERE id = ${id}
+    `;
+    return result.rows[0] || null;
+  } catch (error) {
+    console.error('Error getting user by ID:', error);
     throw error;
   }
 }
@@ -123,5 +191,8 @@ module.exports = {
   saveMealPlan,
   getAllMealPlans,
   getMealPlan,
-  deleteMealPlan
+  deleteMealPlan,
+  createUser,
+  getUserByEmail,
+  getUserById
 };

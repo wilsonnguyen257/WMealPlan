@@ -4,10 +4,12 @@ import { formatText } from '../utils/textFormatter';
 import './RecipeSearch.css';
 import ProgressBar from './ProgressBar';
 import EmptyState from './EmptyState';
+import { useAuth } from '../context/AuthContext';
 
 const AUTOSAVE_KEY = 'recipeSearchFormData';
 
 function RecipeSearch() {
+  const { token } = useAuth();
   // Initialize from localStorage
   const getSavedData = () => {
     try {
@@ -67,7 +69,10 @@ function RecipeSearch() {
     try {
       const response = await fetch('/api/search-recipes', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
         body: JSON.stringify({ query: searchQuery })
       });
 

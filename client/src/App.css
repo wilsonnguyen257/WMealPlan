@@ -78,6 +78,37 @@
   gap: var(--space-3);
 }
 
+.user-email {
+  color: var(--gray-600);
+  font-size: var(--text-sm);
+  font-weight: 300;
+  padding: 0 var(--space-2);
+}
+
+.logout-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  background: var(--white);
+  color: var(--gray-600);
+  border: 1px solid var(--gray-300);
+  border-radius: var(--radius-lg);
+  font-size: var(--text-lg);
+  cursor: pointer;
+  transition: all var(--duration-base) var(--ease-out);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.logout-btn:hover {
+  background: var(--gray-50);
+  color: var(--gray-900);
+  border-color: var(--gray-900);
+  transform: translateY(-1px);
+}
+
 .saved-plans-toggle {
   display: flex;
   align-items: center;

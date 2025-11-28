@@ -12,6 +12,7 @@ import Toast from './components/Toast';
 import ProgressBar from './components/ProgressBar';
 import KeyboardShortcuts from './components/KeyboardShortcuts';
 import { exportMealPlanToPDF } from './utils/pdfExport';
+import { Analytics } from '@vercel/analytics/react';
 
 function App() {
   const [mealPlan, setMealPlan] = useState(null);
@@ -394,6 +395,7 @@ function App() {
 
       {toast.show && <Toast message={toast.message} type={toast.type} />}
       <KeyboardShortcuts isOpen={showShortcuts} onClose={() => setShowShortcuts(false)} />
+      <Analytics />
     </div>
   );
 }

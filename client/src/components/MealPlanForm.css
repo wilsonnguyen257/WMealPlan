@@ -1,24 +1,29 @@
 .meal-plan-form {
-  background: transparent;
-  padding: var(--space-12) var(--space-6);
-  border-radius: 0;
-  box-shadow: none;
-  transition: all var(--transition-base);
-  border: none;
-  max-width: 720px;
-  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(24px);
+  padding: var(--space-12) var(--space-8);
+  border-radius: var(--radius-2xl);
+  box-shadow: 0 8px 32px rgba(16, 185, 129, 0.1);
+  transition: all var(--duration-base) var(--ease-out);
+  border: 2px solid rgba(16, 185, 129, 0.1);
+  max-width: 800px;
+  margin: 0 auto var(--space-12) auto;
 }
 
 .meal-plan-form:hover {
-  box-shadow: none;
+  box-shadow: 0 12px 48px rgba(16, 185, 129, 0.15);
+  border-color: rgba(16, 185, 129, 0.2);
 }
 
 .meal-plan-form h2 {
-  color: var(--gray-900);
+  background: linear-gradient(135deg, var(--primary-600) 0%, var(--primary-500) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
   margin-bottom: var(--space-2);
-  font-size: var(--text-2xl);
-  font-weight: 300;
-  letter-spacing: -0.02em;
+  font-size: var(--text-4xl);
+  font-weight: 700;
+  letter-spacing: var(--tracking-tight);
   text-align: center;
 }
 

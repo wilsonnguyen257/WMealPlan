@@ -1,10 +1,20 @@
 .pantry-meals-section {
-  background: transparent;
-  padding: var(--space-8);
-  border-radius: 0;
-  box-shadow: none;
-  margin-bottom: var(--space-10);
-  border: none;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(24px);
+  padding: var(--space-12) var(--space-8);
+  border-radius: var(--radius-2xl);
+  box-shadow: 0 8px 32px rgba(255, 107, 107, 0.1);
+  margin-bottom: var(--space-12);
+  border: 2px solid rgba(255, 107, 107, 0.1);
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  transition: all var(--duration-base) var(--ease-out);
+}
+
+.pantry-meals-section:hover {
+  box-shadow: 0 12px 48px rgba(255, 107, 107, 0.15);
+  border-color: rgba(255, 107, 107, 0.2);
 }
 
 .pantry-header {
@@ -21,18 +31,21 @@
 }
 
 .pantry-header h2 {
-  color: var(--gray-900);
+  background: linear-gradient(135deg, var(--accent-500) 0%, var(--accent-600) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
   font-size: var(--text-4xl);
-  font-weight: 300;
+  font-weight: 700;
   margin-bottom: var(--space-2);
-  letter-spacing: -0.02em;
+  letter-spacing: var(--tracking-tight);
   text-align: center;
 }
 
 .pantry-header p {
-  color: var(--gray-500);
+  color: var(--gray-600);
   font-size: var(--text-lg);
-  font-weight: 300;
+  font-weight: 500;
   text-align: center;
 }
 

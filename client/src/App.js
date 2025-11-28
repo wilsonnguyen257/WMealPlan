@@ -280,8 +280,7 @@ function AppContent() {
               aria-expanded={showSavedPlans}
             >
               <span className="saved-icon">📁</span>
-              <span>Saved Plans</span>
-              {savedPlansCount > 0 && <span className="badge">{savedPlansCount}</span>}
+              <span>Saved Plans {savedPlansCount > 0 && `(${savedPlansCount})`}</span>
             </button>
             <button
               className="keyboard-hint-btn"

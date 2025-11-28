@@ -73,8 +73,8 @@ function MealPlanForm({ onGenerate, loading }) {
     <div className="meal-plan-form">
       <div className="form-header">
         <div>
-          <h2>Create Your Weekly Meal Plan</h2>
-          <p className="form-subtitle">Fill in the essentials, expand for more options</p>
+          <h2>Choose Your Meal Style</h2>
+          <p className="form-subtitle">Pick a preset or customize your plan</p>
         </div>
         {lastSaved && (
           <div className="autosave-indicator">
@@ -92,40 +92,79 @@ function MealPlanForm({ onGenerate, loading }) {
         )}
       </div>
       
-      <div className="example-prompts">
-        <p className="prompts-label">Quick ideas:</p>
-        <button 
-          type="button" 
-          className="prompt-chip"
-          onClick={() => setPreferences('healthy mediterranean meals')}
-          disabled={loading}
-        >
-          Mediterranean
-        </button>
-        <button 
-          type="button" 
-          className="prompt-chip"
-          onClick={() => setPreferences('quick 30-minute meals')}
-          disabled={loading}
-        >
-          Quick & Easy
-        </button>
-        <button 
-          type="button" 
-          className="prompt-chip"
-          onClick={() => setPreferences('high protein low carb')}
-          disabled={loading}
-        >
-          High Protein
-        </button>
-        <button 
-          type="button" 
-          className="prompt-chip"
-          onClick={() => setPreferences('budget-friendly family meals')}
-          disabled={loading}
-        >
-          Budget Friendly
-        </button>
+      <div className="quick-start-presets">
+        <p className="presets-label">🚀 Popular meal plans:</p>
+        <div className="preset-grid">
+          <button 
+            type="button" 
+            className="preset-card"
+            onClick={() => {
+              setPreferences('budget-friendly family meals with chicken, pasta, rice');
+              setServings(4);
+              setBudgetMin('80');
+              setBudgetMax('120');
+            }}
+            disabled={loading}
+          >
+            <span className="preset-icon">👨‍👩‍👧‍👦</span>
+            <h3>Budget Family</h3>
+            <p>4 people · $80-120/week</p>
+            <span className="preset-tag">Most Popular</span>
+          </button>
+          
+          <button 
+            type="button" 
+            className="preset-card"
+            onClick={() => {
+              setPreferences('quick 30-minute healthy meals for busy professionals');
+              setServings(2);
+              setHealthGoal('maintain');
+            }}
+            disabled={loading}
+          >
+            <span className="preset-icon">⚡</span>
+            <h3>Quick & Healthy</h3>
+            <p>2 people · 30 min meals</p>
+            <span className="preset-tag">Time Saver</span>
+          </button>
+          
+          <button 
+            type="button" 
+            className="preset-card"
+            onClick={() => {
+              setPreferences('high protein low carb meals for fitness');
+              setServings(1);
+              setHealthGoal('lose');
+              setActivityLevel('active');
+            }}
+            disabled={loading}
+          >
+            <span className="preset-icon">💪</span>
+            <h3>Fitness Focus</h3>
+            <p>1 person · High protein</p>
+            <span className="preset-tag">Gym Ready</span>
+          </button>
+          
+          <button 
+            type="button" 
+            className="preset-card"
+            onClick={() => {
+              setPreferences('healthy mediterranean diet with vegetables, fish, olive oil');
+              setServings(2);
+              setHealthGoal('maintain');
+            }}
+            disabled={loading}
+          >
+            <span className="preset-icon">🥗</span>
+            <h3>Mediterranean</h3>
+            <p>2 people · Heart healthy</p>
+            <span className="preset-tag">Trending</span>
+          </button>
+        </div>
+        
+        <div className="preset-divider">
+          <span>or customize below</span>
+        </div>
       </div>
       
       <form onSubmit={handleSubmit}>
@@ -195,8 +234,8 @@ function MealPlanForm({ onGenerate, loading }) {
           className="toggle-advanced"
           onClick={() => setShowAdvanced(!showAdvanced)}
         >
-          {showAdvanced ? '▼ Hide' : '▶ Show'} Advanced Options
-          <span className="optional-badge">Optional</span>
+          <span>{showAdvanced ? '🔽' : '🔼'} {showAdvanced ? 'Less' : 'More'} Options</span>
+          <span className="optional-badge">{showAdvanced ? 'Hide' : 'Customize'}</span>
         </button>
 
         {/* Advanced Options */}
@@ -295,7 +334,11 @@ function MealPlanForm({ onGenerate, loading }) {
         )}
 
         <button type="submit" className="generate-btn" disabled={loading}>
-          {loading ? 'Generating Your Plan...' : 'Generate Meal Plan'}
+          <span className="btn-icon">{loading ? '⏳' : '✨'}</span>
+          <span className="btn-text">
+            {loading ? 'Creating Your Perfect Week...' : 'Generate My Meal Plan'}
+          </span>
+          {!loading && <span className="btn-arrow">→</span>}
         </button>
       </form>
     </div>

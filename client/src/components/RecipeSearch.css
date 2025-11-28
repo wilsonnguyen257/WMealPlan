@@ -283,12 +283,12 @@
 .view-recipe-btn {
   width: 100%;
   padding: 12px;
-  background: #4CAF50;
+  background: var(--gray-900);
   color: white;
   border: none;
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   font-size: 15px;
-  font-weight: 600;
+  font-weight: 400;
   cursor: pointer;
   transition: all 0.3s ease;
   min-height: 44px;
@@ -296,8 +296,8 @@
 }
 
 .view-recipe-btn:hover {
-  background: #45a049;
   transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .view-recipe-btn:active {

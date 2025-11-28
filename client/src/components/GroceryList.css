@@ -33,20 +33,20 @@
   border-radius: var(--radius-xl);
   cursor: pointer;
   font-size: var(--text-base);
-  font-weight: 700;
-  transition: all var(--transition-base);
+  font-weight: var(--font-bold);
+  transition: all var(--duration-base) var(--ease-out);
   min-height: 44px;
   -webkit-tap-highlight-color: transparent;
 }
 
 .print-btn {
-  background: #4CAF50;
-  box-shadow: 0 2px 8px rgba(76, 175, 80, 0.2);
+  background: var(--primary-500);
+  box-shadow: var(--shadow-md);
 }
 
 .print-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+  box-shadow: var(--shadow-primary);
 }
 
 .print-btn:active {
@@ -54,13 +54,13 @@
 }
 
 .export-btn {
-  background: #FFB55A;
-  box-shadow: 0 2px 8px rgba(255, 181, 90, 0.2);
+  background: var(--accent-500);
+  box-shadow: var(--shadow-md);
 }
 
 .export-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(255, 181, 90, 0.3);
+  box-shadow: var(--shadow-accent);
 }
 
 .export-btn:active {
@@ -68,19 +68,19 @@
 }
 
 .grocery-category {
-  margin-bottom: 24px;
+  margin-bottom: var(--space-6);
 }
 
 .grocery-category h3 {
-  color: #4CAF50;
-  font-size: 18px;
-  font-weight: 600;
-  margin-bottom: 12px;
-  padding-bottom: 8px;
-  border-bottom: 2px solid #EAEAEA;
+  color: var(--primary-500);
+  font-size: var(--text-lg);
+  font-weight: var(--font-semibold);
+  margin-bottom: var(--space-3);
+  padding-bottom: var(--space-2);
+  border-bottom: 2px solid var(--gray-200);
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--space-2);
 }
 
 .grocery-category ul {
@@ -89,18 +89,18 @@
 }
 
 .grocery-category li {
-  padding: 12px 16px;
-  margin-bottom: 8px;
-  background: #FAFAFA;
-  border-radius: 16px;
-  transition: all 0.2s ease;
-  border: 1px solid #EAEAEA;
+  padding: var(--space-3) var(--space-4);
+  margin-bottom: var(--space-2);
+  background: var(--gray-50);
+  border-radius: var(--radius-xl);
+  transition: all var(--duration-base) var(--ease-out);
+  border: 1px solid var(--gray-200);
 }
 
 .grocery-category li:hover {
-  background: #F5F5F5;
-  border-color: #4CAF50;
-  padding-left: 16px;
+  background: var(--gray-100);
+  border-color: var(--primary-500);
+  padding-left: var(--space-4);
 }
 
 .grocery-category li:last-child {
@@ -111,27 +111,27 @@
   display: flex;
   align-items: center;
   cursor: pointer;
-  gap: 12px;
+  gap: var(--space-3);
 }
 
 .grocery-category li input[type="checkbox"] {
   width: 20px;
   height: 20px;
   cursor: pointer;
-  accent-color: #4CAF50;
+  accent-color: var(--primary-500);
 }
 
 .grocery-category li span {
   flex: 1;
-  transition: all 0.2s;
-  color: #222222;
-  font-size: 16px;
-  line-height: 1.5;
+  transition: all var(--duration-base);
+  color: var(--gray-900);
+  font-size: var(--text-base);
+  line-height: var(--leading-normal);
 }
 
 .grocery-category li.checked span {
   text-decoration: line-through;
-  color: #CCCCCC;
+  color: var(--gray-300);
   opacity: 0.6;
 }
 
@@ -152,50 +152,50 @@
 
 @media (max-width: 768px) {
   .grocery-list {
-    padding: 24px 16px;
+    padding: var(--space-6) var(--space-4);
   }
 
   .grocery-header {
     flex-direction: column;
     align-items: flex-start;
-    gap: 16px;
-    margin-bottom: 20px;
+    gap: var(--space-4);
+    margin-bottom: var(--space-5);
   }
 
   .grocery-list h2 {
-    font-size: 24px;
+    font-size: var(--text-2xl);
   }
 
   .grocery-actions {
     width: 100%;
     flex-direction: column;
-    gap: 10px;
+    gap: var(--space-3);
   }
 
   .print-btn, .export-btn {
     width: 100%;
-    padding: 14px 20px;
-    font-size: 15px;
+    padding: var(--space-4) var(--space-5);
+    font-size: var(--text-sm);
   }
 
   .grocery-category {
-    margin-bottom: 20px;
+    margin-bottom: var(--space-5);
   }
 
   .grocery-category h3 {
-    font-size: 16px;
-    margin-bottom: 10px;
-    padding-bottom: 6px;
+    font-size: var(--text-base);
+    margin-bottom: var(--space-3);
+    padding-bottom: var(--space-2);
   }
 
   .grocery-category li {
-    padding: 14px 12px;
-    margin-bottom: 6px;
-    font-size: 15px;
+    padding: var(--space-4) var(--space-3);
+    margin-bottom: var(--space-2);
+    font-size: var(--text-sm);
   }
 
   .grocery-category li:hover {
-    padding-left: 12px;
+    padding-left: var(--space-3);
   }
 }
 

@@ -75,50 +75,50 @@
 }
 
 .copy-btn:hover {
-  background: #E8F5E9;
-  border-color: #4CAF50;
-  color: #2E7D32;
+  background: var(--primary-100);
+  border-color: var(--primary-500);
+  color: var(--primary-700);
 }
 
 .twitter-btn:hover {
-  background: #E3F2FD;
+  background: var(--info-100);
   border-color: #1DA1F2;
   color: #1DA1F2;
 }
 
 .facebook-btn:hover {
-  background: #E3F2FD;
+  background: var(--info-100);
   border-color: #1877F2;
   color: #1877F2;
 }
 
 .whatsapp-btn:hover {
-  background: #E8F5E9;
+  background: var(--primary-100);
   border-color: #25D366;
   color: #25D366;
 }
 
 .email-btn:hover {
-  background: #FFF3E0;
-  border-color: #FFB55A;
-  color: #E65100;
+  background: var(--accent-100);
+  border-color: var(--accent-500);
+  color: var(--accent-700);
 }
 
 .share-toast {
   position: fixed;
   top: 80px;
   right: 20px;
-  background: #2E7D32;
-  color: white;
-  padding: 16px 24px;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  animation: slideInRight 0.3s ease, fadeOut 0.3s ease 2.7s;
-  z-index: 1000;
-  font-weight: 500;
+  background: var(--primary-700);
+  color: var(--white);
+  padding: var(--space-4) var(--space-6);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  animation: slideInRight var(--duration-base) var(--ease-out), fadeOut var(--duration-base) var(--ease-out) 2.7s;
+  z-index: var(--z-toast);
+  font-weight: var(--font-medium);
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--space-2);
 }
 
 @keyframes slideInRight {
@@ -142,109 +142,109 @@
 .meal-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 16px;
-  margin-bottom: 32px;
+  gap: var(--space-4);
+  margin-bottom: var(--space-8);
 }
 
 .day-card {
-  background: #FAFAFA;
-  padding: 24px;
-  border-radius: 16px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
-  transition: all 0.2s ease;
-  border: 1px solid #EAEAEA;
+  background: var(--gray-50);
+  padding: var(--space-6);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-sm);
+  transition: all var(--duration-base) var(--ease-out);
+  border: 1px solid var(--gray-200);
 }
 
 .day-card:hover {
   transform: scale(1.02);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  border-color: #4CAF50;
+  box-shadow: var(--shadow-md);
+  border-color: var(--primary-500);
 }
 
 .day-card h3 {
-  color: #4CAF50;
-  margin-bottom: 16px;
-  font-size: 20px;
-  font-weight: 600;
-  border-bottom: 2px solid #EAEAEA;
-  padding-bottom: 12px;
+  color: var(--primary-500);
+  margin-bottom: var(--space-4);
+  font-size: var(--text-xl);
+  font-weight: var(--font-semibold);
+  border-bottom: 2px solid var(--gray-200);
+  padding-bottom: var(--space-3);
 }
 
 .meal-item {
   display: flex;
   flex-direction: column;
-  margin-bottom: 12px;
-  padding: 16px;
-  background: white;
-  border-radius: 16px;
-  transition: all 0.2s ease;
-  border-left: 3px solid #EAEAEA;
+  margin-bottom: var(--space-3);
+  padding: var(--space-4);
+  background: var(--white);
+  border-radius: var(--radius-xl);
+  transition: all var(--duration-base) var(--ease-out);
+  border-left: 3px solid var(--gray-200);
 }
 
 .meal-item:hover {
-  border-left-color: #4CAF50;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  border-left-color: var(--primary-500);
+  box-shadow: var(--shadow-sm);
 }
 
 .meal-type {
-  font-size: 12px;
-  color: #FFB55A;
+  font-size: var(--text-xs);
+  color: var(--accent-500);
   text-transform: uppercase;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-  margin-bottom: 4px;
+  font-weight: var(--font-semibold);
+  letter-spacing: var(--tracking-wide);
+  margin-bottom: var(--space-1);
 }
 
 .meal-name {
-  color: #222222;
-  font-weight: 600;
+  color: var(--gray-900);
+  font-weight: var(--font-semibold);
   cursor: pointer;
-  transition: all 0.2s ease;
-  font-size: 16px;
-  line-height: 1.5;
+  transition: all var(--duration-base) var(--ease-out);
+  font-size: var(--text-base);
+  line-height: var(--leading-normal);
 }
 
 .meal-name:hover {
-  color: #4CAF50;
+  color: var(--primary-500);
 }
 
 .recipes-section {
-  margin-top: 48px;
+  margin-top: var(--space-12);
 }
 
 .recipes-list {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 16px;
+  gap: var(--space-4);
 }
 
 .recipe-card {
-  background: #FAFAFA;
-  padding: 28px;
-  border-radius: 16px;
+  background: var(--gray-50);
+  padding: var(--space-7);
+  border-radius: var(--radius-xl);
   cursor: pointer;
-  transition: all 0.2s ease;
-  border: 1px solid #EAEAEA;
+  transition: all var(--duration-base) var(--ease-out);
+  border: 1px solid var(--gray-200);
   position: relative;
 }
 
 .recipe-card:hover {
   transform: scale(1.02);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--shadow-md);
 }
 
 .recipe-card h4 {
-  color: #222222;
-  margin-bottom: 16px;
-  font-size: 20px;
-  font-weight: 700;
+  color: var(--gray-900);
+  margin-bottom: var(--space-4);
+  font-size: var(--text-xl);
+  font-weight: var(--font-bold);
 }
 
 .recipe-quick-info {
   display: flex;
-  gap: 16px;
-  font-size: 14px;
-  color: #444444;
+  gap: var(--space-4);
+  font-size: var(--text-sm);
+  color: var(--gray-700);
 }
 
 .recipe-modal {
@@ -258,9 +258,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000;
-  padding: 20px;
-  animation: fadeIn 0.2s ease-out;
+  z-index: var(--z-modal);
+  padding: var(--space-5);
+  animation: fadeIn var(--duration-base) var(--ease-out);
 }
 
 @keyframes fadeIn {
@@ -269,28 +269,28 @@
 }
 
 .recipe-modal-wrapper {
-  background: white;
-  border-radius: 16px;
+  background: var(--white);
+  border-radius: var(--radius-xl);
   max-width: 800px;
   width: 100%;
   max-height: 90vh;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-  animation: slideUp 0.3s ease-out;
+  box-shadow: var(--shadow-2xl);
+  animation: slideUp var(--duration-base) var(--ease-out);
   overflow: hidden;
 }
 
 .recipe-modal-header {
-  background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
-  color: white;
-  padding: 32px;
+  background: linear-gradient(135deg, var(--primary-700) 0%, var(--primary-500) 100%);
+  color: var(--white);
+  padding: var(--space-8);
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  gap: 16px;
+  gap: var(--space-4);
   flex-shrink: 0;
-  border-radius: 16px 16px 0 0;
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
 }
 
 .recipe-header-content {
@@ -299,42 +299,42 @@
 }
 
 .recipe-modal-header h2 {
-  color: white;
-  margin: 0 0 16px 0;
-  font-size: 28px;
-  font-weight: 700;
-  letter-spacing: -0.5px;
-  line-height: 1.2;
+  color: var(--white);
+  margin: 0 0 var(--space-4) 0;
+  font-size: var(--text-3xl);
+  font-weight: var(--font-bold);
+  letter-spacing: var(--tracking-tight);
+  line-height: var(--leading-tight);
 }
 
 .recipe-meta {
   display: flex;
   flex-wrap: wrap;
-  gap: 16px;
-  font-size: 14px;
+  gap: var(--space-4);
+  font-size: var(--text-sm);
   color: rgba(255, 255, 255, 0.95);
 }
 
 .recipe-meta span {
   background: rgba(255, 255, 255, 0.15);
-  padding: 6px 12px;
-  border-radius: 8px;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
   backdrop-filter: blur(10px);
 }
 
 .close-btn {
   background: rgba(255, 255, 255, 0.2);
   border: 2px solid rgba(255, 255, 255, 0.3);
-  border-radius: 50%;
+  border-radius: var(--radius-full);
   width: 40px;
   height: 40px;
-  font-size: 24px;
+  font-size: var(--text-2xl);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all var(--duration-base) var(--ease-out);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
+  color: var(--white);
   flex-shrink: 0;
   -webkit-tap-highlight-color: transparent;
 }
@@ -353,7 +353,7 @@
   flex: 1;
   overflow-y: auto;
   overflow-x: hidden;
-  padding: 32px;
+  padding: var(--space-8);
   -webkit-overflow-scrolling: touch;
   overscroll-behavior: contain;
 }
@@ -363,75 +363,75 @@
 }
 
 .recipe-modal-body::-webkit-scrollbar-track {
-  background: #F5F5F5;
+  background: var(--gray-100);
 }
 
 .recipe-modal-body::-webkit-scrollbar-thumb {
-  background: #CCCCCC;
-  border-radius: 5px;
+  background: var(--gray-300);
+  border-radius: var(--radius-sm);
 }
 
 .recipe-modal-body::-webkit-scrollbar-thumb:hover {
-  background: #999999;
+  background: var(--gray-400);
 }
 
 .recipe-section {
-  margin-bottom: 24px;
+  margin-bottom: var(--space-6);
 }
 
 .recipe-section h3 {
-  color: #222222;
-  margin-bottom: 12px;
-  font-size: 20px;
-  font-weight: 700;
+  color: var(--gray-900);
+  margin-bottom: var(--space-3);
+  font-size: var(--text-xl);
+  font-weight: var(--font-bold);
 }
 
 .recipe-section ul,
 .recipe-section ol {
-  padding-left: 24px;
+  padding-left: var(--space-6);
 }
 
 .recipe-section li {
-  margin-bottom: 8px;
-  line-height: 1.6;
-  color: #444444;
-  font-size: 16px;
+  margin-bottom: var(--space-2);
+  line-height: var(--leading-relaxed);
+  color: var(--gray-700);
+  font-size: var(--text-base);
 }
 
 .recipe-section.storage {
-  background: #FFF9F0;
-  padding: 16px;
-  border-radius: 16px;
-  border-left: 4px solid #FFB55A;
+  background: var(--accent-50);
+  padding: var(--space-4);
+  border-radius: var(--radius-xl);
+  border-left: 4px solid var(--accent-500);
 }
 
 @media (max-width: 768px) {
   .meal-plan-display {
-    padding: 24px 16px;
+    padding: var(--space-6) var(--space-4);
   }
 
   .plan-header {
     flex-direction: column;
     align-items: stretch;
-    gap: 16px;
+    gap: var(--space-4);
   }
 
   .plan-header h2 {
-    font-size: 24px;
+    font-size: var(--text-2xl);
     text-align: center;
   }
 
   .share-buttons {
     justify-content: center;
-    gap: 8px;
+    gap: var(--space-2);
   }
 
   .share-btn {
     flex: 1;
     min-width: 0;
     justify-content: center;
-    padding: 12px 12px;
-    font-size: 13px;
+    padding: var(--space-3);
+    font-size: var(--text-sm);
   }
 
   .share-label {
@@ -439,7 +439,7 @@
   }
 
   .share-icon {
-    font-size: 20px;
+    font-size: var(--text-xl);
   }
 
   .share-toast {
@@ -447,72 +447,72 @@
     right: 10px;
     left: 10px;
     text-align: center;
-    font-size: 14px;
-    padding: 12px 16px;
+    font-size: var(--text-sm);
+    padding: var(--space-3) var(--space-4);
   }
 
   .meal-plan-display h2 {
-    font-size: 24px;
-    margin-bottom: 24px;
+    font-size: var(--text-2xl);
+    margin-bottom: var(--space-6);
   }
 
   .meal-grid {
     grid-template-columns: 1fr;
-    gap: 12px;
+    gap: var(--space-3);
   }
 
   .day-card {
-    padding: 16px;
+    padding: var(--space-4);
   }
 
   .day-card h3 {
-    font-size: 18px;
-    margin-bottom: 12px;
-    padding-bottom: 8px;
+    font-size: var(--text-lg);
+    margin-bottom: var(--space-3);
+    padding-bottom: var(--space-2);
   }
 
   .meal-item {
-    padding: 12px;
-    margin-bottom: 8px;
+    padding: var(--space-3);
+    margin-bottom: var(--space-2);
   }
 
   .meal-type {
-    font-size: 11px;
+    font-size: var(--text-xs);
   }
 
   .meal-name {
-    font-size: 15px;
+    font-size: var(--text-sm);
   }
 
   .recipes-section {
-    margin-top: 32px;
+    margin-top: var(--space-8);
   }
 
   .recipe-card {
-    padding: 16px;
+    padding: var(--space-4);
   }
 
   .recipe-card h3 {
-    font-size: 18px;
+    font-size: var(--text-lg);
   }
 
   .recipe-meta {
     flex-direction: column;
-    gap: 8px;
-    padding: 12px;
-    font-size: 14px;
+    gap: var(--space-2);
+    padding: var(--space-3);
+    font-size: var(--text-sm);
   }
 
   .recipe-section h3 {
-    font-size: 18px;
+    font-size: var(--text-lg);
   }
 
   .recipe-section li {
-    font-size: 14px;
+    font-size: var(--text-sm);
   }
 
   .recipe-modal {
-    padding: 8px;
+    padding: var(--space-2);
   }
 
   .recipe-modal-wrapper {
@@ -520,20 +520,20 @@
   }
 
   .recipe-modal-header {
-    padding: 20px;
+    padding: var(--space-5);
   }
 
   .recipe-modal-header h2 {
-    font-size: 22px;
+    font-size: var(--text-2xl);
   }
 
   .recipe-meta {
-    gap: 8px;
-    font-size: 12px;
+    gap: var(--space-2);
+    font-size: var(--text-xs);
   }
 
   .recipe-modal-body {
-    padding: 20px;
+    padding: var(--space-5);
   }
 }
 

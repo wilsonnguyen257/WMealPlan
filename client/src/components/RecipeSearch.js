@@ -4,12 +4,11 @@ import { formatText } from '../utils/textFormatter';
 import './RecipeSearch.css';
 import ProgressBar from './ProgressBar';
 import EmptyState from './EmptyState';
-import { useAuth } from '../context/AuthContext';
+import { auth } from '../firebase';
 
 const AUTOSAVE_KEY = 'recipeSearchFormData';
 
 function RecipeSearch() {
-  const { token } = useAuth();
   // Initialize from localStorage
   const getSavedData = () => {
     try {
@@ -29,6 +28,17 @@ function RecipeSearch() {
   const [selectedRecipe, setSelectedRecipe] = useState(null);
   const [progress, setProgress] = useState(0);
   const [progressStage, setProgressStage] = useState('');
+  
+  const getAuthHeaders = async () => {
+    if (!auth.currentUser) {
+      return { 'Content-Type': 'application/json' };
+    }
+    const token = await auth.currentUser.getIdToken();
+    return {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    };
+  };
   
   // Use autosave hook
   const formData = { searchQuery };
@@ -67,12 +77,10 @@ function RecipeSearch() {
     }, 400);
 
     try {
+      const headers = await getAuthHeaders();
       const response = await fetch('/api/search-recipes', {
         method: 'POST',
-        headers: { 
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
+        headers,
         body: JSON.stringify({ query: searchQuery })
       });
 

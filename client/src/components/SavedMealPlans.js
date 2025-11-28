@@ -3,15 +3,27 @@ import './SavedMealPlans.css';
 import ProgressBar from './ProgressBar';
 import EmptyState from './EmptyState';
 import { useAuth } from '../context/AuthContext';
+import { auth } from '../firebase';
 
 function SavedMealPlans({ onLoadPlan, onClose }) {
-  const { token } = useAuth();
+  const { user } = useAuth();
   const [savedPlans, setSavedPlans] = useState([]);
   const [loading, setLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterDiet, setFilterDiet] = useState('all');
   const [sortBy, setSortBy] = useState('newest');
   const [progress, setProgress] = useState(0);
+
+  const getAuthHeaders = async () => {
+    if (!auth.currentUser) {
+      return { 'Content-Type': 'application/json' };
+    }
+    const token = await auth.currentUser.getIdToken();
+    return {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    };
+  };
 
   const fetchSavedPlans = async () => {
     setLoading(true);
@@ -22,10 +34,9 @@ function SavedMealPlans({ onLoadPlan, onClose }) {
     }, 200);
     
     try {
+      const headers = await getAuthHeaders();
       const response = await fetch('/api/meal-plans', {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
+        headers
       });
       const data = await response.json();
       clearInterval(progressInterval);
@@ -45,9 +56,11 @@ function SavedMealPlans({ onLoadPlan, onClose }) {
   };
 
   useEffect(() => {
-    fetchSavedPlans();
+    if (user) {
+      fetchSavedPlans();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [user]);
 
   // Handle ESC key to close modal
   useEffect(() => {
@@ -117,10 +130,9 @@ function SavedMealPlans({ onLoadPlan, onClose }) {
 
   const handleLoad = async (id) => {
     try {
+      const headers = await getAuthHeaders();
       const response = await fetch(`/api/meal-plans/${id}`, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
+        headers
       });
       const data = await response.json();
       if (data.success) {
@@ -137,11 +149,10 @@ function SavedMealPlans({ onLoadPlan, onClose }) {
     }
     
     try {
+      const headers = await getAuthHeaders();
       await fetch(`/api/meal-plans/${id}`, { 
         method: 'DELETE',
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
+        headers
       });
       fetchSavedPlans();
     } catch (error) {

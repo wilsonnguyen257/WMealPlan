@@ -3,22 +3,11 @@ const { sql } = require('@vercel/postgres');
 // Initialize database schema
 async function initDatabase() {
   try {
-    // Create users table
-    await sql`
-      CREATE TABLE IF NOT EXISTS users (
-        id SERIAL PRIMARY KEY,
-        email TEXT UNIQUE NOT NULL,
-        password_hash TEXT NOT NULL,
-        name TEXT,
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-      )
-    `;
-
-    // Create meal_plans table with user_id
+    // Create meal_plans table with Firebase user_id (string)
     await sql`
       CREATE TABLE IF NOT EXISTS meal_plans (
         id SERIAL PRIMARY KEY,
-        user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+        user_id TEXT NOT NULL,
         name TEXT NOT NULL,
         preferences TEXT,
         servings INTEGER,
@@ -37,9 +26,9 @@ async function initDatabase() {
       ON meal_plans(user_id)
     `;
 
-    console.log('Database schema initialized');
+    console.log('Database schema initialized successfully');
   } catch (error) {
-    console.error('Error initializing database:', error);
+    console.error('Error initializing database:', error.message);
   }
 }
 
@@ -141,58 +130,9 @@ async function deleteMealPlan(id, userId) {
   }
 }
 
-// User authentication functions
-async function createUser(email, passwordHash, name = null) {
-  try {
-    const result = await sql`
-      INSERT INTO users (email, password_hash, name)
-      VALUES (${email}, ${passwordHash}, ${name})
-      RETURNING id, email, name, created_at
-    `;
-    return result.rows[0];
-  } catch (error) {
-    if (error.message.includes('unique')) {
-      throw new Error('Email already exists');
-    }
-    console.error('Error creating user:', error);
-    throw error;
-  }
-}
-
-async function getUserByEmail(email) {
-  try {
-    const result = await sql`
-      SELECT id, email, password_hash, name, created_at
-      FROM users
-      WHERE email = ${email}
-    `;
-    return result.rows[0] || null;
-  } catch (error) {
-    console.error('Error getting user by email:', error);
-    throw error;
-  }
-}
-
-async function getUserById(id) {
-  try {
-    const result = await sql`
-      SELECT id, email, name, created_at
-      FROM users
-      WHERE id = ${id}
-    `;
-    return result.rows[0] || null;
-  } catch (error) {
-    console.error('Error getting user by ID:', error);
-    throw error;
-  }
-}
-
 module.exports = {
   saveMealPlan,
   getAllMealPlans,
   getMealPlan,
-  deleteMealPlan,
-  createUser,
-  getUserByEmail,
-  getUserById
+  deleteMealPlan
 };

@@ -4,12 +4,11 @@ import { formatText } from '../utils/textFormatter';
 import './PantryMeals.css';
 import ProgressBar from './ProgressBar';
 import EmptyState from './EmptyState';
-import { useAuth } from '../context/AuthContext';
+import { auth } from '../firebase';
 
 const AUTOSAVE_KEY = 'pantryMealsFormData';
 
 function PantryMeals() {
-  const { token } = useAuth();
   // Initialize from localStorage
   const getSavedData = () => {
     try {
@@ -30,6 +29,17 @@ function PantryMeals() {
   const [selectedRecipe, setSelectedRecipe] = useState(null);
   const [progress, setProgress] = useState(0);
   const [progressStage, setProgressStage] = useState('');
+  
+  const getAuthHeaders = async () => {
+    if (!auth.currentUser) {
+      return { 'Content-Type': 'application/json' };
+    }
+    const token = await auth.currentUser.getIdToken();
+    return {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    };
+  };
   
   // Use autosave hook
   const formData = { pantryItems, servings };
@@ -76,12 +86,10 @@ function PantryMeals() {
     }, 600);
 
     try {
+      const headers = await getAuthHeaders();
       const response = await fetch('/api/generate-from-pantry', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
+        headers,
         body: JSON.stringify({
           pantryItems,
           servings,

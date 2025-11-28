@@ -3,12 +3,9 @@ const { sql } = require('@vercel/postgres');
 // Initialize database schema
 async function initDatabase() {
   try {
-    // Drop and recreate meal_plans table to ensure correct schema
-    // This is safe for development but would need proper migration in production
-    await sql`DROP TABLE IF EXISTS meal_plans CASCADE`;
-    
+    // Create meal_plans table with proper schema
     await sql`
-      CREATE TABLE meal_plans (
+      CREATE TABLE IF NOT EXISTS meal_plans (
         id SERIAL PRIMARY KEY,
         user_id TEXT NOT NULL,
         name TEXT NOT NULL,
@@ -23,15 +20,16 @@ async function initDatabase() {
       )
     `;
 
-    // Create index on user_id for faster queries
+    // Create index on user_id for faster queries (only if it doesn't exist)
     await sql`
-      CREATE INDEX idx_meal_plans_user_id 
+      CREATE INDEX IF NOT EXISTS idx_meal_plans_user_id 
       ON meal_plans(user_id)
     `;
 
     console.log('✅ Database schema initialized successfully');
   } catch (error) {
     console.error('❌ Error initializing database:', error.message);
+    // Don't throw - allow server to start even if database init fails
   }
 }
 

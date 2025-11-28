@@ -19,8 +19,24 @@
       "dest": "/server.js"
     },
     {
+      "src": "/static/(.*)",
+      "dest": "/client/build/static/$1"
+    },
+    {
+      "src": "/manifest.json",
+      "dest": "/client/build/manifest.json"
+    },
+    {
+      "src": "/favicon.(ico|svg)",
+      "dest": "/client/build/favicon.$1"
+    },
+    {
+      "src": "/icon-(.*)\\.png\\.svg",
+      "dest": "/client/build/icon-$1.png.svg"
+    },
+    {
       "src": "/(.*)",
-      "dest": "/client/$1"
+      "dest": "/client/build/index.html"
     }
   ],
   "env": {

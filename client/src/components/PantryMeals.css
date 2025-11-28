@@ -331,7 +331,7 @@
 }
 
 .recipe-modal-header {
-  background: var(--gray-900);
+  background: linear-gradient(135deg, var(--primary-700) 0%, var(--primary-500) 100%);
   color: var(--white);
   padding: var(--space-8);
   display: flex;
@@ -339,7 +339,7 @@
   align-items: flex-start;
   gap: var(--space-4);
   flex-shrink: 0;
-  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
 }
 
 .recipe-header-content {
@@ -351,9 +351,10 @@
   color: var(--white);
   margin: 0 0 var(--space-4) 0;
   font-size: var(--text-3xl);
-  font-weight: 400;
+  font-weight: 700;
   letter-spacing: var(--tracking-tight);
   line-height: var(--leading-tight);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
 .recipe-info {

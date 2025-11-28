@@ -204,6 +204,18 @@ function AppContent() {
   };
 
   const saveMealPlan = async () => {
+    // Check if user is authenticated
+    if (!user || !auth.currentUser) {
+      showToast('⚠️ Please sign in to save meal plans', 'error');
+      return;
+    }
+
+    // Check if there's a meal plan to save
+    if (!mealPlan || !mealPlan.mealPlan) {
+      showToast('⚠️ No meal plan to save. Generate one first!', 'error');
+      return;
+    }
+
     const name = prompt('Enter a name for this meal plan:');
     if (!name || !name.trim()) return;
 
@@ -224,10 +236,11 @@ function AppContent() {
         showToast(`✅ "${name.trim()}" saved successfully!`, 'success');
         updateSavedPlansCount();
       } else {
-        showToast('Failed to save meal plan. Please try again.', 'error');
+        showToast(`❌ Failed to save: ${data.error || 'Unknown error'}`, 'error');
+        console.error('Save failed:', data.error);
       }
     } catch (err) {
-      showToast('Network error. Please check your connection.', 'error');
+      showToast('❌ Network error. Please check your connection.', 'error');
       console.error('Save error:', err);
     }
   };

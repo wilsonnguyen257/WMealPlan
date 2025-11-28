@@ -517,7 +517,22 @@ Format:
 // Save meal plan endpoint (protected)
 app.post('/api/save-meal-plan', authenticateToken, async (req, res) => {
   try {
+    console.log('[Save Meal Plan] Request received');
+    console.log('[Save Meal Plan] User ID:', req.user.userId);
+    console.log('[Save Meal Plan] Meal plan name:', req.body.name);
+    
     const { name, preferences, servings, dietaryRestrictions, mealPlan, recipes, groceryList, prepInstructions } = req.body;
+    
+    // Validate required fields
+    if (!name || !name.trim()) {
+      console.error('[Save Meal Plan] Error: Name is required');
+      return res.status(400).json({ success: false, error: 'Meal plan name is required' });
+    }
+    
+    if (!mealPlan) {
+      console.error('[Save Meal Plan] Error: Meal plan data is missing');
+      return res.status(400).json({ success: false, error: 'Meal plan data is required' });
+    }
     
     const id = await db.saveMealPlan({
       userId: req.user.userId,
@@ -531,9 +546,10 @@ app.post('/api/save-meal-plan', authenticateToken, async (req, res) => {
       prepInstructions
     });
     
+    console.log('[Save Meal Plan] Success! ID:', id);
     res.json({ success: true, id });
   } catch (error) {
-    console.error('Error saving meal plan:', error);
+    console.error('[Save Meal Plan] Error:', error);
     res.status(500).json({ success: false, error: error.message });
   }
 });

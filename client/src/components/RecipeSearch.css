@@ -332,10 +332,10 @@
 }
 
 .recipe-modal-header {
-  background: var(--gray-900);
+  background: linear-gradient(135deg, var(--primary-700) 0%, var(--primary-500) 100%);
   color: white;
   padding: 24px 32px;
-  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -345,11 +345,12 @@
 
 .recipe-modal-header h2 {
   font-size: 24px;
-  font-weight: 400;
+  font-weight: 700;
   margin: 0;
   flex: 1;
   min-width: 0;
   word-wrap: break-word;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
 .close-btn {

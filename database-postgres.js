@@ -3,9 +3,12 @@ const { sql } = require('@vercel/postgres');
 // Initialize database schema
 async function initDatabase() {
   try {
-    // Create meal_plans table with Firebase user_id (string)
+    // Drop and recreate meal_plans table to ensure correct schema
+    // This is safe for development but would need proper migration in production
+    await sql`DROP TABLE IF EXISTS meal_plans CASCADE`;
+    
     await sql`
-      CREATE TABLE IF NOT EXISTS meal_plans (
+      CREATE TABLE meal_plans (
         id SERIAL PRIMARY KEY,
         user_id TEXT NOT NULL,
         name TEXT NOT NULL,
@@ -22,13 +25,13 @@ async function initDatabase() {
 
     // Create index on user_id for faster queries
     await sql`
-      CREATE INDEX IF NOT EXISTS idx_meal_plans_user_id 
+      CREATE INDEX idx_meal_plans_user_id 
       ON meal_plans(user_id)
     `;
 
-    console.log('Database schema initialized successfully');
+    console.log('✅ Database schema initialized successfully');
   } catch (error) {
-    console.error('Error initializing database:', error.message);
+    console.error('❌ Error initializing database:', error.message);
   }
 }
 

@@ -95,6 +95,34 @@
   font-weight: 400;
 }
 
+.auth-success {
+  background: #f0fdf4;
+  border: 1px solid #86efac;
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  color: #16a34a;
+  font-size: var(--text-sm);
+  font-weight: 400;
+}
+
+.forgot-password-btn {
+  background: none;
+  border: none;
+  color: var(--gray-600);
+  font-size: var(--text-sm);
+  font-weight: 400;
+  cursor: pointer;
+  padding: 0;
+  text-align: left;
+  margin-bottom: var(--space-2);
+  transition: color var(--transition-base);
+}
+
+.forgot-password-btn:hover {
+  color: var(--gray-900);
+  text-decoration: underline;
+}
+
 .auth-submit-btn {
   width: 100%;
   padding: var(--space-4);

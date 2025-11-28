@@ -1,4 +1,12 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { 
+  createUserWithEmailAndPassword, 
+  signInWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged,
+  updateProfile
+} from 'firebase/auth';
+import { auth } from '../firebase';
 
 const AuthContext = createContext(null);
 
@@ -10,109 +18,93 @@ export const useAuth = () => {
   return context;
 };
 
+// Hook to get Firebase ID token for API calls
+export const useAuthToken = () => {
+  const getToken = async () => {
+    if (!auth.currentUser) return null;
+    return await auth.currentUser.getIdToken();
+  };
+  return getToken;
+};
+
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [token, setToken] = useState(localStorage.getItem('token'));
 
   useEffect(() => {
-    // Check if user is logged in on mount
-    const checkAuth = async () => {
-      const savedToken = localStorage.getItem('token');
-      if (savedToken) {
-        try {
-          const response = await fetch('/api/auth/me', {
-            headers: {
-              'Authorization': `Bearer ${savedToken}`
-            }
-          });
-
-          if (response.ok) {
-            const data = await response.json();
-            setUser(data.user);
-            setToken(savedToken);
-          } else {
-            localStorage.removeItem('token');
-            setToken(null);
-          }
-        } catch (error) {
-          console.error('Auth check failed:', error);
-          localStorage.removeItem('token');
-          setToken(null);
-        }
+    // Listen for auth state changes
+    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+      if (firebaseUser) {
+        setUser({
+          id: firebaseUser.uid,
+          email: firebaseUser.email,
+          name: firebaseUser.displayName
+        });
+      } else {
+        setUser(null);
       }
       setLoading(false);
-    };
+    });
 
-    checkAuth();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    return unsubscribe;
   }, []);
 
   const signup = async (email, password, name) => {
     try {
-      const response = await fetch('/api/auth/signup', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ email, password, name })
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        setUser(data.user);
-        setToken(data.token);
-        localStorage.setItem('token', data.token);
-        return { success: true };
-      } else {
-        return { success: false, error: data.error };
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      
+      // Update profile with name if provided
+      if (name) {
+        await updateProfile(userCredential.user, { displayName: name });
       }
+
+      return { success: true };
     } catch (error) {
-      return { success: false, error: 'Network error. Please try again.' };
+      console.error('Signup error:', error);
+      let errorMessage = 'Failed to create account';
+      
+      if (error.code === 'auth/email-already-in-use') {
+        errorMessage = 'Email already registered';
+      } else if (error.code === 'auth/weak-password') {
+        errorMessage = 'Password must be at least 6 characters';
+      } else if (error.code === 'auth/invalid-email') {
+        errorMessage = 'Invalid email address';
+      }
+      
+      return { success: false, error: errorMessage };
     }
   };
 
   const login = async (email, password) => {
     try {
-      const response = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ email, password })
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        setUser(data.user);
-        setToken(data.token);
-        localStorage.setItem('token', data.token);
-        return { success: true };
-      } else {
-        return { success: false, error: data.error };
-      }
+      await signInWithEmailAndPassword(auth, email, password);
+      return { success: true };
     } catch (error) {
-      return { success: false, error: 'Network error. Please try again.' };
+      console.error('Login error:', error);
+      let errorMessage = 'Failed to login';
+      
+      if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password') {
+        errorMessage = 'Invalid email or password';
+      } else if (error.code === 'auth/invalid-email') {
+        errorMessage = 'Invalid email address';
+      } else if (error.code === 'auth/too-many-requests') {
+        errorMessage = 'Too many attempts. Please try again later';
+      }
+      
+      return { success: false, error: errorMessage };
     }
   };
 
   const logout = async () => {
     try {
-      await fetch('/api/auth/logout', { method: 'POST' });
+      await signOut(auth);
     } catch (error) {
       console.error('Logout error:', error);
     }
-    
-    setUser(null);
-    setToken(null);
-    localStorage.removeItem('token');
   };
 
   const value = {
     user,
-    token,
     loading,
     signup,
     login,

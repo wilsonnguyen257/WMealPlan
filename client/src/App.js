@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './App.css';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import AuthPage from './components/AuthPage';
+import { auth } from './firebase';
 import MealPlanForm from './components/MealPlanForm';
 import MealPlanDisplay from './components/MealPlanDisplay';
 import GroceryList from './components/GroceryList';
@@ -17,7 +18,7 @@ import { exportMealPlanToPDF } from './utils/pdfExport';
 import { Analytics } from '@vercel/analytics/react';
 
 function AppContent() {
-  const { user, loading: authLoading, logout, token } = useAuth();
+  const { user, loading: authLoading, logout } = useAuth();
   const [mealPlan, setMealPlan] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -30,11 +31,17 @@ function AppContent() {
   const [progressStage, setProgressStage] = useState('');
   const [showShortcuts, setShowShortcuts] = useState(false);
 
-  // Helper function to add auth header
-  const getAuthHeaders = () => ({
-    'Content-Type': 'application/json',
-    'Authorization': `Bearer ${token}`
-  });
+  // Helper function to get auth headers with Firebase token
+  const getAuthHeaders = async () => {
+    if (!auth.currentUser) {
+      return { 'Content-Type': 'application/json' };
+    }
+    const token = await auth.currentUser.getIdToken();
+    return {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    };
+  };
 
   // Show toast notification
   const showToast = (message, type = 'success') => {
@@ -45,9 +52,8 @@ function AppContent() {
   // Fetch saved plans count
   const updateSavedPlansCount = async () => {
     try {
-      const response = await fetch('/api/meal-plans', {
-        headers: getAuthHeaders()
-      });
+      const headers = await getAuthHeaders();
+      const response = await fetch('/api/meal-plans', { headers });
       const data = await response.json();
       if (data.success) {
         setSavedPlansCount(data.data.length);
@@ -153,9 +159,10 @@ function AppContent() {
     }, 800);
 
     try {
+      const headers = await getAuthHeaders();
       const response = await fetch('/api/generate-meal-plan', {
         method: 'POST',
-        headers: getAuthHeaders(),
+        headers,
         body: JSON.stringify({
           preferences,
           servings,
@@ -201,9 +208,10 @@ function AppContent() {
     if (!name || !name.trim()) return;
 
     try {
+      const headers = await getAuthHeaders();
       const response = await fetch('/api/save-meal-plan', {
         method: 'POST',
-        headers: getAuthHeaders(),
+        headers,
         body: JSON.stringify({
           name: name.trim(),
           ...formData,

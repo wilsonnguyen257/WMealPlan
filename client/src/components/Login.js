@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { sendPasswordResetEmail } from 'firebase/auth';
+import { auth } from '../firebase';
 import './Auth.css';
 
 function Login({ onToggleMode }) {
@@ -8,6 +10,7 @@ function Login({ onToggleMode }) {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [resetSent, setResetSent] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -23,6 +26,22 @@ function Login({ onToggleMode }) {
     setLoading(false);
   };
 
+  const handleForgotPassword = async () => {
+    if (!email) {
+      setError('Please enter your email address first');
+      return;
+    }
+
+    try {
+      await sendPasswordResetEmail(auth, email);
+      setResetSent(true);
+      setError('');
+      setTimeout(() => setResetSent(false), 5000);
+    } catch (error) {
+      setError('Failed to send reset email. Please check your email address.');
+    }
+  };
+
   return (
     <div className="auth-container">
       <div className="auth-card">
@@ -33,6 +52,7 @@ function Login({ onToggleMode }) {
 
         <form onSubmit={handleSubmit} className="auth-form">
           {error && <div className="auth-error">{error}</div>}
+          {resetSent && <div className="auth-success">Password reset email sent! Check your inbox.</div>}
 
           <div className="form-group">
             <label htmlFor="email">Email</label>
@@ -59,6 +79,14 @@ function Login({ onToggleMode }) {
               autoComplete="current-password"
             />
           </div>
+
+          <button 
+            type="button" 
+            onClick={handleForgotPassword}
+            className="forgot-password-btn"
+          >
+            Forgot password?
+          </button>
 
           <button type="submit" className="auth-submit-btn" disabled={loading}>
             {loading ? 'Signing in...' : 'Sign In'}

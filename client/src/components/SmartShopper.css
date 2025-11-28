@@ -7,36 +7,37 @@
 }
 
 .smart-shopper h2 {
-  color: #222222;
+  color: var(--gray-900);
   font-size: 28px;
   margin-bottom: 8px;
-  font-weight: 700;
+  font-weight: 300;
 }
 
 .smart-shopper p {
-  color: #444444;
+  color: var(--gray-600);
   margin-bottom: 28px;
   font-size: 16px;
+  font-weight: 300;
   line-height: 1.6;
 }
 
 .estimate-btn {
   width: 100%;
   padding: 16px;
-  background: #4CAF50;
+  background: var(--gray-900);
   color: white;
   border: none;
-  border-radius: 16px;
+  border-radius: var(--radius-full);
   font-size: 18px;
-  font-weight: 700;
+  font-weight: 400;
   cursor: pointer;
   transition: all 0.2s ease;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
 .estimate-btn:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(76, 175, 80, 0.2);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .estimate-btn:active:not(:disabled) {
@@ -46,7 +47,7 @@
 .estimate-btn:disabled {
   opacity: 0.5;
   cursor: not-allowed;
-  background: #CCCCCC;
+  background: var(--gray-400);
 }
 
 .shopper-error {
@@ -71,9 +72,9 @@
 
 .estimates-result h3 {
   font-size: 28px;
-  color: #222222;
+  color: var(--gray-900);
   margin-bottom: 16px;
-  font-weight: 700;
+  font-weight: 300;
 }
 
 .total-cost {

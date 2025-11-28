@@ -4,8 +4,8 @@
   right: var(--space-8);
   background: var(--white);
   padding: var(--space-4) var(--space-6);
-  border-radius: var(--radius-xl);
-  box-shadow: var(--shadow-xl);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   display: flex;
   align-items: center;
   gap: var(--space-3);
@@ -15,7 +15,6 @@
   border: 1px solid var(--gray-200);
   min-width: 320px;
   max-width: 500px;
-  backdrop-filter: blur(10px);
 }
 
 @keyframes slideInUp {
@@ -37,24 +36,24 @@
 }
 
 .toast-success {
-  border-left: 4px solid var(--primary-500);
-  background: linear-gradient(to right, var(--primary-50), var(--white));
+  border-left: 2px solid var(--primary-500);
+  background: var(--white);
 }
 
 .toast-error {
-  border-left: 4px solid var(--error);
-  background: linear-gradient(to right, #ffebee, var(--white));
+  border-left: 2px solid var(--error);
+  background: var(--white);
 }
 
 .toast-info {
-  border-left: 4px solid var(--accent-500);
-  background: linear-gradient(to right, var(--accent-50), var(--white));
+  border-left: 2px solid var(--accent-500);
+  background: var(--white);
 }
 
 .toast-message {
-  color: #222222;
+  color: var(--gray-900);
   font-size: 16px;
-  font-weight: 500;
+  font-weight: 400;
   line-height: 1.5;
 }
 

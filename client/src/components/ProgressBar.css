@@ -12,14 +12,14 @@
 .progress-message {
   color: var(--gray-900);
   font-size: var(--text-xl);
-  font-weight: 800;
+  font-weight: 300;
   margin-bottom: var(--space-2);
 }
 
 .progress-stage {
-  color: var(--gray-600);
+  color: var(--gray-500);
   font-size: var(--text-base);
-  font-weight: 600;
+  font-weight: 400;
   margin: 0;
 }
 
@@ -36,7 +36,7 @@
 
 .progress-bar-fill {
   height: 100%;
-  background: linear-gradient(90deg, var(--primary-600) 0%, var(--primary-400) 100%);
+  background: var(--gray-900);
   border-radius: var(--radius-full);
   transition: width 0.4s ease;
   position: relative;

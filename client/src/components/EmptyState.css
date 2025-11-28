@@ -25,31 +25,32 @@
 .empty-title {
   color: var(--gray-900);
   font-size: var(--text-2xl);
-  font-weight: 800;
+  font-weight: 300;
   margin-bottom: var(--space-3);
   letter-spacing: -0.02em;
 }
 
 .empty-message {
-  color: var(--gray-600);
+  color: var(--gray-500);
   font-size: var(--text-base);
+  font-weight: 300;
   line-height: 1.6;
   margin-bottom: var(--space-6);
 }
 
 .empty-tips {
-  background: var(--gray-50);
-  border-radius: var(--radius-xl);
+  background: transparent;
+  border-radius: var(--radius-lg);
   padding: var(--space-5) var(--space-6);
   margin-bottom: var(--space-6);
-  border: 2px solid var(--gray-200);
+  border: 1px solid var(--gray-200);
   text-align: left;
 }
 
 .tips-label {
   color: var(--gray-900);
   font-size: var(--text-sm);
-  font-weight: 700;
+  font-weight: 400;
   margin-bottom: var(--space-3);
 }
 
@@ -82,12 +83,12 @@
 
 .empty-action-btn {
   padding: var(--space-4) var(--space-8);
-  background: linear-gradient(135deg, var(--primary-600) 0%, var(--primary-500) 100%);
+  background: var(--gray-900);
   color: var(--white);
   border: none;
-  border-radius: var(--radius-xl);
+  border-radius: var(--radius-full);
   font-size: var(--text-base);
-  font-weight: 600;
+  font-weight: 400;
   cursor: pointer;
   transition: all 0.2s ease;
   min-height: 48px;
@@ -96,7 +97,7 @@
 
 .empty-action-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .empty-action-btn:active {

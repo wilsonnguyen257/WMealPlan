@@ -1,5 +1,5 @@
-import jsPDF from 'jspdf';
-import 'jspdf-autotable';
+import { jsPDF } from 'jspdf';
+import autoTable from 'jspdf-autotable';
 
 // Export complete meal plan as PDF
 export const exportMealPlanToPDF = (mealPlan, recipes, groceryList, prepInstructions, formData) => {
@@ -39,7 +39,7 @@ export const exportMealPlanToPDF = (mealPlan, recipes, groceryList, prepInstruct
     mealPlan[day]?.dinner || ''
   ]);
 
-  doc.autoTable({
+  autoTable(doc, {
     startY: yPos,
     head: [['Day', 'Breakfast', 'Lunch', 'Dinner']],
     body: mealPlanData,

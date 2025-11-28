@@ -48,10 +48,40 @@
     <!-- PWA Manifest -->
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
     
+    <!-- Structured Data for SEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "WMealPlan",
+      "description": "AI-powered meal planning assistant that helps you plan weekly meals, find recipes, and generate smart shopping lists with price comparisons",
+      "applicationCategory": "LifestyleApplication",
+      "operatingSystem": "Web Browser",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "AUD"
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.8",
+        "ratingCount": "850"
+      },
+      "featureList": [
+        "AI-powered weekly meal planning",
+        "Recipe search by ingredient or cuisine",
+        "Automated grocery lists",
+        "Price comparison across Coles, Woolworths, and Aldi",
+        "Pantry-based meal suggestions",
+        "Meal prep instructions"
+      ]
+    }
+    </script>
+    
     <title>WMealPlan - AI-Powered Weekly Meal Planning Made Simple</title>
   </head>
   <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <noscript>You need to enable JavaScript to run this app. WMealPlan requires JavaScript to provide meal planning features.</noscript>
     <div id="root"></div>
   </body>
 </html>

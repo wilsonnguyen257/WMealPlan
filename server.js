@@ -7,9 +7,17 @@ const { jsonrepair } = require('jsonrepair');
 // Use Vercel Postgres database
 const db = require('./database-postgres');
 const { authenticateToken } = require('./middleware/auth');
+const { securityHeaders, sanitizeInput, requestSizeLimiter } = require('./middleware/security');
+const { rateLimiter, aiRateLimiter } = require('./middleware/rateLimiter');
+const { logger, requestLogger } = require('./utils/logger');
+const { healthCheck, readiness, liveness, metrics } = require('./utils/healthCheck');
+const { saveFeedback, getUserFeedback, FEEDBACK_TYPES } = require('./utils/feedback');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
+
+// Trust proxy for rate limiting behind Vercel
+app.set('trust proxy', 1);
 
 // Helper function for retrying API calls with exponential backoff
 async function withRetry(apiCall, maxRetries = 5) {
@@ -55,34 +63,45 @@ const model = genAI.getGenerativeModel({
   }
 });
 
-// Middleware
+// Security and request processing middleware (order matters!)
+app.use(securityHeaders);
 app.use(cors({
   origin: process.env.CLIENT_URL || 'http://localhost:3000',
   credentials: true
 }));
-app.use(express.json());
+app.use(requestSizeLimiter('10mb'));
+app.use(express.json({ limit: '10mb' }));
+app.use(sanitizeInput);
 
-// Request logging middleware
-app.use((req, res, next) => {
-  const timestamp = new Date().toISOString();
-  console.log(`[${timestamp}] ${req.method} ${req.path}`);
-  next();
-});
+// Logging middleware
+app.use(requestLogger);
+
+// Global rate limiting (100 requests per 15 minutes)
+app.use('/api/', rateLimiter());
 
 // Serve static files from React build in production
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static('client/build'));
 }
 
-// Health check endpoint
-app.get('/api/health', (req, res) => {
-  res.json({ status: 'ok', message: 'Server is running' });
-});
+// Health and monitoring endpoints
+app.get('/api/health', healthCheck);
+app.get('/api/ready', readiness);
+app.get('/api/live', liveness);
+app.get('/api/metrics', metrics);
 
-// Generate meal plan endpoint (protected)
-app.post('/api/generate-meal-plan', authenticateToken, async (req, res) => {
+// Generate meal plan endpoint (protected with AI rate limiting)
+app.post('/api/generate-meal-plan', authenticateToken, aiRateLimiter(), async (req, res) => {
+  const startTime = Date.now();
   try {
     const { preferences, servings = 2, dietaryRestrictions = '', budgetMin = '', budgetMax = '', allergies = '', healthGoal = '', weight = '', activityLevel = 'moderate' } = req.body;
+    
+    logger.info('Meal plan generation started', {
+      userId: req.user.userId,
+      servings,
+      hasBudget: !!(budgetMin || budgetMax),
+      hasAllergies: !!allergies
+    });
 
     const budgetText = budgetMin && budgetMax 
       ? `\nBudget constraint: Total grocery cost should be between AUD $${budgetMin} and AUD $${budgetMax}. Choose affordable ingredients and adjust portions if needed to stay within budget.`
@@ -169,14 +188,21 @@ CRITICAL FOR PREP INSTRUCTIONS:
     const response = await result.response;
     const mealPlanData = repairJson(response.text());
     
+    const duration = Date.now() - startTime;
+    logger.logAiCall('generate-meal-plan', duration);
+    logger.info('Meal plan generated successfully', { userId: req.user.userId, duration });
+    
     res.json({
       success: true,
       data: mealPlanData
     });
 
   } catch (error) {
-    console.error('Error generating meal plan:', error);
-    console.error('Error details:', error.message);
+    const duration = Date.now() - startTime;
+    logger.error('Error generating meal plan', error, { 
+      userId: req.user.userId, 
+      duration 
+    });
     
     // Provide more specific error messages
     let errorMessage = 'Failed to generate meal plan';
@@ -583,9 +609,58 @@ app.get('/api/meal-plans/:id', authenticateToken, async (req, res) => {
 app.delete('/api/meal-plans/:id', authenticateToken, async (req, res) => {
   try {
     await db.deleteMealPlan(req.params.id, req.user.userId);
+    logger.info('Meal plan deleted', { planId: req.params.id, userId: req.user.userId });
     res.json({ success: true });
   } catch (error) {
-    console.error('Error deleting meal plan:', error);
+    logger.error('Error deleting meal plan', error, { planId: req.params.id });
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+// Feedback endpoints
+app.post('/api/feedback', async (req, res) => {
+  try {
+    const { type, category, subject, message, rating, email } = req.body;
+    
+    // Get user info if authenticated
+    const userId = req.user?.userId;
+    const userEmail = email || req.user?.email;
+    
+    const feedbackId = await saveFeedback({
+      userId,
+      email: userEmail,
+      type,
+      category,
+      subject,
+      message,
+      rating,
+      url: req.headers.referer,
+      userAgent: req.headers['user-agent']
+    });
+    
+    logger.info('Feedback submitted', { feedbackId, type, category });
+    
+    res.json({ 
+      success: true, 
+      message: 'Thank you for your feedback!',
+      id: feedbackId 
+    });
+  } catch (error) {
+    logger.error('Error saving feedback', error);
+    res.status(500).json({ 
+      success: false, 
+      error: 'Failed to submit feedback' 
+    });
+  }
+});
+
+// Get user's feedback history (protected)
+app.get('/api/feedback/my', authenticateToken, async (req, res) => {
+  try {
+    const feedback = await getUserFeedback(req.user.userId);
+    res.json({ success: true, data: feedback });
+  } catch (error) {
+    logger.error('Error getting user feedback', error);
     res.status(500).json({ success: false, error: error.message });
   }
 });

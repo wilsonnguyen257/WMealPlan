@@ -1,7 +1,17 @@
 node_modules/
 .env
+.env.local
+.env.production
 client/node_modules/
 client/build/
 .DS_Store
 *.log
 .vercel
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+dist/
+coverage/
+.cache/

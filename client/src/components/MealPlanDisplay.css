@@ -1,17 +1,18 @@
 .meal-plan-display {
-  background: var(--white);
-  padding: var(--space-10);
-  border-radius: var(--radius-xl);
-  box-shadow: var(--shadow-sm);
-  border: 1px solid var(--gray-200);
+  background: transparent;
+  padding: var(--space-8) 0;
+  border-radius: 0;
+  box-shadow: none;
+  border: none;
 }
 
 .meal-plan-display h2 {
   color: var(--gray-900);
   margin-bottom: var(--space-8);
-  font-size: var(--text-3xl);
-  font-weight: 800;
+  font-size: var(--text-2xl);
+  font-weight: 300;
   letter-spacing: -0.02em;
+  text-align: center;
 }
 
 .plan-header {
@@ -147,18 +148,18 @@
 }
 
 .day-card {
-  background: var(--gray-50);
+  background: var(--white);
   padding: var(--space-6);
-  border-radius: var(--radius-xl);
-  box-shadow: var(--shadow-sm);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
   transition: all var(--duration-base) var(--ease-out);
   border: 1px solid var(--gray-200);
 }
 
 .day-card:hover {
-  transform: scale(1.02);
-  box-shadow: var(--shadow-md);
-  border-color: var(--primary-500);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border-color: var(--gray-300);
 }
 
 .day-card h3 {

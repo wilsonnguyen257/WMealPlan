@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import useAutosave from '../hooks/useAutosave';
+import { formatText } from '../utils/textFormatter';
 import './RecipeSearch.css';
 import ProgressBar from './ProgressBar';
 import EmptyState from './EmptyState';
@@ -283,7 +284,7 @@ function RecipeSearch() {
                   <h3>Instructions</h3>
                   <ol className="instructions-list">
                     {selectedRecipe.instructions.map((step, i) => (
-                      <li key={i}>{step}</li>
+                      <li key={i} dangerouslySetInnerHTML={{ __html: formatText(step) }} />
                     ))}
                   </ol>
                 </div>

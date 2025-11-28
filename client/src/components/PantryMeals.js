@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import useAutosave from '../hooks/useAutosave';
+import { formatText } from '../utils/textFormatter';
 import './PantryMeals.css';
 import ProgressBar from './ProgressBar';
 import EmptyState from './EmptyState';
@@ -281,7 +282,7 @@ function PantryMeals() {
                 <h3>Instructions</h3>
                 <ol>
                   {selectedRecipe.instructions.map((step, idx) => (
-                    <li key={idx}>{step}</li>
+                    <li key={idx} dangerouslySetInnerHTML={{ __html: formatText(step) }} />
                   ))}
                 </ol>
               </div>
@@ -289,7 +290,7 @@ function PantryMeals() {
               {selectedRecipe.tips && (
                 <div className="recipe-section tips">
                   <h3>💡 Tips</h3>
-                  <p>{selectedRecipe.tips}</p>
+                  <p dangerouslySetInnerHTML={{ __html: formatText(selectedRecipe.tips) }} />
                 </div>
               )}
             </div>

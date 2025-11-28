@@ -1,4 +1,5 @@
 import React from 'react';
+import { formatText } from '../utils/textFormatter';
 import './PrepInstructions.css';
 
 function PrepInstructions({ prepInstructions }) {
@@ -10,7 +11,7 @@ function PrepInstructions({ prepInstructions }) {
       
       {prepInstructions.overview && (
         <div className="prep-overview">
-          <p>{prepInstructions.overview}</p>
+          <p dangerouslySetInnerHTML={{ __html: formatText(prepInstructions.overview) }} />
         </div>
       )}
 
@@ -19,7 +20,7 @@ function PrepInstructions({ prepInstructions }) {
           <h3>Step-by-Step Guide</h3>
           <ol>
             {prepInstructions.steps.map((step, index) => (
-              <li key={index}>{step}</li>
+              <li key={index} dangerouslySetInnerHTML={{ __html: formatText(step) }} />
             ))}
           </ol>
         </div>

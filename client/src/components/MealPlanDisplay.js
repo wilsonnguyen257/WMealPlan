@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { formatText } from '../utils/textFormatter';
 import './MealPlanDisplay.css';
 
 function MealPlanDisplay({ mealPlan, recipes }) {
@@ -154,7 +155,7 @@ function MealPlanDisplay({ mealPlan, recipes }) {
                 <h3>Instructions</h3>
                 <ol>
                   {selectedRecipe.instructions.map((instruction, idx) => (
-                    <li key={idx}>{instruction}</li>
+                    <li key={idx} dangerouslySetInnerHTML={{ __html: formatText(instruction) }} />
                   ))}
                 </ol>
               </div>
@@ -162,7 +163,7 @@ function MealPlanDisplay({ mealPlan, recipes }) {
               {selectedRecipe.storageInstructions && (
                 <div className="recipe-section storage">
                   <h3>Storage & Reheating</h3>
-                  <p>{selectedRecipe.storageInstructions}</p>
+                  <p dangerouslySetInnerHTML={{ __html: formatText(selectedRecipe.storageInstructions) }} />
                 </div>
               )}
             </div>

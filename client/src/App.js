@@ -14,6 +14,7 @@ import RecipeSearch from './components/RecipeSearch';
 import Toast from './components/Toast';
 import ProgressBar from './components/ProgressBar';
 import KeyboardShortcuts from './components/KeyboardShortcuts';
+import ConfirmModal from './components/ConfirmModal';
 import { exportMealPlanToPDF } from './utils/pdfExport';
 import { Analytics } from '@vercel/analytics/react';
 
@@ -30,6 +31,7 @@ function AppContent() {
   const [progress, setProgress] = useState(0);
   const [progressStage, setProgressStage] = useState('');
   const [showShortcuts, setShowShortcuts] = useState(false);
+  const [showSaveModal, setShowSaveModal] = useState(false);
 
   // Helper function to get auth headers with Firebase token
   const getAuthHeaders = async () => {
@@ -203,22 +205,7 @@ function AppContent() {
     }
   };
 
-  const saveMealPlan = async () => {
-    // Check if user is authenticated
-    if (!user || !auth.currentUser) {
-      showToast('⚠️ Please sign in to save meal plans', 'error');
-      return;
-    }
-
-    // Check if there's a meal plan to save
-    if (!mealPlan || !mealPlan.mealPlan) {
-      showToast('⚠️ No meal plan to save. Generate one first!', 'error');
-      return;
-    }
-
-    const name = prompt('Enter a name for this meal plan:');
-    if (!name || !name.trim()) return;
-
+  const saveMealPlan = async (name) => {
     try {
       const headers = await getAuthHeaders();
       const response = await fetch('/api/save-meal-plan', {
@@ -243,6 +230,22 @@ function AppContent() {
       showToast('❌ Network error. Please check your connection.', 'error');
       console.error('Save error:', err);
     }
+  };
+
+  const handleSaveMealPlan = () => {
+    // Check if user is authenticated
+    if (!user || !auth.currentUser) {
+      showToast('⚠️ Please sign in to save meal plans', 'error');
+      return;
+    }
+
+    // Check if there's a meal plan to save
+    if (!mealPlan || !mealPlan.mealPlan) {
+      showToast('⚠️ No meal plan to save. Generate one first!', 'error');
+      return;
+    }
+
+    setShowSaveModal(true);
   };
 
   const loadMealPlan = async (plan) => {
@@ -412,7 +415,7 @@ function AppContent() {
             {mealPlan && !loading && (
               <div className="results-container">
                 <div className="save-bar">
-                  <button onClick={saveMealPlan} className="save-btn">
+                  <button onClick={handleSaveMealPlan} className="save-btn">
                     Save This Meal Plan
                   </button>
                   <button 
@@ -453,6 +456,16 @@ function AppContent() {
 
       {toast.show && <Toast message={toast.message} type={toast.type} />}
       <KeyboardShortcuts isOpen={showShortcuts} onClose={() => setShowShortcuts(false)} />
+      <ConfirmModal
+        isOpen={showSaveModal}
+        onClose={() => setShowSaveModal(false)}
+        onConfirm={saveMealPlan}
+        title="Save Meal Plan"
+        message="Give your meal plan a memorable name"
+        type="input"
+        inputLabel="Meal Plan Name"
+        inputPlaceholder="e.g., Family Week 1, Low Carb March..."
+      />
       <Analytics />
     </div>
   );

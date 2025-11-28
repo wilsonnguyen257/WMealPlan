@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './SavedMealPlans.css';
 import ProgressBar from './ProgressBar';
 import EmptyState from './EmptyState';
+import ConfirmModal from './ConfirmModal';
 import { useAuth } from '../context/AuthContext';
 import { auth } from '../firebase';
 
@@ -13,6 +14,7 @@ function SavedMealPlans({ onLoadPlan, onClose }) {
   const [filterDiet, setFilterDiet] = useState('all');
   const [sortBy, setSortBy] = useState('newest');
   const [progress, setProgress] = useState(0);
+  const [deleteModal, setDeleteModal] = useState({ show: false, planId: null, planName: '' });
 
   const getAuthHeaders = async () => {
     if (!auth.currentUser) {
@@ -144,10 +146,6 @@ function SavedMealPlans({ onLoadPlan, onClose }) {
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm('Are you sure you want to delete this meal plan?')) {
-      return;
-    }
-    
     try {
       const headers = await getAuthHeaders();
       await fetch(`/api/meal-plans/${id}`, { 
@@ -155,9 +153,14 @@ function SavedMealPlans({ onLoadPlan, onClose }) {
         headers
       });
       fetchSavedPlans();
+      setDeleteModal({ show: false, planId: null, planName: '' });
     } catch (error) {
       console.error('Error deleting plan:', error);
     }
+  };
+
+  const confirmDelete = (id, name) => {
+    setDeleteModal({ show: true, planId: id, planName: name });
   };
 
   return (
@@ -322,7 +325,7 @@ function SavedMealPlans({ onLoadPlan, onClose }) {
                   <button onClick={() => handleLoad(plan.id)} className="load-btn">
                     Load Plan
                   </button>
-                  <button onClick={() => handleDelete(plan.id)} className="delete-btn" title="Delete plan">
+                  <button onClick={() => confirmDelete(plan.id, plan.name)} className="delete-btn" title="Delete plan">
                     ×
                   </button>
                 </div>
@@ -331,6 +334,15 @@ function SavedMealPlans({ onLoadPlan, onClose }) {
           </div>
         )}
       </div>
+      
+      <ConfirmModal
+        isOpen={deleteModal.show}
+        onClose={() => setDeleteModal({ show: false, planId: null, planName: '' })}
+        onConfirm={() => handleDelete(deleteModal.planId)}
+        title="Delete Meal Plan"
+        message={`Are you sure you want to delete "${deleteModal.planName}"? This action cannot be undone.`}
+        type="delete"
+      />
     </div>
   );
 }

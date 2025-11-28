@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import './GroceryList.css';
-import { exportGroceryListToPDF } from '../utils/pdfExport';
 
 function GroceryList({ groceryList }) {
   const [checkedItems, setCheckedItems] = useState({});
@@ -17,10 +16,6 @@ function GroceryList({ groceryList }) {
     window.print();
   };
 
-  const handleExportPDF = () => {
-    exportGroceryListToPDF(groceryList);
-  };
-
   return (
     <div className="grocery-list">
       <div className="grocery-header">
@@ -28,9 +23,6 @@ function GroceryList({ groceryList }) {
         <div className="grocery-actions">
           <button onClick={handlePrint} className="print-btn">
             Print
-          </button>
-          <button onClick={handleExportPDF} className="export-btn">
-            Download PDF
           </button>
         </div>
       </div>

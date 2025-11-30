@@ -1,0 +1,23 @@
+/* src/components/Hero.css */
+.hero-section {
+  text-align: center;
+  padding: 4rem 0;
+  background-color: #fff;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.hero-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin: 0 0 1rem;
+  letter-spacing: -0.025em;
+}
+
+.hero-subtitle {
+  font-size: 1.125rem;
+  color: #4b5563;
+  margin: 0 0 2rem;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}

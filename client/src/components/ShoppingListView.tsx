@@ -5,9 +5,11 @@ import './ShoppingListView.css';
 
 interface ShoppingListViewProps {
   mealPlan: MealPlanResponse;
+  servings: number;
+  days: number;
 }
 
-const ShoppingListView: React.FC<ShoppingListViewProps> = ({ mealPlan }) => {
+const ShoppingListView: React.FC<ShoppingListViewProps> = ({ mealPlan, servings, days }) => {
   const shoppingList = useMemo(() => {
     const allIngredients: MealIngredient[] = [];
     mealPlan.days.forEach((day) => {
@@ -16,15 +18,20 @@ const ShoppingListView: React.FC<ShoppingListViewProps> = ({ mealPlan }) => {
       });
     });
 
-    // Group ingredients by item name
+    // Group by item and show combined amount
     const grouped = allIngredients.reduce((acc, ingredient) => {
       const key = ingredient.item.toLowerCase();
       if (!acc[key]) {
-        acc[key] = { item: ingredient.item, amounts: [] };
+        acc[key] = { 
+          item: ingredient.item, 
+          amount: ingredient.amount
+        };
+      } else {
+        // For duplicate items, append amount (AI should handle totaling)
+        acc[key].amount = ingredient.amount; // Use last occurrence (AI provides totals)
       }
-      acc[key].amounts.push(ingredient.amount);
       return acc;
-    }, {} as Record<string, { item: string; amounts: string[] }>);
+    }, {} as Record<string, { item: string; amount: string }>);
 
     return Object.values(grouped);
   }, [mealPlan]);
@@ -32,11 +39,16 @@ const ShoppingListView: React.FC<ShoppingListViewProps> = ({ mealPlan }) => {
   return (
     <div className="shopping-list-view">
       <h3 className="shopping-list-title">Shopping List</h3>
+      <div className="shopping-info">
+        <span className="info-badge">{days} days</span>
+        <span className="info-badge">{servings} {servings === 1 ? 'person' : 'people'}</span>
+      </div>
+      <p className="shopping-note">Store-ready quantities for your entire meal plan</p>
       <ul className="shopping-list">
-        {shoppingList.map(({ item, amounts }) => (
+        {shoppingList.map(({ item, amount }) => (
           <li key={item} className="shopping-list-item">
             <span className="item-name">{item}</span>
-            <span className="item-amount">{amounts.join(', ')}</span>
+            <span className="item-amount">{amount}</span>
           </li>
         ))}
       </ul>

@@ -22,7 +22,9 @@ const PreferencesForm: React.FC<PreferencesFormProps> = ({
     const { name, value } = e.target;
     setPreferences((prev) => ({
       ...prev,
-      [name]: name === 'days' || name === 'people' ? parseInt(value) : value,
+      [name]: name === 'days' || name === 'people' || name === 'budget' 
+        ? parseInt(value) || 0 
+        : value,
     }));
   };
 
@@ -59,16 +61,22 @@ const PreferencesForm: React.FC<PreferencesFormProps> = ({
                 <option>Normal eating</option>
                 <option>Weight loss</option>
                 <option>Muscle gain</option>
+                <option>Meat lover</option>
               </select>
             </div>
 
             <div className="form-group">
-              <label htmlFor="budget">Budget Level</label>
-              <select id="budget" name="budget" value={preferences.budget} onChange={handleChange}>
-                <option>Low</option>
-                <option>Medium</option>
-                <option>High</option>
-              </select>
+              <label htmlFor="budget">Budget (AUD)</label>
+              <input
+                type="number"
+                id="budget"
+                name="budget"
+                value={preferences.budget}
+                onChange={handleChange}
+                min="0"
+                step="10"
+                placeholder="e.g., 200"
+              />
             </div>
           </div>
 

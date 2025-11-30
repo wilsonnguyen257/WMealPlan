@@ -5,6 +5,20 @@
   gap: 1.5rem;
 }
 
+.servings-badge {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 0.75rem 1.25rem;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.servings-badge strong {
+  font-weight: 700;
+}
+
 .day-card {
   background-color: #fff;
   border-radius: 12px;
@@ -66,7 +80,17 @@
 .meal-name {
   font-size: 1rem;
   font-weight: 500;
-  margin: 0 0 0.75rem;
+  margin: 0 0 0.5rem;
+}
+
+.serving-info {
+  display: inline-block;
+  font-size: 0.75rem;
+  color: #6b7280;
+  background: #f3f4f6;
+  padding: 2px 8px;
+  border-radius: 4px;
+  margin-bottom: 0.75rem;
 }
 
 .meal-details summary {

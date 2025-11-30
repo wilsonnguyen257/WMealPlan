@@ -3,11 +3,42 @@
   padding: 3rem 0;
 }
 
+.results-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
 .tabs {
   display: flex;
-  justify-content: center;
-  margin-bottom: 2rem;
   border-bottom: 1px solid #e5e7eb;
+  flex: 1;
+  min-width: 300px;
+}
+
+.export-btn {
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+}
+
+.export-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.export-btn:active {
+  transform: translateY(0);
 }
 
 .tab-btn {
@@ -39,4 +70,233 @@
   to {
     opacity: 1;
   }
+}
+
+/* Price View */
+.price-view {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.total-cost {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 2rem;
+  border-radius: 12px;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.total-cost h3 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.1rem;
+  font-weight: 500;
+  opacity: 0.95;
+}
+
+.cost-amount {
+  font-size: 3rem;
+  font-weight: 700;
+  margin: 0.5rem 0;
+}
+
+.cost-note {
+  margin: 0.5rem 0 0 0;
+  font-size: 0.9rem;
+  opacity: 0.85;
+}
+
+.budget-info {
+  margin: 1rem 0 0 0;
+  font-size: 1rem;
+  opacity: 0.95;
+  font-weight: 500;
+}
+
+.within-budget {
+  color: #10b981;
+  font-weight: 600;
+}
+
+.over-budget {
+  color: #fbbf24;
+  font-weight: 600;
+}
+
+.price-error {
+  text-align: center;
+  padding: 3rem;
+  color: #ef4444;
+}
+
+.price-error p {
+  margin: 0.5rem 0;
+}
+
+.error-note {
+  color: #6b7280;
+  font-size: 0.9rem;
+}
+
+.price-breakdown h4 {
+  margin: 0 0 1rem 0;
+  font-size: 1.2rem;
+  color: #111827;
+}
+
+.price-list {
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.price-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.price-item:last-child {
+  border-bottom: none;
+}
+
+.item-details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.item-name {
+  font-weight: 500;
+  color: #111827;
+}
+
+.item-qty {
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.item-price {
+  font-weight: 600;
+  color: #059669;
+  font-size: 1.1rem;
+}
+
+.loading-prices {
+  text-align: center;
+  color: #6b7280;
+  padding: 3rem;
+  font-style: italic;
+}
+
+/* Price Prompt & Calculate Button */
+.price-prompt {
+  text-align: center;
+  padding: 3rem 2rem;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.price-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}
+
+.price-prompt h3 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.5rem;
+  color: #111827;
+}
+
+.price-prompt p {
+  color: #6b7280;
+  margin: 0 0 1.5rem 0;
+}
+
+.calculate-btn {
+  padding: 1rem 2.5rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+}
+
+.calculate-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+}
+
+.calculate-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.price-note {
+  font-size: 0.85rem;
+  color: #9ca3af;
+  margin-top: 1rem !important;
+}
+
+.price-error-msg {
+  color: #ef4444;
+  font-weight: 500;
+  margin-bottom: 1rem !important;
+}
+
+.recalculate-btn {
+  display: block;
+  margin: 2rem auto 0;
+  padding: 0.75rem 1.5rem;
+  background: #f3f4f6;
+  color: #374151;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.recalculate-btn:hover {
+  background: #e5e7eb;
+}
+
+/* Price Loading State */
+.price-loading {
+  text-align: center;
+  padding: 4rem 2rem;
+}
+
+.price-loading .loading-spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid #e5e7eb;
+  border-top-color: #667eea;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 1.5rem;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.price-loading p {
+  margin: 0.5rem 0;
+  color: #374151;
+  font-size: 1.1rem;
+}
+
+.price-loading .loading-note {
+  color: #9ca3af;
+  font-size: 0.9rem;
 }

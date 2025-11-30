@@ -22,12 +22,20 @@ export interface DayPlan {
 
 export interface MealPlanResponse {
   days: DayPlan[];
+  estimatedCost?: number;
+  priceBreakdown?: PriceEstimate[];
+}
+
+export interface PriceEstimate {
+  item: string;
+  estimatedPrice: number;
+  quantity: string;
 }
 
 export interface Preferences {
   days: number;
   people: number;
-  goal: 'Normal eating' | 'Weight loss' | 'Muscle gain';
+  goal: 'Normal eating' | 'Weight loss' | 'Muscle gain' | 'Meat lover';
   diet: string;
-  budget: 'Low' | 'Medium' | 'High';
+  budget: number;
 }

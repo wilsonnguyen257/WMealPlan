@@ -45,7 +45,8 @@ const Results: React.FC<ResultsProps> = ({ mealPlan: initialMealPlan, preference
       });
       
       if (!response.ok) {
-        throw new Error('Failed to generate share link');
+        const errorText = await response.text();
+        throw new Error(`Failed to generate share link: ${errorText}`);
       }
       
       const { shortCode } = await response.json();
@@ -56,6 +57,7 @@ const Results: React.FC<ResultsProps> = ({ mealPlan: initialMealPlan, preference
       setTimeout(() => setCopySuccess(false), 3000);
     } catch (err) {
       console.error('Failed to copy link:', err);
+      alert(`Error creating share link: ${err instanceof Error ? err.message : 'Unknown error'}. Make sure the server is running.`);
     }
   };
 

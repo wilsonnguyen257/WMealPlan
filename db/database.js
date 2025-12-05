@@ -1,3 +1,4 @@
+require('dotenv').config();
 const { sql } = require('@vercel/postgres');
 
 // Generate random short code (6 chars: letters + numbers)

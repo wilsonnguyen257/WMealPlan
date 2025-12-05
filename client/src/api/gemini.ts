@@ -248,6 +248,16 @@ Write amounts as SOLD IN STORES:
 • Cream: "300ml", "600ml"
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+INSTRUCTIONS FOR BEGINNERS:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Write DETAILED step-by-step instructions for cooking beginners:
+1. Number each step (1., 2., 3., etc.)
+2. Include cooking temperatures and times
+3. Describe what food should look like when done
+4. Explain basic techniques ("dice means cut into small cubes")
+5. Include helpful tips ("stir occasionally to prevent sticking")
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 OUTPUT FORMAT - JSON ONLY:
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Return ONLY valid JSON. No markdown, no explanation, no code blocks.
@@ -259,13 +269,16 @@ Return ONLY valid JSON. No markdown, no explanation, no code blocks.
       "meals": {
         "breakfast": {
           "name": "Simple Descriptive Name",
+          "prepTime": "5 min",
+          "cookTime": "10 min",
+          "difficulty": "Easy",
           "ingredients": [
             {"item": "Ingredient Name", "amount": "Store quantity"}
           ],
-          "instructions": "Clear step-by-step instructions"
+          "instructions": "1. First step with details. 2. Second step with temperatures. 3. Continue with clear beginner-friendly directions."
         },
-        "lunch": { "name": "", "ingredients": [], "instructions": "" },
-        "dinner": { "name": "", "ingredients": [], "instructions": "" }
+        "lunch": { "name": "", "prepTime": "", "cookTime": "", "difficulty": "", "ingredients": [], "instructions": "" },
+        "dinner": { "name": "", "prepTime": "", "cookTime": "", "difficulty": "", "ingredients": [], "instructions": "" }
       }
     }
   ]

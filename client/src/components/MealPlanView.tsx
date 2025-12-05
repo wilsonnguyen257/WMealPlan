@@ -24,10 +24,24 @@ const MealPlanView: React.FC<MealPlanViewProps> = ({ days, servings }) => {
               <div key={mealType} className="meal-item">
                 <h4 className="meal-type">{mealType}</h4>
                 <p className="meal-name">{meal.name}</p>
-                <span className="serving-info">Serves {servings}</span>
+                <div className="meal-meta">
+                  <span className="meta-item">Prep: {meal.prepTime}</span>
+                  <span className="meta-item">Cook: {meal.cookTime}</span>
+                  <span className="meta-item">{meal.difficulty}</span>
+                  <span className="meta-item">Serves {servings}</span>
+                </div>
                 <details className="meal-details">
-                  <summary>Details</summary>
-                  <p className="meal-instructions">{meal.instructions}</p>
+                  <summary>Recipe</summary>
+                  <div className="meal-content">
+                    <h5>Ingredients:</h5>
+                    <ul className="ingredients-list">
+                      {meal.ingredients.map((ing, idx) => (
+                        <li key={idx}>{ing.amount} {ing.item}</li>
+                      ))}
+                    </ul>
+                    <h5>Instructions:</h5>
+                    <p className="meal-instructions">{meal.instructions}</p>
+                  </div>
                 </details>
               </div>
             ))}

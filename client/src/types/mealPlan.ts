@@ -7,6 +7,9 @@ export interface MealIngredient {
 
 export interface Meal {
   name: string;
+  prepTime: string;
+  cookTime: string;
+  difficulty: string;
   ingredients: MealIngredient[];
   instructions: string;
 }

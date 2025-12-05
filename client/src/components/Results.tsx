@@ -52,12 +52,41 @@ const Results: React.FC<ResultsProps> = ({ mealPlan: initialMealPlan, preference
       const { shortCode } = await response.json();
       const url = `${window.location.origin}?id=${shortCode}`;
       
-      await navigator.clipboard.writeText(url);
-      setCopySuccess(true);
-      setTimeout(() => setCopySuccess(false), 3000);
+      // Try modern clipboard API first
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        try {
+          await navigator.clipboard.writeText(url);
+          setCopySuccess(true);
+          setTimeout(() => setCopySuccess(false), 3000);
+          return;
+        } catch (clipboardErr) {
+          console.log('Clipboard API failed, using fallback');
+        }
+      }
+      
+      // Fallback for mobile browsers
+      const textArea = document.createElement('textarea');
+      textArea.value = url;
+      textArea.style.position = 'fixed';
+      textArea.style.left = '-999999px';
+      textArea.style.top = '-999999px';
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      
+      try {
+        document.execCommand('copy');
+        setCopySuccess(true);
+        setTimeout(() => setCopySuccess(false), 3000);
+      } catch (execErr) {
+        // If all copy methods fail, show the link for manual copy
+        prompt('Copy this link:', url);
+      } finally {
+        document.body.removeChild(textArea);
+      }
     } catch (err) {
-      console.error('Failed to copy link:', err);
-      alert(`Error creating share link: ${err instanceof Error ? err.message : 'Unknown error'}. Make sure the server is running.`);
+      console.error('Failed to create share link:', err);
+      alert(`Error creating share link: ${err instanceof Error ? err.message : 'Unknown error'}`);
     }
   };
 

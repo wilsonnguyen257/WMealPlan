@@ -52,7 +52,28 @@ const Results: React.FC<ResultsProps> = ({ mealPlan: initialMealPlan, preference
       const { shortCode } = await response.json();
       const url = `${window.location.origin}?id=${shortCode}`;
       
-      // Try modern clipboard API first
+      // Try Web Share API first (mobile native sharing)
+      if (navigator.share) {
+        try {
+          await navigator.share({
+            title: 'My Meal Plan',
+            text: 'Check out my meal plan!',
+            url: url
+          });
+          setCopySuccess(true);
+          setTimeout(() => setCopySuccess(false), 3000);
+          return;
+        } catch (shareErr: any) {
+          // User cancelled share or share failed
+          if (shareErr.name !== 'AbortError') {
+            console.log('Web Share API failed, trying clipboard');
+          } else {
+            return; // User cancelled, don't show error
+          }
+        }
+      }
+      
+      // Try modern clipboard API
       if (navigator.clipboard && navigator.clipboard.writeText) {
         try {
           await navigator.clipboard.writeText(url);
@@ -64,7 +85,7 @@ const Results: React.FC<ResultsProps> = ({ mealPlan: initialMealPlan, preference
         }
       }
       
-      // Fallback for mobile browsers
+      // Fallback: textarea method
       const textArea = document.createElement('textarea');
       textArea.value = url;
       textArea.style.position = 'fixed';
@@ -75,11 +96,16 @@ const Results: React.FC<ResultsProps> = ({ mealPlan: initialMealPlan, preference
       textArea.select();
       
       try {
-        document.execCommand('copy');
-        setCopySuccess(true);
-        setTimeout(() => setCopySuccess(false), 3000);
+        const successful = document.execCommand('copy');
+        if (successful) {
+          setCopySuccess(true);
+          setTimeout(() => setCopySuccess(false), 3000);
+        } else {
+          // Last resort: show the link
+          prompt('Copy this link:', url);
+        }
       } catch (execErr) {
-        // If all copy methods fail, show the link for manual copy
+        // Show the link for manual copy
         prompt('Copy this link:', url);
       } finally {
         document.body.removeChild(textArea);

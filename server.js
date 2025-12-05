@@ -32,7 +32,7 @@ app.post('/api/share', async (req, res) => {
     res.json({ shortCode });
   } catch (error) {
     console.error('Error saving meal plan:', error);
-    res.status(500).json({ error: 'Failed to save meal plan' });
+    res.status(500).json({ error: `Failed to save meal plan: ${error.message}` });
   }
 });
 

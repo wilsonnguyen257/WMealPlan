@@ -22,17 +22,23 @@ function App() {
   // Load shared meal plan from URL on mount
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    const sharedPlan = params.get('plan');
+    const shortCode = params.get('id');
     
-    if (sharedPlan) {
-      try {
-        const decoded = atob(sharedPlan);
-        const data = JSON.parse(decoded);
-        setMealPlan(data.mealPlan);
-        setPreferences(data.preferences);
-      } catch (err) {
-        console.error('Failed to load shared plan:', err);
-      }
+    if (shortCode) {
+      // Load from backend using short code
+      fetch(`/api/share/${shortCode}`)
+        .then(res => {
+          if (!res.ok) throw new Error('Plan not found');
+          return res.json();
+        })
+        .then(data => {
+          setMealPlan(data.mealPlan);
+          setPreferences(data.preferences);
+        })
+        .catch(err => {
+          console.error('Failed to load shared plan:', err);
+          setError('Shared meal plan not found or expired');
+        });
     }
   }, []);
 

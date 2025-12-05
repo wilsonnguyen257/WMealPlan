@@ -1,13 +1,14 @@
 const express = require('express');
 const path = require('path');
 const cors = require('cors');
+const { saveMealPlan, loadMealPlan } = require('./db/database');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
 
 // Basic middleware
 app.use(cors());
-app.use(express.json());
+app.use(express.json({ limit: '10mb' })); // Increase limit for meal plan data
 
 // Serve static files from React build
 app.use(express.static(path.join(__dirname, 'client/build')));
@@ -15,6 +16,40 @@ app.use(express.static(path.join(__dirname, 'client/build')));
 // Simple health check endpoint
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
+});
+
+// Save shared meal plan - returns short code
+app.post('/api/share', async (req, res) => {
+  try {
+    const { mealPlan, preferences } = req.body;
+    
+    if (!mealPlan || !preferences) {
+      return res.status(400).json({ error: 'Missing mealPlan or preferences' });
+    }
+    
+    const shortCode = await saveMealPlan(mealPlan, preferences);
+    res.json({ shortCode });
+  } catch (error) {
+    console.error('Error saving meal plan:', error);
+    res.status(500).json({ error: 'Failed to save meal plan' });
+  }
+});
+
+// Load shared meal plan by short code
+app.get('/api/share/:shortCode', async (req, res) => {
+  try {
+    const { shortCode } = req.params;
+    const data = await loadMealPlan(shortCode);
+    
+    if (!data) {
+      return res.status(404).json({ error: 'Meal plan not found or expired' });
+    }
+    
+    res.json(data);
+  } catch (error) {
+    console.error('Error loading meal plan:', error);
+    res.status(500).json({ error: 'Failed to load meal plan' });
+  }
 });
 
 // All other routes serve the React app

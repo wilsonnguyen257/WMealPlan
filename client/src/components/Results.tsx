@@ -36,8 +36,20 @@ const Results: React.FC<ResultsProps> = ({ mealPlan: initialMealPlan, preference
         mealPlan,
         preferences
       };
-      const encoded = btoa(JSON.stringify(data));
-      const url = `${window.location.origin}${window.location.pathname}?plan=${encoded}`;
+      
+      // Call backend to save and get short code
+      const response = await fetch('/api/share', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      
+      if (!response.ok) {
+        throw new Error('Failed to generate share link');
+      }
+      
+      const { shortCode } = await response.json();
+      const url = `${window.location.origin}?id=${shortCode}`;
       
       await navigator.clipboard.writeText(url);
       setCopySuccess(true);

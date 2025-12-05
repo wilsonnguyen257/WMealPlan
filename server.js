@@ -19,6 +19,25 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
+// Database health check
+app.get('/api/db-health', async (req, res) => {
+  try {
+    const { sql } = require('@vercel/postgres');
+    const result = await sql`SELECT COUNT(*) as count FROM shared_plans`;
+    res.json({ 
+      status: 'connected', 
+      sharedPlans: result.rows[0].count,
+      hasEnv: !!process.env.POSTGRES_URL
+    });
+  } catch (error) {
+    res.status(500).json({ 
+      status: 'error', 
+      message: error.message,
+      hasEnv: !!process.env.POSTGRES_URL
+    });
+  }
+});
+
 // Save shared meal plan - returns short code
 app.post('/api/share', async (req, res) => {
   try {

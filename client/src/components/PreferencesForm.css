@@ -61,8 +61,35 @@
   resize: vertical;
 }
 
+@media (max-width: 768px) {
+  .form-section {
+    padding: 2rem 0;
+  }
+
+  .form-card {
+    padding: 1.5rem;
+    border-radius: 8px;
+  }
+
+  .form-title {
+    font-size: 1.25rem;
+  }
+}
+
 @media (max-width: 640px) {
   .form-grid {
     grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .form-card {
+    padding: 1.25rem;
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    padding: 0.625rem;
+    font-size: 0.9375rem;
   }
 }

@@ -17,6 +17,20 @@
   padding: 0 1rem;
 }
 
+@media (max-width: 768px) {
+  .app-header {
+    padding: 1.5rem 1rem;
+  }
+
+  .app-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .container {
+    padding: 0 0.75rem;
+  }
+}
+
 .primary-btn {
   display: inline-block;
   background-color: #000;

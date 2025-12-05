@@ -62,3 +62,47 @@
   font-size: 0.875rem;
   color: #6b7280;
 }
+
+@media (max-width: 768px) {
+  .shopping-list-view {
+    padding: 1.5rem;
+    border-radius: 8px;
+  }
+
+  .shopping-list-title {
+    font-size: 1.25rem;
+  }
+
+  .shopping-info {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .info-badge {
+    font-size: 0.8rem;
+    padding: 0.35rem 0.7rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .shopping-list-view {
+    padding: 1.25rem;
+  }
+
+  .shopping-list-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+    padding: 0.875rem 0;
+  }
+
+  .item-name {
+    font-size: 0.9375rem;
+  }
+
+  .item-amount {
+    font-size: 0.8125rem;
+    color: #8b5cf6;
+    font-weight: 500;
+  }
+}

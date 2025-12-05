@@ -19,6 +19,7 @@ const Results: React.FC<ResultsProps> = ({ mealPlan: initialMealPlan, preference
   const [mealPlan, setMealPlan] = useState<MealPlanResponse>(initialMealPlan);
   const [priceLoading, setPriceLoading] = useState(false);
   const [priceError, setPriceError] = useState<string | null>(null);
+  const [copySuccess, setCopySuccess] = useState(false);
 
   // Reset state when a new meal plan is passed in (new customer/visitor)
   useEffect(() => {
@@ -26,7 +27,25 @@ const Results: React.FC<ResultsProps> = ({ mealPlan: initialMealPlan, preference
     setActiveView('plan');
     setPriceError(null);
     setPriceLoading(false);
+    setCopySuccess(false);
   }, [initialMealPlan]);
+
+  const handleShareLink = async () => {
+    try {
+      const data = {
+        mealPlan,
+        preferences
+      };
+      const encoded = btoa(JSON.stringify(data));
+      const url = `${window.location.origin}${window.location.pathname}?plan=${encoded}`;
+      
+      await navigator.clipboard.writeText(url);
+      setCopySuccess(true);
+      setTimeout(() => setCopySuccess(false), 3000);
+    } catch (err) {
+      console.error('Failed to copy link:', err);
+    }
+  };
 
   const handleExportPDF = () => {
     if (preferences) {
@@ -94,9 +113,14 @@ const Results: React.FC<ResultsProps> = ({ mealPlan: initialMealPlan, preference
             Prices
           </button>
         </div>
-        <button className="export-btn" onClick={handleExportPDF}>
-          Download PDF
-        </button>
+        <div className="action-buttons">
+          <button className="share-btn" onClick={handleShareLink}>
+            {copySuccess ? 'Link Copied!' : 'Share Link'}
+          </button>
+          <button className="export-btn" onClick={handleExportPDF}>
+            Download PDF
+          </button>
+        </div>
       </div>
 
       <div className="tab-content">

@@ -1,5 +1,5 @@
 // src/App.tsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import PreferencesForm from './components/PreferencesForm';
 import Results from './components/Results';
@@ -18,6 +18,23 @@ function App() {
   const [mealPlanKey, setMealPlanKey] = useState(0);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  // Load shared meal plan from URL on mount
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const sharedPlan = params.get('plan');
+    
+    if (sharedPlan) {
+      try {
+        const decoded = atob(sharedPlan);
+        const data = JSON.parse(decoded);
+        setMealPlan(data.mealPlan);
+        setPreferences(data.preferences);
+      } catch (err) {
+        console.error('Failed to load shared plan:', err);
+      }
+    }
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

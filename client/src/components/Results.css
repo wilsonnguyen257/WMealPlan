@@ -1,6 +1,8 @@
 /* src/components/Results.css */
 .results-section {
   padding: 3rem 0;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
 .results-header {
@@ -16,10 +18,36 @@
   display: flex;
   border-bottom: 1px solid #e5e7eb;
   flex: 1;
-  min-width: 300px;
+  min-width: 100%;
+  overflow-x: auto;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+.share-btn {
+  flex: 1;
+  padding: 0.75rem 1.5rem;
+  background: #fff;
+  color: #667eea;
+  border: 2px solid #667eea;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.share-btn:hover {
+  background: #667eea;
+  color: white;
 }
 
 .export-btn {
+  flex: 1;
   padding: 0.75rem 1.5rem;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
@@ -30,6 +58,21 @@
   cursor: pointer;
   transition: transform 0.2s, box-shadow 0.2s;
   box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+}
+
+@media (min-width: 640px) {
+  .tabs {
+    min-width: 300px;
+  }
+
+  .action-buttons {
+    width: auto;
+  }
+
+  .share-btn,
+  .export-btn {
+    flex: initial;
+  }
 }
 
 .export-btn:hover {

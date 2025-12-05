@@ -77,7 +77,13 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
 });
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-  console.log(`Serving React app from client/build`);
-});
+// Only start server locally (not on Vercel)
+if (process.env.NODE_ENV !== 'production') {
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+    console.log(`Serving React app from client/build`);
+  });
+}
+
+// Export for Vercel serverless
+module.exports = app;

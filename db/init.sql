@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS shared_plans (
   meal_plan JSONB NOT NULL,
   preferences JSONB NOT NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  expires_at TIMESTAMP DEFAULT (CURRENT_TIMESTAMP + INTERVAL '30 days')
+  expires_at TIMESTAMP DEFAULT (CURRENT_TIMESTAMP + INTERVAL '1 year')
 );
 
 -- Index for fast lookups

@@ -72,8 +72,6 @@ const Results: React.FC<ResultsProps> = ({ mealPlan: initialMealPlan, preference
       // Remove duplicates
       const uniqueIngredients = Array.from(new Set(allIngredients));
       
-      console.log('Calculating prices for', uniqueIngredients.length, 'unique ingredients');
-      
       const { estimates, total } = await estimatePrices(uniqueIngredients);
       
       // Update meal plan with prices

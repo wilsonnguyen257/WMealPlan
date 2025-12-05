@@ -16,8 +16,6 @@ export const estimatePrices = async (ingredients: string[]): Promise<{ estimates
   // Deduplicate ingredients
   const uniqueIngredients = Array.from(new Set(ingredients.map(i => i.toLowerCase().trim())))
     .filter(i => i.length > 0);
-  
-  console.log('Starting price estimation for', uniqueIngredients.length, 'unique items');
 
   const prompt = `You are a grocery pricing expert for Australian supermarkets (Coles, Woolworths, Aldi).
 
@@ -92,8 +90,6 @@ RULES:
 4. If item seems like a pantry staple (oil, spices, etc), price at $0.00`;
 
   try {
-    console.log('Calling Gemini for price estimation...');
-    
     const response = await fetch(`${GEMINI_API_URL}?key=${GEMINI_API_KEY}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -113,15 +109,12 @@ RULES:
     }
 
     const data = await response.json();
-    console.log('Gemini response received');
     
     const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
     if (!text) {
       console.error('No text in Gemini response:', JSON.stringify(data).substring(0, 500));
       throw new Error('No price data in API response');
     }
-
-    console.log('Raw response:', text.substring(0, 300));
 
     // Clean and extract JSON
     let cleanedText = text
@@ -135,8 +128,6 @@ RULES:
     if (startIdx !== -1 && endIdx !== -1 && endIdx > startIdx) {
       cleanedText = cleanedText.substring(startIdx, endIdx + 1);
     }
-
-    console.log('Cleaned JSON:', cleanedText.substring(0, 200));
 
     let estimates: PriceEstimate[];
     try {
@@ -163,7 +154,6 @@ RULES:
       .filter(e => e.estimatedPrice > 0); // Remove $0 items (pantry staples)
 
     const total = estimates.reduce((sum, e) => sum + e.estimatedPrice, 0);
-    console.log(`Price estimation complete: ${estimates.length} items, total $${total.toFixed(2)} AUD`);
 
     return { estimates, total };
   } catch (error) {

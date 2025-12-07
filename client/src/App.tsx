@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import PreferencesForm from './components/PreferencesForm';
 import Results from './components/Results';
+import FeedbackModal from './components/FeedbackModal';
 import { Preferences, MealPlanResponse } from './types/mealPlan';
 import { generateMealPlanWithGemini } from './api/gemini';
 
@@ -18,6 +19,7 @@ function App() {
   const [mealPlanKey, setMealPlanKey] = useState(0);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [feedbackOpen, setFeedbackOpen] = useState(false);
 
   // Load shared meal plan from URL on mount
   useEffect(() => {
@@ -90,6 +92,20 @@ function App() {
           />
         )}
       </main>
+
+      {/* Floating Feedback Button */}
+      <button 
+        className="feedback-button"
+        onClick={() => setFeedbackOpen(true)}
+        title="Send Feedback"
+      >
+        💬
+      </button>
+
+      <FeedbackModal 
+        isOpen={feedbackOpen}
+        onClose={() => setFeedbackOpen(false)}
+      />
     </div>
   );
 }

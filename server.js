@@ -72,6 +72,32 @@ app.get('/api/share/:shortCode', async (req, res) => {
   }
 });
 
+// Save user feedback
+app.post('/api/feedback', async (req, res) => {
+  try {
+    const { rating, comment, email, timestamp } = req.body;
+    
+    if (!rating || rating < 1 || rating > 5) {
+      return res.status(400).json({ error: 'Invalid rating' });
+    }
+
+    const { sql } = require('@vercel/postgres');
+    
+    // Save to database
+    await sql`
+      INSERT INTO feedback (rating, comment, email, created_at)
+      VALUES (${rating}, ${comment || ''}, ${email || 'anonymous'}, ${timestamp || new Date().toISOString()})
+    `;
+    
+    console.log('Feedback received:', { rating, email: email || 'anonymous' });
+    res.json({ success: true, message: 'Thank you for your feedback!' });
+  } catch (error) {
+    console.error('Error saving feedback:', error);
+    // Don't fail silently - feedback is important
+    res.status(500).json({ error: 'Failed to save feedback' });
+  }
+});
+
 // All other routes serve the React app
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'client/build', 'index.html'));

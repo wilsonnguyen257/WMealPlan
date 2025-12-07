@@ -44,6 +44,7 @@ const ShoppingListView: React.FC<ShoppingListViewProps> = ({ mealPlan, servings,
         <span className="info-badge">{servings} {servings === 1 ? 'person' : 'people'}</span>
       </div>
       <p className="shopping-note">Store-ready quantities for your entire meal plan</p>
+      
       <ul className="shopping-list">
         {shoppingList.map(({ item, amount }) => (
           <li key={item} className="shopping-list-item">
@@ -52,6 +53,19 @@ const ShoppingListView: React.FC<ShoppingListViewProps> = ({ mealPlan, servings,
           </li>
         ))}
       </ul>
+
+      {mealPlan.pantryItems && mealPlan.pantryItems.length > 0 && (
+        <div className="pantry-section">
+          <h4 className="pantry-title">Pantry Items (check if you have)</h4>
+          <ul className="pantry-list">
+            {mealPlan.pantryItems.map((item, index) => (
+              <li key={index} className="pantry-item">
+                {item}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 };

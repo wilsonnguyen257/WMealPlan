@@ -106,3 +106,60 @@
     font-weight: 500;
   }
 }
+
+/* Pantry Items Section */
+.pantry-section {
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 2px dashed #e5e7eb;
+}
+
+.pantry-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #6b7280;
+  margin: 0 0 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.pantry-title::before {
+  content: "🧂";
+  font-size: 1.3rem;
+}
+
+.pantry-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 0.75rem;
+}
+
+.pantry-item {
+  background: #f9fafb;
+  padding: 0.625rem 1rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  color: #6b7280;
+  border-left: 3px solid #d1d5db;
+}
+
+@media (max-width: 768px) {
+  .pantry-section {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+  }
+
+  .pantry-list {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+
+  .pantry-item {
+    font-size: 0.875rem;
+    padding: 0.5rem 0.875rem;
+  }
+}

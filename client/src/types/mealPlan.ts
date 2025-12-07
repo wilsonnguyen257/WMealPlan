@@ -25,6 +25,7 @@ export interface DayPlan {
 
 export interface MealPlanResponse {
   days: DayPlan[];
+  pantryItems?: string[];
   estimatedCost?: number;
   priceBreakdown?: PriceEstimate[];
 }

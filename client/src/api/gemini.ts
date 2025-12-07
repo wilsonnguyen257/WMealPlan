@@ -271,6 +271,12 @@ Return ONLY valid JSON. No markdown, no explanation, no code blocks.
         "dinner": { "name": "", "prepTime": "", "cookTime": "", "difficulty": "", "ingredients": [], "instructions": "" }
       }
     }
+  ],
+  "pantryItems": [
+    "Salt and pepper",
+    "Cooking oil",
+    "Soy sauce",
+    "(any other pantry staples needed for the recipes)"
   ]
 }
 

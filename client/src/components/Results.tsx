@@ -20,6 +20,7 @@ const Results: React.FC<ResultsProps> = ({ mealPlan: initialMealPlan, preference
   const [priceLoading, setPriceLoading] = useState(false);
   const [priceError, setPriceError] = useState<string | null>(null);
   const [copySuccess, setCopySuccess] = useState(false);
+  const [savedShortCode, setSavedShortCode] = useState<string | null>(null);
 
   // Reset state when a new meal plan is passed in (new customer/visitor)
   useEffect(() => {
@@ -28,10 +29,53 @@ const Results: React.FC<ResultsProps> = ({ mealPlan: initialMealPlan, preference
     setPriceError(null);
     setPriceLoading(false);
     setCopySuccess(false);
+    setSavedShortCode(null); // Reset share link for new meal plan
   }, [initialMealPlan]);
 
   const handleShareLink = async () => {
     try {
+      // If already shared, reuse the existing link
+      if (savedShortCode) {
+        const url = `${window.location.origin}?id=${savedShortCode}`;
+        
+        // Try Web Share API first (mobile native sharing)
+        if (navigator.share) {
+          try {
+            await navigator.share({
+              title: 'My Meal Plan',
+              text: 'Check out my meal plan!',
+              url: url
+            });
+            setCopySuccess(true);
+            setTimeout(() => setCopySuccess(false), 3000);
+            return;
+          } catch (shareErr: any) {
+            if (shareErr.name === 'AbortError') {
+              return; // User cancelled
+            }
+          }
+        }
+        
+        // Copy to clipboard
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          await navigator.clipboard.writeText(url);
+        } else {
+          // Fallback
+          const textArea = document.createElement('textarea');
+          textArea.value = url;
+          textArea.style.position = 'fixed';
+          textArea.style.left = '-999999px';
+          document.body.appendChild(textArea);
+          textArea.select();
+          document.execCommand('copy');
+          document.body.removeChild(textArea);
+        }
+        setCopySuccess(true);
+        setTimeout(() => setCopySuccess(false), 3000);
+        return;
+      }
+
+      // Create new share link
       const data = {
         mealPlan,
         preferences
@@ -50,6 +94,7 @@ const Results: React.FC<ResultsProps> = ({ mealPlan: initialMealPlan, preference
       }
       
       const { shortCode } = await response.json();
+      setSavedShortCode(shortCode); // Save for reuse
       const url = `${window.location.origin}?id=${shortCode}`;
       
       // Try Web Share API first (mobile native sharing)

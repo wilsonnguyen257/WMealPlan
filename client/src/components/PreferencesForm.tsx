@@ -52,6 +52,7 @@ const PreferencesForm: React.FC<PreferencesFormProps> = ({
                 value={preferences.people}
                 onChange={handleChange}
                 min="1"
+                max="10"
               />
             </div>
 
@@ -73,7 +74,7 @@ const PreferencesForm: React.FC<PreferencesFormProps> = ({
                 name="budget"
                 value={preferences.budget}
                 onChange={handleChange}
-                min="0"
+                min="10"
                 step="10"
                 placeholder="e.g., 200"
               />

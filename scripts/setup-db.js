@@ -15,7 +15,7 @@ async function setupDatabase() {
         meal_plan JSONB NOT NULL,
         preferences JSONB NOT NULL,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        expires_at TIMESTAMP DEFAULT (CURRENT_TIMESTAMP + INTERVAL '1 year')
+        expires_at TIMESTAMP DEFAULT (CURRENT_TIMESTAMP + INTERVAL '30 days')
       )
     `;
     console.log('✓ Table created');

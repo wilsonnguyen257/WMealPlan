@@ -3,9 +3,17 @@ const express = require('express');
 const path = require('path');
 const cors = require('cors');
 const { saveMealPlan, loadMealPlan } = require('./db/database');
+const {
+  estimatePrices,
+  generateMealPlan,
+  validateFeedback,
+  validateSharePayload,
+} = require('./api/meal-service');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
+const RATE_LIMIT_WINDOW_MS = 15 * 60 * 1000;
+const rateLimitStore = new Map();
 
 // Basic middleware
 app.use(cors());
@@ -18,6 +26,41 @@ app.use(express.static(path.join(__dirname, 'client/build')));
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
+
+function getClientIp(req) {
+  const forwarded = req.headers['x-forwarded-for'];
+  if (typeof forwarded === 'string' && forwarded.trim()) {
+    return forwarded.split(',')[0].trim();
+  }
+  return req.ip || 'unknown';
+}
+
+function enforceRateLimit(req, res, key, maxRequests) {
+  const now = Date.now();
+  const bucketKey = `${key}:${getClientIp(req)}`;
+  const record = rateLimitStore.get(bucketKey);
+
+  if (!record || now - record.windowStart >= RATE_LIMIT_WINDOW_MS) {
+    rateLimitStore.set(bucketKey, { count: 1, windowStart: now });
+    return false;
+  }
+
+  if (record.count >= maxRequests) {
+    const retryAfterSeconds = Math.ceil((RATE_LIMIT_WINDOW_MS - (now - record.windowStart)) / 1000);
+    res.set('Retry-After', String(retryAfterSeconds));
+    res.status(429).json({ error: 'Too many requests. Please try again later.' });
+    return true;
+  }
+
+  record.count += 1;
+  return false;
+}
+
+function getErrorStatusCode(message, defaultServerCode) {
+  const normalized = String(message || '').toLowerCase();
+  const clientIndicators = ['must', 'invalid', 'required', 'between', 'expected', 'too long'];
+  return clientIndicators.some((indicator) => normalized.includes(indicator)) ? 400 : defaultServerCode;
+}
 
 // Database health check
 app.get('/api/db-health', async (req, res) => {
@@ -40,18 +83,18 @@ app.get('/api/db-health', async (req, res) => {
 
 // Save shared meal plan - returns short code
 app.post('/api/share', async (req, res) => {
+  if (enforceRateLimit(req, res, 'share', 30)) {
+    return;
+  }
+
   try {
-    const { mealPlan, preferences } = req.body;
-    
-    if (!mealPlan || !preferences) {
-      return res.status(400).json({ error: 'Missing mealPlan or preferences' });
-    }
-    
+    const { mealPlan, preferences } = validateSharePayload(req.body);
     const shortCode = await saveMealPlan(mealPlan, preferences);
     res.json({ shortCode });
   } catch (error) {
     console.error('Error saving meal plan:', error);
-    res.status(500).json({ error: `Failed to save meal plan: ${error.message}` });
+    const message = error instanceof Error ? error.message : 'Failed to save meal plan';
+    res.status(getErrorStatusCode(message, 500)).json({ error: message });
   }
 });
 
@@ -74,27 +117,60 @@ app.get('/api/share/:shortCode', async (req, res) => {
 
 // Save user feedback
 app.post('/api/feedback', async (req, res) => {
+  if (enforceRateLimit(req, res, 'feedback', 10)) {
+    return;
+  }
+
   try {
-    const { rating, comment, email, timestamp } = req.body;
-    
-    if (!rating || rating < 1 || rating > 5) {
-      return res.status(400).json({ error: 'Invalid rating' });
-    }
+    const { rating, comment, email } = validateFeedback(req.body);
 
     const { sql } = require('@vercel/postgres');
     
     // Save to database
     await sql`
       INSERT INTO feedback (rating, comment, email, created_at)
-      VALUES (${rating}, ${comment || ''}, ${email || 'anonymous'}, ${timestamp || new Date().toISOString()})
+      VALUES (${rating}, ${comment}, ${email}, ${new Date().toISOString()})
     `;
     
-    console.log('Feedback received:', { rating, email: email || 'anonymous' });
+    console.log('Feedback received:', { rating, email });
     res.json({ success: true, message: 'Thank you for your feedback!' });
   } catch (error) {
     console.error('Error saving feedback:', error);
-    // Don't fail silently - feedback is important
-    res.status(500).json({ error: 'Failed to save feedback' });
+    const message = error instanceof Error ? error.message : 'Failed to save feedback';
+    res.status(getErrorStatusCode(message, 500)).json({ error: message });
+  }
+});
+
+// Generate a meal plan on the server so the Gemini key never reaches the browser.
+app.post('/api/generate', async (req, res) => {
+  if (enforceRateLimit(req, res, 'generate', 12)) {
+    return;
+  }
+
+  try {
+    const { mealPlan, preferences } = await generateMealPlan(req.body);
+    res.json({ mealPlan, preferences });
+  } catch (error) {
+    console.error('Error generating meal plan:', error);
+    const message = error instanceof Error ? error.message : 'Failed to generate meal plan';
+    res.status(getErrorStatusCode(message, 502)).json({ error: message });
+  }
+});
+
+// Estimate prices on the server for the same reason.
+app.post('/api/estimate-prices', async (req, res) => {
+  if (enforceRateLimit(req, res, 'estimate-prices', 20)) {
+    return;
+  }
+
+  try {
+    const { ingredients } = req.body || {};
+    const result = await estimatePrices(ingredients);
+    res.json(result);
+  } catch (error) {
+    console.error('Error estimating prices:', error);
+    const message = error instanceof Error ? error.message : 'Failed to estimate prices';
+    res.status(getErrorStatusCode(message, 502)).json({ error: message });
   }
 });
 

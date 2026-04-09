@@ -14,9 +14,9 @@ A minimal AI-powered weekly meal planner that generates personalized meal plans 
 
 1. Get a Gemini API key from [Google AI Studio](https://makersuite.google.com/app/apikey)
 
-2. Create `client/.env`:
+2. Create `.env`:
 ```
-REACT_APP_GEMINI_API_KEY=your_api_key_here
+GEMINI_API_KEY=your_api_key_here
 ```
 
 3. Install dependencies:

@@ -24,16 +24,18 @@ const ShoppingListView: React.FC<ShoppingListViewProps> = ({ mealPlan, servings,
       if (!acc[key]) {
         acc[key] = { 
           item: ingredient.item, 
-          amount: ingredient.amount
+          amounts: [ingredient.amount]
         };
-      } else {
-        // For duplicate items, append amount (AI should handle totaling)
-        acc[key].amount = ingredient.amount; // Use last occurrence (AI provides totals)
+      } else if (!acc[key].amounts.includes(ingredient.amount)) {
+        acc[key].amounts.push(ingredient.amount);
       }
       return acc;
-    }, {} as Record<string, { item: string; amount: string }>);
+    }, {} as Record<string, { item: string; amounts: string[] }>);
 
-    return Object.values(grouped);
+    return Object.values(grouped).map(({ item, amounts }) => ({
+      item,
+      amount: amounts.join(' + ')
+    }));
   }, [mealPlan]);
 
   return (
